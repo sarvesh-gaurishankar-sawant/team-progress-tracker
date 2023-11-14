@@ -87,6 +87,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /deleteTask/{taskId}:
+    post:
+      operationId: delete-task
+      description: Delete a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          example: 1
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: "Task deleted successfully."
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                  -  "Task 101 deleted successfully"
+        "404":
+          description: "Task not found"
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                  -  "Task 101 not found"
+        "500":
+          description: "Internal Server Error "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     User:
