@@ -56,6 +56,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /updateTask/{taskId}:
+    post:
+      operationId: update-task
+      description: Update a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          example: 1
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "200":
+          description: "Task updated successfully."
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Task"
+        "500":
+          description: "Internal Server Error "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     User:
