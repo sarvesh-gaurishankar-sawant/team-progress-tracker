@@ -37,6 +37,7 @@ The Kanban Board system follows a modular architecture to ensure scalability and
 
 #### Object Model:
 <!--Image insert-->
+![Class Diagram](docs/class_diagram.png)
 
 
 ## Team Members
