@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: Kanban Board API
+  description: REST API to manage tasks.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /createTask:
+    post: 
+      operationId: create-task
+      description: Create a new task
+      required: true
+      requestBody: 
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Task'
+      responses: 
+        "200":
+          description: "Task is created successfully."
+          content: 
+            application/json:
+              schema: 
+                type: object
+                $ref: "#/components/schemas/Task"
+        "500":
+          description: "Internal Server Error "
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      type: object
+      properties: 
+        id:
+          type: integer
+          examples:
+            - 1
+        firstName:
+          type: string
+          examples:
+            - John
+        lastName:
+          type: string
+          examples:
+            - Smith
+        email:
+          type: string
+          examples:
+            - john.smith@example.com
+        password:
+          type: string
+        phoneNumber:
+          type: string
+          examples:
+            - 1234567890
+        boards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Board'
+              
+          
+
+    Board:
+      type: object
+      properties:
+        id:
+          type: integer
+          examples:
+            - 1
+        name:
+          type: string
+          examples:
+            - Northeastern University Sem 1
+        columns:
+          type: array
+          items:
+            type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+
+    Task:
+      type: object
+      properties: 
+        id:
+          type: integer
+          examples:
+            - 1
+        title:
+          type: string
+          examples:
+            - Credit card bill
+        description:
+          type: string
+          examples:
+            - Pay credit card bill before due date
+        dueDate:
+          type: string
+          format: date
+          examples:
+            - 2023-11-11
+        label:
+          type: string
+          examples: 
+            - personal
+        attachmentPath:
+          type: string
+          examples:
+            - some string
+        subtasks:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Subtask'     
+        priority:
+          type: string
+          examples:
+            - High
+        stauts:
+          type: string
+          examples: 
+            - Doing
+          
+    Subtask:
+      type: object
+      properties:
+        id:
+          type: integer
+          examples: 
+            - 1
+        title:
+          type: string
+          examples: 
+            - subtask
+    
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          examples:
+            - InternalServerError
+        message:
+          type: string
+          description: Error message
+          examples:
+            - Something went wrong at our end. Please try again later.
+
