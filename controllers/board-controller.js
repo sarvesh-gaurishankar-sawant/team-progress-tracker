@@ -16,3 +16,18 @@ export const createBoard = async (request, response) => {
         setErrorResponse(error, response);
     }
 }
+
+//Controller to find all boards or based on query params 
+export const findBoards = async (request, response) => {
+    try {
+        //Save the query params
+        const params = {...request.query};
+        //Call the find board service
+        const boards = await boardService.find(params);
+        //Set the positive response
+        setResponse(boards, response)
+    }catch(error){
+        //Set the error response
+        setErrorResponse(error, response);
+    }
+}

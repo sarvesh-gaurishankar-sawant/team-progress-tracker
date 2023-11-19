@@ -23,3 +23,11 @@ export const save = async (completeBoard) => {
     //Return the response
     return response;
 }
+
+//Find the boards
+export const find = async (params = {}) => {
+    //Find all the boards in the mongodb if the params is empty object
+    const boards = await Board.find(params).exec();
+    //Return all the boards
+    return boards;
+}

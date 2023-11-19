@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.route('/')
     .post(boardController.createBoard)
+    .get(boardController.findBoards);
 
 export default router;
