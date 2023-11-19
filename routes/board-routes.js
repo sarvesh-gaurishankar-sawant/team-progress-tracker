@@ -7,4 +7,7 @@ router.route('/')
     .post(boardController.createBoard)
     .get(boardController.findBoards);
 
+router.route('/:id')
+    .delete(boardController.deleteBoard)
+
 export default router;

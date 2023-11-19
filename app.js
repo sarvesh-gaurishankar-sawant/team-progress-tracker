@@ -9,8 +9,8 @@ const initialize = (app) => {
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded());
-    mongoose.connect('mongodb+srv://info6150user:qucHuj-4fegzy-kyptad@info6150fall2023.urnad.mongodb.net/kanban?retryWrites=true&w=majority');
-    
+    // mongoose.connect('mongodb+srv://info6150user:qucHuj-4fegzy-kyptad@info6150fall2023.urnad.mongodb.net/kanban?retryWrites=true&w=majority');
+    mongoose.connect('mongodb+srv://sawantsar:ZyVn5tj2ZulPds1n@cluster0.ea3dv.mongodb.net/coursedb?retryWrites=true&w=majority');
     registerRouter(app);
 }
 

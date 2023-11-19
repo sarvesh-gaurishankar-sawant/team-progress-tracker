@@ -31,3 +31,11 @@ export const find = async (params = {}) => {
     //Return all the boards
     return boards;
 }
+
+//Remove the board
+export const remove = async (id) => {
+    //Find the board by id and remove it
+    const board = await Board.findByIdAndDelete(id).exec();
+    //Return the deleted board
+    return board;
+}

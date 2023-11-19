@@ -31,3 +31,20 @@ export const findBoards = async (request, response) => {
         setErrorResponse(error, response);
     }
 }
+
+//Controller to delete the board
+export const deleteBoard = async (request, response) => {
+
+    try {
+        //Get the board id
+        const boardId = request.params.id;
+        //Remove the board
+        const board = boardService.remove(boardId);
+        //Set the response
+        setResponse(board, response);
+    }
+    catch(error){
+        //Set tge error response
+        setErrorResponse(error);
+    }
+}
