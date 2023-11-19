@@ -9,5 +9,6 @@ router.route('/')
 
 router.route('/:id')
     .delete(boardController.deleteBoard)
+    .put(boardController.updateBoard);
 
 export default router;

@@ -48,3 +48,24 @@ export const deleteBoard = async (request, response) => {
         setErrorResponse(error);
     }
 }
+
+//Find the board by id and update it
+export const updateBoard = async (request, response) => {
+    try {
+        //Get the board id
+        const boardId = request.params.id;
+
+        //Get the response to be updated
+        const updatedBoard = {...request.body};
+
+        //Call the update service
+        const board = boardService.update(boardId, updatedBoard)
+
+        //Set the response to be sent back to client 
+        setResponse(board, response)
+    }
+    catch(error){
+        //Set the error response to be sent back to the client
+        setErrorResponse(error, response);
+    }
+}

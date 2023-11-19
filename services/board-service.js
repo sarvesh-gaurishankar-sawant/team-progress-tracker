@@ -39,3 +39,11 @@ export const remove = async (id) => {
     //Return the deleted board
     return board;
 }
+
+//Update the board by id
+export const update = async (id, updatedBoard) => {
+    //Find the board by id
+    const board = await Board.findByIdAndUpdate(id, updatedBoard).exec();
+    //return the response
+    return board;
+}
