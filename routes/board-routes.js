@@ -9,6 +9,7 @@ router.route('/')
 
 router.route('/:id')
     .delete(boardController.deleteBoard)
-    .put(boardController.updateBoard);
+    .put(boardController.updateBoard)
+    .get(boardController.findBoardById);
 
 export default router;

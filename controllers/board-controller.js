@@ -69,3 +69,21 @@ export const updateBoard = async (request, response) => {
         setErrorResponse(error, response);
     }
 }
+
+//Find the board by id
+export const findBoardById = async(request, response) => {
+    try {
+        //Get the board id
+        const boardId = request.params.id;
+        
+        //Find the board by id
+        const board = await boardService.findById(boardId);
+
+        //Set the response
+        setResponse(board, response)
+    }
+    catch(error){
+        //Set the error response
+        setErrorResponse(error, response);
+    }
+}

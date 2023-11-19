@@ -47,3 +47,11 @@ export const update = async (id, updatedBoard) => {
     //return the response
     return board;
 }
+
+//Find the board by id
+export const findById = async(id) => {
+    //Find the board by id
+    const board = await Board.findById(id).exec();
+    //Return the board
+    return board;
+}
