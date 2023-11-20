@@ -56,3 +56,61 @@ export const findTaskById = async (id) => {
     // return the task
     return task;
 }
+
+// get all tasks by board id
+export const getTasksByBoardId = async (boardId) => {
+    const board = await boardService.findById(boardId);
+    const tasks = await Task.find({ _id: { $in: board.tasks } }).exec();
+    return tasks;
+}
+
+// get all tasks by user id
+export const getTasksByUserId = async (userId) => {
+    const user = await userService.findUserById(userId);
+    const tasks = await Task.find({ _id: { $in: user.tasks } }).exec();
+    return tasks;
+}
+
+// get all tasks by user id and board id
+export const getTasksByUserIdAndBoardId = async (userId, boardId) => {
+    const user = await userService.findUserById(userId);
+    const board = await boardService.findById(boardId);
+    const tasks = await Task.find({ _id: { $in: user.tasks, $in: board.tasks } }).exec();
+    return tasks;
+}
+
+// get all tasks by board id and user id
+export const getTasksByBoardIdAndUserId = async (boardId, userId) => {
+    const user = await userService.findUserById(userId);
+    const board = await boardService.findById(boardId);
+    const tasks = await Task.find({ _id: { $in: board.tasks, $in: user.tasks } }).exec();
+    return tasks;
+}
+
+// get all tasks by column id
+export const getTasksByColumnId = async (columnId) => {
+    const tasks = await Task.find({ columnId: columnId }).exec();
+    return tasks;
+}
+
+// get all tasks by column id and board id
+export const getTasksByColumnIdAndBoardId = async (columnId, boardId) => {
+    const board = await boardService.findById(boardId);
+    const tasks = await Task.find({ _id: { $in: board.tasks }, columnId: columnId }).exec();
+    return tasks;
+}
+
+// get all tasks by column id and user id
+export const getTasksByColumnIdAndUserId = async (columnId, userId) => {
+    const user = await userService.findUserById(userId);
+    const tasks = await Task.find({ _id: { $in: user.tasks }, columnId: columnId }).exec();
+    return tasks;
+}
+
+// get all tasks by column id and board id and user id
+export const getTasksByColumnIdAndBoardIdAndUserId = async (columnId, boardId, userId) => {
+    const user = await userService.findUserById(userId);
+    const board = await boardService.findById(boardId);
+    const tasks = await Task.find({ _id: { $in: user.tasks, $in: board.tasks }, columnId: columnId }).exec();
+    return tasks;
+}
