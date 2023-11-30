@@ -3,6 +3,10 @@ import EmptyBoard from "./EmptyBoard"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { Button } from "@mui/material";
 
+import { createServer } from "miragejs"
+
+
+
 type Column = {
   index: number;
   title: string;
