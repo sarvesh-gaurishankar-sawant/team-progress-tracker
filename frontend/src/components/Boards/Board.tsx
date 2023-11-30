@@ -1,5 +1,6 @@
 import { useState } from "react"
 import EmptyBoard from "./EmptyBoard"
+import DisplayColumn from "./DisplayColumn";
 
 type Column = {
   index: number;
@@ -13,6 +14,7 @@ export default function Board() {
   return (
     <div>   
         {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
+        {columns.length !== 0 && <DisplayColumn columns={columns} createNewColumn={createNewColumn}/>}
     </div>  
   )
 
