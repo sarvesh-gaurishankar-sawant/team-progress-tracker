@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import EmptyBoard from "./EmptyBoard"
 
@@ -8,7 +7,7 @@ export default function Board() {
 
   return (
     <div>   
-        {<EmptyBoard />}
+        {columns.length === 0 && <EmptyBoard />}
     </div>  
   )
 }
