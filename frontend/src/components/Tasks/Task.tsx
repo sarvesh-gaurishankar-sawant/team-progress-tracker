@@ -1,7 +1,7 @@
+
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-import React from 'react'
 
 type Task = {
   _id: string; // Assuming _id is of type string
@@ -66,10 +66,26 @@ const exampleTaskData = [
     }
   ];
 
+  if (isDragging) {
+    console.log("Hello isDragging")
+    return (
+      <div 
+      key={task._id} 
+      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab" 
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+    </div>
+    );
+  }
+
   return (
+
     <div 
       key={task._id} 
-      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold cursor-pointer" 
+      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold  hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab"  
       ref={setNodeRef}
       style={style}
       {...attributes}

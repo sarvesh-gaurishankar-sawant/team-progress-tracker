@@ -1,4 +1,6 @@
+import { SortableContext } from "@dnd-kit/sortable";
 import Task from "../Tasks/Task";
+import { DndContext } from "@dnd-kit/core";
 
 type Column = {
   index: number;
@@ -42,6 +44,8 @@ export default function Column({ column }: Props) {
       subtask: []
   }]
 
+  const tasks_id = ["615cf2a6dbf66b029028a7e1", "615cf2b0dbf66b029028a7e2", "615cf2b9dbf66b029028a7e3"]
+
   //Convert the data for task preview
   const tasksPreviewData: Task[] = tasks.map(task => {
     return ({
@@ -59,11 +63,13 @@ export default function Column({ column }: Props) {
   })
 
   return (
-    <div className="w-72">
-      {/* Column Title */}
-      <div key={column.index} className="mb-6">{column.title}</div>
-      {/* Tasks */}
-      {tasksPreviewDataSJSX}
-    </div>
+    <DndContext>
+      <div className="w-72">
+        {/* Column Title */}
+        <div key={column.index} className="mb-6">{column.title}</div>
+        {/* Tasks */}
+        {<SortableContext items={tasks_id}>{tasksPreviewDataSJSX}</SortableContext>}
+      </div>
+    </DndContext>
   )
 }
