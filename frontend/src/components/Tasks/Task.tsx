@@ -67,7 +67,14 @@ const exampleTaskData = [
   ];
 
   return (
-    <div key={task._id} className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold cursor-pointer" >
+    <div 
+      key={task._id} 
+      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold cursor-pointer" 
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
         {task.title}
     </div>
   )
