@@ -16,7 +16,7 @@ export const save = async (completeBoard) => {
     //Convert the userBody to an object
     const userBodyObject = userBody.toObject();
     //Push the board id to the user boards array
-    userBodyObject.boards.push(response._id);
+    userBodyObject.boards.push(response._id.toString());
     //Update the user
     const updatedUserBody = await userService.updateUser(userBodyObject, userId);
 
@@ -25,11 +25,14 @@ export const save = async (completeBoard) => {
 }
 
 //Find the boards
-export const find = async (params = {}) => {
+export const find = async (userId) => {
     //Find all the boards in the mongodb if the params is empty object
-    const boards = await Board.find(params).exec();
-    //Return all the boards
-    return boards;
+    const user = await userService.findUserById(userId);
+    let userBoards = [];
+    if(user.boards.length > 0){
+        userBoards = await Board.find({ _id: { $in: user.boards } }).exec();
+    }
+    return userBoards;
 }
 
 //Remove the board
@@ -43,7 +46,7 @@ export const remove = async (id) => {
 //Update the board by id
 export const update = async (id, updatedBoard) => {
     //Find the board by id
-    const board = await Board.findByIdAndUpdate(id, updatedBoard).exec();
+    const board = await Board.findByIdAndUpdate(id, updatedBoard, { new: true }).exec();
     //return the response
     return board;
 }

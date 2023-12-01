@@ -5,16 +5,17 @@ import { setResponse, setErrorResponse } from './response-handler.js';
 export const createSubtask = async (req, res) => {
     try {
         const reqBody = {...req.body};
-        const subtask = await userService.createSubtask(reqBody);
+        const subtask = await subtaskService.createSubtask(reqBody);
         setResponse(subtask, res);
     } catch (error) {
         setErrorResponse(error, res);
     }
 }
 
-export const getSubtasks = async (req, res) => {
+export const getSubtasksByTask = async (req, res) => {
     try {
-        const subtask = await subtaskService.getSubtask();
+        const taskId = req.params.taskId;
+        const subtask = await subtaskService.getSubtask(taskId);
         setResponse(subtask, res);
     } catch (error) {
         setErrorResponse(error, res);
