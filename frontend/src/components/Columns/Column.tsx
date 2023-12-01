@@ -1,3 +1,4 @@
+import Task from "../Tasks/Task";
 
 type Column = {
   index: number;
@@ -6,6 +7,12 @@ type Column = {
 
 interface Props {
   column: Column;
+}
+
+type Task = {
+  _id: string; // Assuming _id is of type string
+  title: string;
+  subtaskCount: number;
 }
 
 export default function Column({ column }: Props) {
@@ -36,7 +43,7 @@ export default function Column({ column }: Props) {
   }]
 
   //Convert the data for task preview
-  const tasksPreviewData = tasks.map(task => {
+  const tasksPreviewData: Task[] = tasks.map(task => {
     return ({
       _id: task._id,
       title: task.title,
@@ -47,9 +54,7 @@ export default function Column({ column }: Props) {
   //Display task previews on column
   const tasksPreviewDataSJSX = tasksPreviewData.map(taskPreviewData => {
     return(
-      <div key={taskPreviewData._id} className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold cursor-pointer" >
-        {taskPreviewData.title}
-      </div>
+      <Task key={taskPreviewData._id} task={taskPreviewData}/>
     )
   })
 

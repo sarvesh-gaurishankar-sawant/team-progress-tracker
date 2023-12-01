@@ -1,6 +1,16 @@
 import React from 'react'
 
-export default function Task() {
+type Task = {
+  _id: string; // Assuming _id is of type string
+  title: string;
+  subtaskCount: number;
+}
+
+interface Props {
+  task: Task;
+}
+
+export default function Task({ task }: Props) {
 //Test Task Data
 const exampleTaskData = [
     {
@@ -31,9 +41,9 @@ const exampleTaskData = [
     }
   ];
 
-  
-      
   return (
-    <div>Task</div>
+    <div key={task._id} className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold cursor-pointer" >
+        {task.title}
+    </div>
   )
 }
