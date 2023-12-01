@@ -21,9 +21,9 @@ export const createBoard = async (request, response) => {
 export const findBoards = async (request, response) => {
     try {
         //Save the query params
-        const params = {...request.query};
+        const userId = request.query.userId;
         //Call the find board service
-        const boards = await boardService.find(params);
+        const boards = await boardService.find(userId);
         //Set the positive response
         setResponse(boards, response)
     }catch(error){
@@ -39,9 +39,9 @@ export const deleteBoard = async (request, response) => {
         //Get the board id
         const boardId = request.params.id;
         //Remove the board
-        const board = boardService.remove(boardId);
+        await boardService.remove(boardId);
         //Set the response
-        setResponse(board, response);
+        setResponse({ "message": "Board deleted successfully."}, response);
     }
     catch(error){
         //Set tge error response
@@ -59,10 +59,10 @@ export const updateBoard = async (request, response) => {
         const updatedBoard = {...request.body};
 
         //Call the update service
-        const board = boardService.update(boardId, updatedBoard)
+        const board = await boardService.update(boardId, updatedBoard);
 
         //Set the response to be sent back to client 
-        setResponse(board, response)
+        setResponse(board, response);
     }
     catch(error){
         //Set the error response to be sent back to the client

@@ -18,21 +18,6 @@ export const createTask = async (request, response) => {
     }
 }
 
-//Controller to find all tasks or based on query params
-export const findTasks = async (request, response) => {
-    try {
-        //Save the query params
-        const params = {...request.query};
-        //Call the find task service
-        const tasks = await taskService.findTasks(params);
-        //Set the positive response
-        setResponse(tasks, response)
-    }catch(error){
-        //Set the error response
-        setErrorResponse(error, response);
-    }
-}
-
 //Controller to delete the task
 export const deleteTask = async (request, response) => {
 
@@ -40,9 +25,9 @@ export const deleteTask = async (request, response) => {
         //Get the task id
         const taskId = request.params.id;
         //Remove the task
-        const task = taskService.removeTask(taskId);
+        await taskService.removeTask(taskId);
         //Set the response
-        setResponse(task, response);
+        setResponse({ "message": "Task deleted successfully."}, response);
     }
     catch(error){
         //Set tge error response
@@ -90,7 +75,7 @@ export const updateTask = async(request, response) => {
 export const getTasksByBoardId = async(request, response) => {
     try {
         //Get the board id
-        const boardId = request.params.id;
+        const boardId = request.params.boardId;
         //Get the tasks
         const tasks = await taskService.getTasksByBoardId(boardId);
         //Set the response
@@ -102,121 +87,15 @@ export const getTasksByBoardId = async(request, response) => {
     }
 }
 
-//Find the task by user id
-export const getTasksByUserId = async(request, response) => {
-    try {
-        //Get the user id
-        const userId = request.params.id;
-        //Get the tasks
-        const tasks = await taskService.getTasksByUserId(userId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
-//Find the task by user id and board id
-export const getTasksByUserIdAndBoardId = async(request, response) => {
-    try {
-        //Get the user id
-        const userId = request.params.userId;
-        //Get the board id
-        const boardId = request.params.boardId;
-        //Get the tasks
-        const tasks = await taskService.getTasksByUserIdAndBoardId(userId, boardId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
-//Find the task by board id and user id
-export const getTasksByBoardIdAndUserId = async(request, response) => {
-    try {
-        //Get the board id
-        const boardId = request.params.boardId;
-        //Get the user id
-        const userId = request.params.userId;
-        //Get the tasks
-        const tasks = await taskService.getTasksByBoardIdAndUserId(boardId, userId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
-//Find the task by column id
-export const getTasksByColumnId = async(request, response) => {
-    try {
-        //Get the column id
-        const columnId = request.params.id;
-        //Get the tasks
-        const tasks = await taskService.getTasksByColumnId(columnId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
 //Find the task by column id and board id
-export const getTasksByColumnIdAndBoardId = async(request, response) => {
+export const getTasksByColumnNameAndBoardId = async(request, response) => {
     try {
         //Get the column id
-        const columnId = request.params.columnId;
+        const columnName = request.params.columnName;
         //Get the board id
         const boardId = request.params.boardId;
         //Get the tasks
-        const tasks = await taskService.getTasksByColumnIdAndBoardId(columnId, boardId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
-//Find the task by column id and user id
-export const getTasksByColumnIdAndUserId = async(request, response) => {
-    try {
-        //Get the column id
-        const columnId = request.params.columnId;
-        //Get the user id
-        const userId = request.params.userId;
-        //Get the tasks
-        const tasks = await taskService.getTasksByColumnIdAndUserId(columnId, userId);
-        //Set the response
-        setResponse(tasks, response);
-    }
-    catch(error){
-        //Set the error response
-        setErrorResponse(error);
-    }
-}
-
-//Find the task by column id, user id and board id
-export const getTasksByColumnIdAndUserIdAndBoardId = async(request, response) => {
-    try {
-        //Get the column id
-        const columnId = request.params.columnId;
-        //Get the user id
-        const userId = request.params.userId;
-        //Get the board id
-        const boardId = request.params.boardId;
-        //Get the tasks
-        const tasks = await taskService.getTasksByColumnIdAndUserIdAndBoardId(columnId, userId, boardId);
+        const tasks = await taskService.getTasksByColumnNameAndBoardId(columnName, boardId);
         //Set the response
         setResponse(tasks, response);
     }

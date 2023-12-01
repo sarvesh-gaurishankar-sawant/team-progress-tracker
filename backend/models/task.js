@@ -18,7 +18,7 @@ const TaskSchema = new Schema({
     },
     status: {
         type: String,
-        required: false
+        required: true
     },
     label: {
         type: String,
@@ -29,8 +29,7 @@ const TaskSchema = new Schema({
         required: false
     },
     subtasks: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Subtask,
+        type: String,
         required: false
     }],
     priority: {
