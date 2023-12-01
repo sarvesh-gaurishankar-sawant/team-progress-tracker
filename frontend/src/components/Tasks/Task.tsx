@@ -1,3 +1,6 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import React from 'react'
 
 type Task = {
@@ -11,6 +14,28 @@ interface Props {
 }
 
 export default function Task({ task }: Props) {
+
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: task._id,
+    data: {
+      type: "Task",
+      task,
+    }
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+
 //Test Task Data
 const exampleTaskData = [
     {
