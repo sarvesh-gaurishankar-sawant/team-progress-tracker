@@ -23,29 +23,27 @@ export default function AddNewColumnForm() {
       <Button variant="outlined" onClick={handleClickOpen}>
         Open form dialog
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <div className='h-screen bg-red-500'>
-            <DialogTitle>Subscribe</DialogTitle>
-            <DialogContent>
-            <DialogContentText>
-                To subscribe to this website, please enter your email address here. We
-                will send updates occasionally.
-            </DialogContentText>
-            <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Email Address"
-                type="email"
-                fullWidth
-                variant="standard"
-            />
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Subscribe</Button>
-            </DialogActions>
-        </div>
+      <Dialog open={open} onClose={handleClose} classes={{paper: 'bg-red-500 w-48'}}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Subscribe</Button>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );
