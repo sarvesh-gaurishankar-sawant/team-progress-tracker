@@ -14,11 +14,11 @@ const TaskSchema = new Schema({
     },
     dueDate: {
         type: Date,
-        required: true
+        required: false
     },
     status: {
         type: String,
-        required: false
+        required: true
     },
     label: {
         type: String,

@@ -47,7 +47,7 @@ export default function Column({ column }: Props) {
   //Display task previews on column
   const tasksPreviewDataSJSX = tasksPreviewData.map(taskPreviewData => {
     return(
-      <div key={taskPreviewData._id} className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold">
+      <div key={taskPreviewData._id} className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold" >
         {taskPreviewData.title}
       </div>
     )
