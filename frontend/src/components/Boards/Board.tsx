@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EmptyBoard from "./EmptyBoard"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { Button } from "@mui/material";
@@ -20,45 +20,53 @@ type Task = {
 
 export default function Board() {
 
-   //Test Board Data
-   const boards = [{
-    name: "Sample Board 1",
-    columns: ["Column1", "Column2", "Column3"],
-    tasks: [
-        "615cf2a6dbf66b029028a7e1",
-        "615cf2b0dbf66b029028a7e2",
-        "615cf2b9dbf66b029028a7e3"
-    ]
-  },
-  {
-    name: "Sample Board 2",
-    columns: ["Column1", "Column2", "Column3"],
-    tasks: [
-        "615cf2a6dbf66b029028a7e1",
-        "615cf2b0dbf66b029028a7e2",
-        "615cf2b9dbf66b029028a7e3"
-    ]
-  }
-  ]
+  //  //Test Board Data
+  //  const boards = [{
+  //   name: "Sample Board 1",
+  //   columns: ["Column1", "Column2", "Column3"],
+  //   tasks: [
+  //       "615cf2a6dbf66b029028a7e1",
+  //       "615cf2b0dbf66b029028a7e2",
+  //       "615cf2b9dbf66b029028a7e3"
+  //   ]
+  // },
+  // {
+  //   name: "Sample Board 2",
+  //   columns: ["Column1", "Column2", "Column3"],
+  //   tasks: [
+  //       "615cf2a6dbf66b029028a7e1",
+  //       "615cf2b0dbf66b029028a7e2",
+  //       "615cf2b9dbf66b029028a7e3"
+  //   ]
+  // }
+  // ]
+  
 
+  //State to get all the boards
+  const [boards, setBoards] = useState([]);
+  const [refreshBoardsData, setRefereshBoardsData ] = useState(true)
+  const [columns, setColumns] = useState<Column[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  
+  //Get all the boards for the user
+  const allBoards = useEffect(() => {
+    if (setRefereshBoardsData) {
+      fetch('http://localhost:3001/boards/?userId=655aaae152a4b846b21c39a3')
+        .then(response => response.json())
+        .then(boards => {
+          setBoards(boards)
+          setRefereshBoardsData(false)
+        })
+    }
+  }, [refreshBoardsData])
+
+  //Get all columns for the selected board
   
 
 
 
-
-  const testColumns = [
-    {
-      index: 1,
-      title: "Todo"
-    },
-    {
-      index: 2,
-      title: "Doing"
-    }
-  ]
-
-  const [columns, setColumns] = useState<Column[]>(testColumns);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  
 
   return (
     <div className="overflow-x-auto h-screen">   
