@@ -7,11 +7,12 @@ import '@fontsource/roboto/700.css';
 // App.tsx
 import React from 'react';
 import ResponsiveAppBar from './components/navbar/Navbar';
+import Sidebar from './components/sidebar/sidebar'
 
 const App: React.FC = () => {
   return (
     <div>
-      <ResponsiveAppBar />
+      <Sidebar />
     </div>
   );
 };
