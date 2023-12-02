@@ -35,7 +35,11 @@ const TaskSchema = new Schema({
     priority: {
         type: String,
         required: false
-    } 
+    },
+    index: {
+        type: Number,
+        required: true
+    }
 },
 {
     versionKey: false
