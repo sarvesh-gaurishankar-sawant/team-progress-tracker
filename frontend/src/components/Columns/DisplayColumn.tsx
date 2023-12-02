@@ -19,6 +19,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
   const [tasksObjectArray, setTasksObjectArray] = useState<TaskType[]>([]);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
+  const [refreshUpdateTasksData, setRefreshUpdateTasksData ] = useState(false)
   const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
  
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
@@ -31,6 +32,29 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
     })
   );
 
+  useEffect(() => {
+    const tasksMongoIds = boardData.tasks;
+    const fetchTasks = async () => {
+      try {
+        const tasksObjectPromiseArray = Promise.all(
+          tasksObjectArray.map(task =>
+            fetch(`http://localhost:3001/tasks/${task._id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(task),
+            })
+              .then(response => response.json())
+          )
+        );
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+    fetchTasks();
+  }, [tasksObjectArray]);
+  
   useEffect(() => {
     const tasksMongoIds = boardData.tasks;
 
@@ -126,8 +150,8 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
     // Dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasksObjectArray((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t._id === activeId);
-        const overIndex = tasks.findIndex((t) => t._id === overId);
+        const activeIndex = tasks.findIndex((task) => task._id === activeId);
+        const overIndex = tasks.findIndex((task) => task._id === overId);
 
         if (tasks[activeIndex].status != tasks[overIndex].status) {
           tasks[activeIndex].status = tasks[overIndex].status;
@@ -145,7 +169,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       setTasksObjectArray((tasks) => {
         const activeIndex = tasks.findIndex((task) => task._id === activeId);
         tasks[activeIndex].status = boardData.columns[Number(overId)];
-        return arrayMove(tasks, activeIndex, activeIndex);
+        return arrayMove(tasks, activeIndex, activeIndex) ;
       });
     }
   }
