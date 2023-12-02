@@ -2,16 +2,13 @@ import { Button, CircularProgress } from "@mui/material";
 import Column from "./Column";
 import { Board, TaskType } from "../type";
 import { useEffect, useState } from "react";
-import { DndContext, DragOverEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import Task from "../Tasks/Task";
+import { ColumnType } from "../type";
 
 
-type Column = {
-    index: number;
-    title: string;
-}
 
 interface Props {
     boardData: Board;
@@ -22,7 +19,8 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
   const [tasksObjectArray, setTasksObjectArray] = useState<TaskType[]>([]);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
-
+  const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
+ 
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
 
   useEffect(() => {
@@ -60,7 +58,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
   if(allColumns){
     return (
-      <DndContext onDragStart={onDragStart} onDragOver={onDragOver}>
+      <DndContext onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd}>
       <div>
         <div className="flex flex-row gap-x-9	">
         <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
@@ -68,6 +66,9 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       </div>
       {createPortal(
           <DragOverlay>
+            {activeColumn && (
+              <Column columnTitle={activeColumn.columnTitle} tasksObjectArray={activeColumn.tasksObjectArray} setTasksObjectArray={activeColumn.setTasksObjectArray} index={activeColumn.index}/>
+            )}
             {activeTask && (
               <Task
                 task={activeTask}
@@ -86,15 +87,22 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   }
 
   function onDragStart(event: DragStartEvent) {
+
     if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
       
       return;
     }
+
+    if (event.active.data.current?.type === "Column") {
+      setActiveColumn(event.active.data.current.column);
+      return;
+    }
+
   }
 
   function onDragOver(event: DragOverEvent) {
-    console.log("On drag over")
+
     const { active, over } = event;
     if (!over) return;
 
@@ -122,6 +130,44 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
         return arrayMove(tasks, activeIndex, overIndex);
       });
     }
+
+    const isOverAColumn = over.data.current?.type === "Column";
+
+    // Im dropping a Task over a column
+    if (isActiveATask && isOverAColumn) {
+      console.log("Inside")
+      setTasksObjectArray((tasks) => {
+        const activeIndex = tasks.findIndex((t) => t._id === activeId);
+
+        tasks[activeIndex].status = boardData.columns[Number(overId)];
+        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
+        return arrayMove(tasks, activeIndex, activeIndex);
+      });
+    }
+
+    
+  }
+
+  function onDragEnd(event: DragEndEvent) {
+    setActiveColumn(null);
+    setActiveTask(null);
+
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId: number = Number(active.id);
+    const overId: number = Number(over.id);
+
+    if (activeId === overId) return;
+
+    const isActiveAColumn = active.data.current?.type === "Column";
+    if (!isActiveAColumn) return;
+    console.log(boardData.columns)
+    let tempId = boardData.columns[activeId];
+    boardData.columns[activeId] = boardData.columns[overId];
+    boardData.columns[overId] = tempId;
+    console.log(boardData.columns)
+    
   }
  
 }

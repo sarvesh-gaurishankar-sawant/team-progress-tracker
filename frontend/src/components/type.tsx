@@ -14,3 +14,10 @@ export type TaskType = {
     title: string,
     _id: string
 }
+
+export type ColumnType = {
+    columnTitle: string,
+    tasksObjectArray: TaskType[],
+    index: number,
+    setTasksObjectArray: React.Dispatch<React.SetStateAction<TaskType[]>>
+}
