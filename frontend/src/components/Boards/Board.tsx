@@ -61,13 +61,7 @@ export default function Board() {
     }
   }, [refreshBoardsData])
 
-  //Get all columns for the selected board
   
-
-
-
-  
-
   return (
     <div className="overflow-x-auto h-screen">   
         <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>

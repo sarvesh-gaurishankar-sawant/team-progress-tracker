@@ -69,6 +69,7 @@ export default function Column({ column }: Props) {
         <div key={column.index} className="mb-6">{column.title}</div>
         {/* Tasks */}
         {<SortableContext items={tasks_id}>{tasksPreviewDataSJSX}</SortableContext>}
+        
       </div>
     </DndContext>
   )
