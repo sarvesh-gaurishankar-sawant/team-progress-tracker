@@ -48,7 +48,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   let columns;
   if(tasksObjectArray){
     columns = boardData.columns;
-    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray}/>);
+    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} index={index}/>);
   }
   
 
@@ -56,7 +56,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
     return (
       <>
         <div className="flex flex-row gap-x-9	">
-        <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
+        <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
         </div>
       </>
     )

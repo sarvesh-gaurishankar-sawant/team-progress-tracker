@@ -6,10 +6,10 @@ import Task from "../Tasks/Task";
 interface Props {
   columnTitle: string;
   tasksObjectArray: TaskType[];
-  key: number;
+  index: number;
 }
 
-export default function Column({ columnTitle,  tasksObjectArray, key}: Props) {
+export default function Column({ columnTitle,  tasksObjectArray, index}: Props) {
 
   //Filter task object
   const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)
@@ -23,12 +23,12 @@ export default function Column({ columnTitle,  tasksObjectArray, key}: Props) {
 
   //Get all ids
   const tasksIds = filterTasksData.map(task => task._id)
-  
+
   return (
     <DndContext>
       <div className="w-72">
         {/* Column Title */}
-        <div key={key} className="mb-6">{columnTitle}</div>
+        <div key={index} className="mb-6">{columnTitle}</div>
         {/* Tasks */}
         {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
       </div>
