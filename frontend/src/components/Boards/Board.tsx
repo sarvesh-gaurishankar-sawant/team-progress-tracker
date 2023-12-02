@@ -93,12 +93,12 @@ export default function Board() {
   let boardData;
   if(boards.length != 0){
     boardData = boards[0];
-    console.log(boardData)
   return (
     <div className="overflow-x-auto h-screen">   
-        <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
+        <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>
+        {/* <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
         {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-        {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>}
+        {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>} */}
     </div>  
   ) 
   }
