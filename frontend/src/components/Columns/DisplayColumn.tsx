@@ -48,7 +48,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   let columns;
   if(tasksObjectArray){
     columns = boardData.columns;
-    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} index={index}/>);
+    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} setTasksObjectArray={setTasksObjectArray}index={index}/>);
   }
   
 
