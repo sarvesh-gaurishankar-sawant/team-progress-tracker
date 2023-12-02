@@ -1,16 +1,22 @@
 import e from 'express';
-import Subtask from '../models/subtask.js'
+import Subtask from '../models/subtask'
 
 
 // create subtask
 export const createSubtask = async (newSubtask) => {
-    const subtask = new Subtask(newSubtask);
-    return await subtask.save();
+    const { taskId, ...subtaskData } = newSubtask;
+    const subtask = new Subtask(subtaskData);
+    const subtaskSaved = await subtask.save();
+    const task = await taskService.findTaskById(taskId);
+    task.subtasks.push(subtaskSaved._id.toString());
+    const updatedTask = await taskService.updateTask(taskId, task);
+    return subtaskSaved;
 }
 
 // get all subtasks
-export const getSubtask = async () => {
-    const subtasks = await Subtask.find().exec();
+export const getSubtask = async (taskId) => {
+    const task = await taskService.findTaskById(taskId);
+    const subtasks = await Subtask.find({ _id: { $in: task.subtasks } }).exec();
     return subtasks;
 }
 

@@ -12,24 +12,16 @@ export const createTask = async (completeTask) => {
     const response = await task.save();
 
     //save the task id in board
-    const boardBody = await boardService.findById(boardId);
+    const board = await boardService.findById(boardId);
     //Convert the userBody to an object
-    const boardBodyObject = boardBody.toObject();
+    const boardObject = board.toObject();
     //Push the task id to the user tasks array
-    boardBodyObject.tasks.push(response._id);
+    boardObject.tasks.push(response._id.toString());
     //Update the user
-    const updatedboardBody = await boardService.update(boardId, boardBodyObject);
+    const updatedboardBody = await boardService.update(boardId, boardObject);
 
     //Return the response
     return response;
-}
-
-//Find the tasks
-export const findTasks = async (params = {}) => {
-    //Find all the tasks in the mongodb if the params is empty object
-    const tasks = await Task.find(params).exec();
-    //Return all the tasks
-    return tasks;
 }
 
 //Delete the task
@@ -43,7 +35,7 @@ export const removeTask = async (id) => {
 //Update the task by id
 export const updateTask = async (id, updatedTask) => {
     // find the task by id
-    const task = await Task.findByIdAndUpdate(id, updatedTask).exec();
+    const task = await Task.findByIdAndUpdate(id, updatedTask, {new : true}).exec();
 
     // return the response
     return task;
@@ -64,53 +56,10 @@ export const getTasksByBoardId = async (boardId) => {
     return tasks;
 }
 
-// get all tasks by user id
-export const getTasksByUserId = async (userId) => {
-    const user = await userService.findUserById(userId);
-    const tasks = await Task.find({ _id: { $in: user.tasks } }).exec();
-    return tasks;
-}
-
-// get all tasks by user id and board id
-export const getTasksByUserIdAndBoardId = async (userId, boardId) => {
-    const user = await userService.findUserById(userId);
-    const board = await boardService.findById(boardId);
-    const tasks = await Task.find({ _id: { $in: user.tasks, $in: board.tasks } }).exec();
-    return tasks;
-}
-
-// get all tasks by board id and user id
-export const getTasksByBoardIdAndUserId = async (boardId, userId) => {
-    const user = await userService.findUserById(userId);
-    const board = await boardService.findById(boardId);
-    const tasks = await Task.find({ _id: { $in: board.tasks, $in: user.tasks } }).exec();
-    return tasks;
-}
-
-// get all tasks by column id
-export const getTasksByColumnId = async (columnId) => {
-    const tasks = await Task.find({ columnId: columnId }).exec();
-    return tasks;
-}
-
 // get all tasks by column id and board id
-export const getTasksByColumnIdAndBoardId = async (columnId, boardId) => {
+export const getTasksByColumnNameAndBoardId = async (columnName, boardId) => {
     const board = await boardService.findById(boardId);
-    const tasks = await Task.find({ _id: { $in: board.tasks }, columnId: columnId }).exec();
-    return tasks;
-}
-
-// get all tasks by column id and user id
-export const getTasksByColumnIdAndUserId = async (columnId, userId) => {
-    const user = await userService.findUserById(userId);
-    const tasks = await Task.find({ _id: { $in: user.tasks }, columnId: columnId }).exec();
-    return tasks;
-}
-
-// get all tasks by column id and board id and user id
-export const getTasksByColumnIdAndBoardIdAndUserId = async (columnId, boardId, userId) => {
-    const user = await userService.findUserById(userId);
-    const board = await boardService.findById(boardId);
-    const tasks = await Task.find({ _id: { $in: user.tasks, $in: board.tasks }, columnId: columnId }).exec();
+    var  tasks = await Task.find({ _id: { $in: board.tasks }}).exec();
+    tasks = tasks.filter(task => task.status === columnName);
     return tasks;
 }
