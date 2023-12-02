@@ -2,7 +2,7 @@ import { Button, CircularProgress } from "@mui/material";
 import Column from "./Column";
 import { Board, TaskType } from "../type";
 import { useEffect, useState } from "react";
-import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import Task from "../Tasks/Task";
@@ -22,6 +22,14 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
  
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
 
   useEffect(() => {
     const tasksMongoIds = boardData.tasks;
@@ -58,7 +66,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
   if(allColumns){
     return (
-      <DndContext onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd}>
+      <DndContext onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd} sensors={sensors}>
       <div>
         <div className="flex flex-row gap-x-9	">
         <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
@@ -90,7 +98,6 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
     if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
-      
       return;
     }
 
@@ -135,39 +142,17 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
     // Im dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
-      console.log("Inside")
       setTasksObjectArray((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t._id === activeId);
-
+        const activeIndex = tasks.findIndex((task) => task._id === activeId);
         tasks[activeIndex].status = boardData.columns[Number(overId)];
-        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }
-
-    
   }
 
   function onDragEnd(event: DragEndEvent) {
     setActiveColumn(null);
     setActiveTask(null);
-
-    const { active, over } = event;
-    if (!over) return;
-
-    const activeId: number = Number(active.id);
-    const overId: number = Number(over.id);
-
-    if (activeId === overId) return;
-
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
-    console.log(boardData.columns)
-    let tempId = boardData.columns[activeId];
-    boardData.columns[activeId] = boardData.columns[overId];
-    boardData.columns[overId] = tempId;
-    console.log(boardData.columns)
-    
   }
  
 }

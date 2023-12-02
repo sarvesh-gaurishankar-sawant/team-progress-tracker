@@ -1,9 +1,7 @@
-import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { DndContext, DragOverEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 import { TaskType } from "../type";
 import Task from "../Tasks/Task";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -71,17 +69,11 @@ export default function Column({ columnTitle,  tasksObjectArray, index, setTasks
   const tasksIds = filterTasksData.map(task => task._id)
 
   return (
-    
       <div className="w-72 touch-none" >
         {/* Column Title */}
-        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} {...attributes} {...listeners}>{columnTitle}</div>
+        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
         {/* Tasks */}
         {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
-        
       </div>
-
   )
-
-  
-
 }
