@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import EmptyBoard from "./EmptyBoard"
 import DisplayColumn from "../Columns/DisplayColumn";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 import { createServer } from "miragejs"
 
@@ -52,7 +52,7 @@ export default function Board() {
   //Get all the boards for the user
   const allBoards = useEffect(() => {
     if (setRefereshBoardsData) {
-      fetch('http://localhost:3001/boards/?userId=655aaae152a4b846b21c39a3')
+      fetch('http://localhost:3001/boards/?userId=656aa538b391863d91b13869')
         .then(response => response.json())
         .then(boards => {
           setBoards(boards)
@@ -60,15 +60,53 @@ export default function Board() {
         })
     }
   }, [refreshBoardsData])
-
   
+  // return (
+  //   <div className="overflow-x-auto h-screen">   
+  //       <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
+  //       {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
+  //       {columns.length !== 0 && <DisplayColumn columns={columns} createNewColumn={createNewColumn}/>}
+  //   </div>  
+  // )
+
+  // function createNewColumn(){
+  //   const columnIndex: number = columns.length;
+  //   const newColumn: Column = {
+  //     index: columnIndex,
+  //     title: `Column Title ${columnIndex}`
+  //   }
+  //   setColumns([...columns, newColumn]);
+  // }
+
+  // function createNewTask() {
+  //   const taskIndex: number = tasks.length;
+  //   const newTask: Task = {
+  //     index: taskIndex,
+  //     title: `Task Title ${taskIndex}`,
+  //     columnName: columns[0]?.title
+  //   }
+  //   setTasks([...tasks, newTask]);
+  //   console.log(tasks)
+  // }
+
+  //TODO-Sarvesh: This is temprory need to remove this and use Shashwat nav bar to send data here
+  let boardData;
+  if(boards.length != 0){
+    boardData = boards[0];
+    console.log(boardData)
   return (
     <div className="overflow-x-auto h-screen">   
         <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
         {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-        {columns.length !== 0 && <DisplayColumn columns={columns} createNewColumn={createNewColumn}/>}
+        {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>}
     </div>  
-  )
+  ) 
+  }
+  else {
+    return (
+      <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
+    )
+  }
 
   function createNewColumn(){
     const columnIndex: number = columns.length;
@@ -89,6 +127,4 @@ export default function Board() {
     setTasks([...tasks, newTask]);
     console.log(tasks)
   }
-
-  
 }
