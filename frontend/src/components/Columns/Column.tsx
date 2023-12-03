@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function Column({ columnTitle,  tasksObjectArray, index, setTasksObjectArray}: Props) {
+  
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
   const {
     setNodeRef,
@@ -55,7 +56,7 @@ export default function Column({ columnTitle,  tasksObjectArray, index, setTasks
 
 
 
-  //Filter task object
+  if(tasksObjectArray.length > 0){//Filter task object
   const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)
 
   //Display task previews on column
@@ -75,5 +76,13 @@ export default function Column({ columnTitle,  tasksObjectArray, index, setTasks
         {/* Tasks */}
         {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
       </div>
+  )}
+  else {
+    return (
+      <div className="w-72 touch-none" >
+        {/* Column Title */}
+        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
+      </div>
   )
+  }
 }

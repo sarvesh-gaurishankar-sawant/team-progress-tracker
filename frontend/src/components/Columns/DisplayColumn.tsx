@@ -67,7 +67,10 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
           )
         );
         const taskObjectArray: TaskType[] = await tasksObjectPromiseArray;
-        setTasksObjectArray(taskObjectArray);
+
+        const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
+
+        setTasksObjectArray(filteredTaskObjectArray);
       } catch (error) {
         console.error('Error fetching tasks:', error);
       }
@@ -80,8 +83,11 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
     
   }, [refreshTasksData]);
 
+
+
   let allColumns;
   let columns;
+
   if(tasksObjectArray){
     columns = boardData.columns;
     allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} setTasksObjectArray={setTasksObjectArray}index={index}/>);
