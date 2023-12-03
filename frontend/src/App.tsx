@@ -13,6 +13,7 @@ import BoardComponent from './components/sidebar/sidebar'
 const App: React.FC = () => {
   return (
     <div>
+      <ResponsiveAppBar />
       <BoardComponent userId='656b811ba83badbd99125a44'/>
     </div>
   );
