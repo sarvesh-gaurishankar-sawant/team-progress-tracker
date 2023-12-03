@@ -68,9 +68,9 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
         );
         const taskObjectArray: TaskType[] = await tasksObjectPromiseArray;
 
-        const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
+        // const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
 
-        setTasksObjectArray(filteredTaskObjectArray);
+        setTasksObjectArray(taskObjectArray);
       } catch (error) {
         console.error('Error fetching tasks:', error);
       }

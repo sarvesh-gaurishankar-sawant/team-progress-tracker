@@ -28,6 +28,7 @@ export const createTask = async (completeTask) => {
 export const removeTask = async (id) => {
     //Find the board by id and remove it
     const task = await Task.findByIdAndDelete(id).exec();
+
     //Return the deleted task
     return task;
 }

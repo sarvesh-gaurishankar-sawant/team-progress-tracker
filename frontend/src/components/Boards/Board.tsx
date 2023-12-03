@@ -2,8 +2,6 @@ import { useEffect, useState } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
 
-
-
 type Column = {
   index: number;
   title: string;
