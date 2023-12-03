@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mui/material": "^5.14.19",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.39"
+  }
+}
