@@ -1,5 +1,5 @@
 import e from 'express';
-import User from '../models/user.ts';
+import User from '../models/user.js';
 
 // create user
 export const createUser = async (newUser) => {

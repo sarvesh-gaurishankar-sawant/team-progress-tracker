@@ -1,4 +1,4 @@
-import Board from "../models/board.ts";
+import Board from "../models/board.js";
 import * as userService from "./user-service.js"
 
 //Save the board to the db

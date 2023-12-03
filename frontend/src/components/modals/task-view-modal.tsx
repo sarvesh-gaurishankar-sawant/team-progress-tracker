@@ -2,11 +2,15 @@ import { Checkbox, FormControlLabel, FormGroup, IconButton, Menu, MenuItem, Typo
 import Modal from '@mui/material/Modal';
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Task, { ITask } from "../../../../backend/models/task.js";
-import Subtask, { ISubtask } from "../../../../backend/models/subtask.js";
-import Board, { IBoard } from "../../../../backend/models/board.js";
+import { ITask } from "../../model interfaces/ITask" 
+import { ISubtask } from "../../model interfaces/ISubtask";
+import { IBoard } from "../../model interfaces/IBoard";
 
-const TaskViewModal: React.FC = () => {
+interface TaskViewModalProps {
+    taskId: string; // Replace with the actual type of your parameter
+  }
+
+const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId }) => {
   const [task, setTask] = useState<ITask>();
   const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
   const [board, setBoard] = useState<IBoard>();
@@ -35,16 +39,16 @@ const TaskViewModal: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch('http://localhost:3001/tasks/656aa64ab391863d91b13881'); // Replace with your API endpoint
+        const response1 = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
         var result1 = await response1.json();
         setTask(result1);
         setSelectedOption(result1.status);
 
-        const response2 = await fetch('http://localhost:3001/subtasks/getSubtasksByTask/656aa64ab391863d91b13881');
+        const response2 = await fetch(`http://localhost:3001/subtasks/getSubtasksByTask/${taskId}`);
         var result2 = await response2.json();
         setSubtasks(result2);
 
-        const boardResponse = await fetch('http://localhost:3001/boards/656aa58cb391863d91b13870');
+        const boardResponse = await fetch(`http://localhost:3001/boards/${taskId}`);
         var board = await boardResponse.json();
         setBoard(board);
       } catch (error) {

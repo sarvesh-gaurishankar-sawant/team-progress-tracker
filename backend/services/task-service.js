@@ -1,4 +1,4 @@
-import Task from '../models/task.ts';
+import Task from '../models/task.js';
 import * as userService from './user-service.js';
 import * as boardService from './board-service.js';
 
