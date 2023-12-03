@@ -27,7 +27,7 @@ const UserSchema = new Schema({
     boards: [{
         type: String,
         required: false
-    }],
+    }]
 },
 {
     versionKey: false

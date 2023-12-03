@@ -38,6 +38,10 @@ const TaskSchema = new Schema({
     },
     index: {
         type: Number,
+        required: true,
+    },
+    board: {
+        type: String,
         required: true
     }
 },

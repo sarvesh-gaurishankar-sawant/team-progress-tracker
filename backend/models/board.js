@@ -16,7 +16,11 @@ const BoardSchema = new Schema({
     tasks: [{
         type: String,
         required: false
-    }]
+    }],
+    user: {
+        type: String,
+        required: true
+    }
 },
 {
     versionKey: false
