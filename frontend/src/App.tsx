@@ -1,7 +1,12 @@
+import TaskViewModal from "./components/modals/task-view-modal";
+
 export default function App() {
+  const taskId = "656c307c0fd3446bad8bbade"; // Replace with the actual value for your parameter
+
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
+    <div>
+      {/* Render TaskViewModal and pass the parameter */}
+      <TaskViewModal taskId={taskId} />
+    </div>
+  );
 }

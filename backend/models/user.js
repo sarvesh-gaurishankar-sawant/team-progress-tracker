@@ -1,18 +1,6 @@
 import mongoose from "mongoose";
-import { Document } from "mongoose";
-import Board from "./board.js";
 
 const Schema = mongoose.Schema;
-
-export interface IUser extends Document {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    phoneNo: string;
-    boards: string[];
-}
 
 const UserSchema = new Schema({
     firstName: {
