@@ -5,12 +5,15 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ITask } from "../../model interfaces/ITask" 
 import { ISubtask } from "../../model interfaces/ISubtask";
 import { IBoard } from "../../model interfaces/IBoard";
+import TaskEditModal from "./task-edit-modal";
+import { set } from "mongoose";
 
 interface TaskViewModalProps {
-    taskId: string; // Replace with the actual type of your parameter
+    taskId: string;
+    boardId: string; // Replace with the actual type of your parameter
   }
 
-const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId }) => {
+const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
   const [task, setTask] = useState<ITask>();
   const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
   const [board, setBoard] = useState<IBoard>();
@@ -48,7 +51,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId }) => {
         var result2 = await response2.json();
         setSubtasks(result2);
 
-        const boardResponse = await fetch(`http://localhost:3001/boards/${taskId}`);
+        const boardResponse = await fetch(`http://localhost:3001/boards/${boardId}`);
         var board = await boardResponse.json();
         setBoard(board);
       } catch (error) {
@@ -64,12 +67,14 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId }) => {
 
   const handleEditTaskEvent = () => {
     console.log('edit task');
+    setOpen(false);
+    <TaskEditModal taskId={taskId} boardId={boardId}/>
   };
 
   const handleDeleteTaskEvent = async () => {
     console.log('delete task');
     try {
-      const response = await fetch('http://localhost:3001/tasks/656aa64ab391863d91b13881', {
+      const response = await fetch(`http://localhost:3001/tasks/${taskId}`, {
         method: 'DELETE'
       });
       var result = await response.json();
@@ -84,7 +89,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId }) => {
     // update task
     task!.status = selectedOption;
     try {
-      const response = await fetch('http://localhost:3001/tasks/656aa64ab391863d91b13881', {
+      const response = await fetch(`http://localhost:3001/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
