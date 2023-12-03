@@ -3,18 +3,17 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-
 // App.tsx
 import React from 'react';
-import ResponsiveAppBar from './components/navbar/Navbar';
-import Sidebar from './components/sidebar/sidebar'
-import BoardComponent from './components/sidebar/sidebar'
+// import ResponsiveAppBar from './components/navbar/Navbar';
+// import Sidebar from './components/sidebar/sidebar'
+// import BoardComponent from './components/sidebar/sidebar'
+import HomeScreen from './components/pages/HomeScreen'
 
 const App: React.FC = () => {
   return (
     <div>
-      <ResponsiveAppBar />
-      <BoardComponent userId='656b811ba83badbd99125a44'/>
+      <HomeScreen />
     </div>
   );
 };
