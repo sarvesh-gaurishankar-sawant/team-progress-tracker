@@ -2,43 +2,14 @@ import { Checkbox, FormControlLabel, FormGroup, IconButton, Menu, MenuItem, Typo
 import Modal from '@mui/material/Modal';
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Task from "../../../../backend/models/task.js";
-import Subtask from "../../../../backend/models/subtask.js";
-import Board from "../../../../backend/models/board.js";
-
-// interface Task {
-//   _id: string;
-//   title: string;
-//   description: string;
-//   dueDate: Date;
-//   status: string;
-//   label: string;
-//   attachmentPath: string;
-//   subtasks: string[];
-//   priority: string;
-//   // Add other fields as needed
-// }
-
-// interface Subtask {
-//   _id: string;
-//   title: string;
-//   // Add other fields as needed
-// }
-
-// interface Board {
-//   _id: string;
-//   name: string;
-//   columns: string[];
-//   tasks: string[];
-//   // Add other fields as needed
-
-// }
-
+import Task, { ITask } from "../../../../backend/models/task.js";
+import Subtask, { ISubtask } from "../../../../backend/models/subtask.js";
+import Board, { IBoard } from "../../../../backend/models/board.js";
 
 const TaskViewModal: React.FC = () => {
-  const [task, setTask] = useState<typeof Task>();
-  const [subtasks, setSubtasks] = useState<typeof Subtask[]>([]);
-  const [board, setBoard] = useState<typeof Board>();
+  const [task, setTask] = useState<ITask>();
+  const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
+  const [board, setBoard] = useState<IBoard>();
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [checkedCount, setCheckedCount] = useState<number>(0);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -107,7 +78,7 @@ const TaskViewModal: React.FC = () => {
 
   const handleClose = async () => {
     // update task
-    task!. = selectedOption;
+    task!.status = selectedOption;
     try {
       const response = await fetch('http://localhost:3001/tasks/656aa64ab391863d91b13881', {
         method: 'PUT',
