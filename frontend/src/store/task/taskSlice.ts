@@ -1,9 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Board, TaskType } from "../../components/type";
+import { arrayMove } from "@dnd-kit/sortable";
 
 //Interface for typescript
 interface TaskState {
   value: TaskType[];
+}
+
+interface UpdateTaskState {
+    tasksObjectArray:TaskType[]; 
+    boardData:Board;
 }
 
 //Create the initial slice
@@ -15,7 +21,24 @@ const initialState: TaskState = {
 const taskSlice = createSlice({
   name: "task",
   initialState,
-  reducers: {},
+  reducers: {
+    swapTwoTasksIndex: (state, action) => {
+        const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
+        const overIndex = state.value.findIndex((task) => task._id === action.payload.overId);
+
+        if (state.value[activeIndex].status != state.value[overIndex].status) {
+            state.value[activeIndex].status = state.value[overIndex].status;
+            state.value =  arrayMove(state.value, activeIndex, overIndex - 1);
+        }
+
+        state.value = arrayMove(state.value, activeIndex, overIndex);
+    },
+    addTaskToColumn: (state, action) => {
+        const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
+        state.value[activeIndex].status = action.payload.boardData.columns[Number(action.payload.overId)];
+        state.value = arrayMove(state.value, activeIndex, activeIndex) ;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -23,12 +46,16 @@ const taskSlice = createSlice({
         (state, action: PayloadAction<TaskType[]>) => {
             state.value = action.payload;
         }
+      )
+      .addCase(
+        updateTaskFromBoardAsync.fulfilled,
+        (state) => {}
       );
   }
 });
 
-export const getTaskFromBoardAsync = createAsyncThunk(
-    "counter/getTaskFromBoardAsync",
+export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], Board>(
+    "task/getTaskFromBoardAsync",
     async (boardData: Board) => {
         const tasksMongoIds = boardData.tasks;
 
@@ -41,9 +68,33 @@ export const getTaskFromBoardAsync = createAsyncThunk(
 
         const taskObjectArray: TaskType[] = await tasksObjectPromiseArray;
   
-        const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
+        const filteredTaskObjectArray: TaskType[] = taskObjectArray.filter(task => task !== null);
         return filteredTaskObjectArray;
     }
 );
+
+export const updateTaskFromBoardAsync = createAsyncThunk(
+    "task/updateTaskFromBoardAsync",
+    async (boardDataAndTasks: UpdateTaskState) => {
+        const tasksMongoIds = boardDataAndTasks.boardData.tasks;
+
+        const tasksObjectPromiseArray = Promise.all(
+            boardDataAndTasks.tasksObjectArray.map(task =>
+              fetch(`http://localhost:3001/tasks/${task._id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(task),
+              })
+                .then(response => response.json())
+        )
+        )
+    }
+);
+
+
+
+export const { swapTwoTasksIndex, addTaskToColumn } = taskSlice.actions;
 
 export default taskSlice.reducer;

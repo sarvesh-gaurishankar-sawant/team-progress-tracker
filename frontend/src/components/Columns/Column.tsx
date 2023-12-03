@@ -9,10 +9,9 @@ interface Props {
   columnTitle: string;
   tasksObjectArray: TaskType[];
   index: number;
-  setTasksObjectArray: React.Dispatch<React.SetStateAction<TaskType[]>>;
 }
 
-export default function Column({ columnTitle,  tasksObjectArray, index, setTasksObjectArray}: Props) {
+export default function Column({ columnTitle,  tasksObjectArray, index}: Props) {
   
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
   const {
@@ -30,7 +29,6 @@ export default function Column({ columnTitle,  tasksObjectArray, index, setTasks
         columnTitle,
         tasksObjectArray,
         index,
-        setTasksObjectArray
       },
     }
   });

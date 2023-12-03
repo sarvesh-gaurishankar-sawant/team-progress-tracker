@@ -9,32 +9,19 @@ import Task from "../Tasks/Task";
 import { ColumnType } from "../type";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
-import {getTaskFromBoardAsync} from "../../store/task/taskSlice"
-
-
-
+import {getTaskFromBoardAsync, swapTwoTasksIndex, addTaskToColumn, updateTaskFromBoardAsync} from "../../store/task/taskSlice"
 interface Props {
     boardData: Board;
     createNewColumn: () => void
 }
-
 export default function DisplayColumn({ boardData, createNewColumn }: Props) {
-
-  //Connect to the state
-  const tasksObjectArr = useSelector((state: RootState) => state.tasksObjectArray.value);
-  //Dispatch actions, because react cant directly
+  let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   const dispatch = useDispatch<AppDispatch>();
-
-
-
-
-  const [tasksObjectArray, setTasksObjectArray] = useState<TaskType[]>([]);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
-  const [refreshUpdateTasksData, setRefreshUpdateTasksData ] = useState(false)
   const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
- 
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
-
+  
+  //Drag will trigger only after 10px drag
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -42,70 +29,36 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       },
     })
   );
-
+  //Get all the tasks for a board
   useEffect(() => {
     const tasksMongoIds = boardData.tasks;
     const fetchTasks = async () => {
-      try {
-        const tasksObjectPromiseArray = Promise.all(
-          tasksObjectArray.map(task =>
-            fetch(`http://localhost:3001/tasks/${task._id}`, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(task),
-            })
-              .then(response => response.json())
-          )
-        );
-      } catch (error) {
-        console.error('Error fetching tasks:', error);
-      }
+      dispatch(getTaskFromBoardAsync(boardData));
     };
-    fetchTasks();
-  }, [tasksObjectArray]);
-  
-  useEffect(() => {
-    
-    const tasksMongoIds = boardData.tasks;
-
-    const fetchTasks = async () => {
-      let tempValPromise = dispatch(getTaskFromBoardAsync(boardData));
-      let tempVal = await tempValPromise;
-      await console.log("boardData" + JSON.stringify(tempVal.payload))
-      try {
-        const tasksObjectPromiseArray = Promise.all(
-          tasksMongoIds.map(tasksMongoId =>
-            fetch(`http://localhost:3001/tasks/${tasksMongoId}`)
-              .then(response => response.json())
-          )
-        );
-        const taskObjectArray: TaskType[] = await tasksObjectPromiseArray;
-
-        const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
-        console.log("filteredTaskObjectArray" + JSON.stringify(filteredTaskObjectArray))
-        setTasksObjectArray(filteredTaskObjectArray);
-      } catch (error) {
-        console.error('Error fetching tasks:', error);
-      }
-    };
-
     if(refreshTasksData){
       fetchTasks();
       setRefreshTasksData(false);
     }
-    
   }, [refreshTasksData]);
 
-
-
+  //Update the task, in database after it is placed in different location on kanban board
+  useEffect(() => {
+    const tasksMongoIds = boardData.tasks;
+    const fetchTasks = async () => {
+     dispatch(updateTaskFromBoardAsync({
+      boardData,
+      tasksObjectArray
+     }));
+    }
+    fetchTasks();
+  }, [tasksObjectArray]);
+  
   let allColumns;
   let columns;
 
   if(tasksObjectArray){
     columns = boardData.columns;
-    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} setTasksObjectArray={setTasksObjectArray}index={index}/>);
+    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} tasksObjectArray={tasksObjectArray} index={index}/>);
   }
   
 
@@ -120,7 +73,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       {createPortal(
           <DragOverlay>
             {activeColumn && (
-              <Column columnTitle={activeColumn.columnTitle} tasksObjectArray={activeColumn.tasksObjectArray} setTasksObjectArray={activeColumn.setTasksObjectArray} index={activeColumn.index}/>
+              <Column columnTitle={activeColumn.columnTitle} tasksObjectArray={activeColumn.tasksObjectArray} index={activeColumn.index}/>
             )}
             {activeTask && (
               <Task
@@ -138,7 +91,6 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
     )
   }
-
   function onDragStart(event: DragStartEvent) {
 
     if (event.active.data.current?.type === "Task") {
@@ -150,9 +102,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       setActiveColumn(event.active.data.current.column);
       return;
     }
-
   }
-
   function onDragOver(event: DragOverEvent) {
 
     const { active, over } = event;
@@ -168,36 +118,23 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
     if (!isActiveATask) return;
 
-    // Dropping a Task over another Task
     if (isActiveATask && isOverATask) {
-      setTasksObjectArray((tasks) => {
-        const activeIndex = tasks.findIndex((task) => task._id === activeId);
-        const overIndex = tasks.findIndex((task) => task._id === overId);
-
-        if (tasks[activeIndex].status != tasks[overIndex].status) {
-          tasks[activeIndex].status = tasks[overIndex].status;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
-        }
-
-        return arrayMove(tasks, activeIndex, overIndex);
-      });
+      dispatch(swapTwoTasksIndex({
+        activeId,
+        overId,
+      }))
     }
-
-    const isOverAColumn = over.data.current?.type === "Column";
-
-    // Im dropping a Task over a column
+    const isOverAColumn = over.data.current?.type === "Column"; 
     if (isActiveATask && isOverAColumn) {
-      setTasksObjectArray((tasks) => {
-        const activeIndex = tasks.findIndex((task) => task._id === activeId);
-        tasks[activeIndex].status = boardData.columns[Number(overId)];
-        return arrayMove(tasks, activeIndex, activeIndex) ;
-      });
+      dispatch(addTaskToColumn({
+        activeId,
+        overId,
+        boardData
+      }));
     }
   }
-
   function onDragEnd(event: DragEndEvent) {
     setActiveColumn(null);
     setActiveTask(null);
   }
- 
 }
