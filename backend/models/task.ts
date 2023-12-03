@@ -1,7 +1,21 @@
 import mongoose from "mongoose";
+import { Document } from "mongoose";
 import Subtask from "./subtask.js";
 
 const Schema = mongoose.Schema;
+
+export interface ITask extends Document {
+    id: string;
+    title: string;
+    description: string;
+    dueDate: Date;
+    status: string;
+    label: string;
+    attachmentPath: string;
+    subtasks: string[];
+    priority: string;
+    board: string;
+}
 
 const TaskSchema = new Schema({
     title: {
@@ -35,7 +49,11 @@ const TaskSchema = new Schema({
     priority: {
         type: String,
         required: false
-    } 
+    },
+    board: {
+        type: String,
+        required: true
+    }
 },
 {
     versionKey: false
