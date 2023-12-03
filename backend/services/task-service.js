@@ -4,32 +4,22 @@ import * as boardService from './board-service.js';
 
 //Save the task
 export const createTask = async (completeTask) => {
-    //Destructure the userId and task details
-    const { boardId, ...newTask } = completeTask;
-    //Create the instance of the task
-    const task = new Task(newTask);
-    //Save the task in db
+    const task = new Task(completeTask);
     const response = await task.save();
-
-    //save the task id in board
-    const board = await boardService.findById(boardId);
-    //Convert the userBody to an object
-    const boardObject = board.toObject();
-    //Push the task id to the user tasks array
-    boardObject.tasks.push(response._id.toString());
-    //Update the user
-    const updatedboardBody = await boardService.update(boardId, boardObject);
-
-    //Return the response
+    const board = await boardService.findById(task.board);
+    board.tasks.push(response._id.toString());
+    await boardService.update(task.board, board);
     return response;
 }
 
 //Delete the task
 export const removeTask = async (id) => {
     //Find the board by id and remove it
-    const task = await Task.findByIdAndDelete(id).exec();
-    //Return the deleted task
-    return task;
+    const task = await Task.findById(id).exec();
+    const board = await boardService.findById(task.board);
+    board.tasks = board.tasks.remove(task._id.toString());
+    await boardService.update(task.board, board);
+    return await Task.findByIdAndDelete(id).exec();
 }
 
 //Update the task by id
