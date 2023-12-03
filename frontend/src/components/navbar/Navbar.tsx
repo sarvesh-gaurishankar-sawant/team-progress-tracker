@@ -38,7 +38,7 @@ function Navbar() {
           Platform Launch
         </Typography>
       </div>
-      <div className='ml-auto mr-5 flex items-center gap-4'>
+      <div className='ml-auto mr-5 flex items-center gap-6'>
       <button className="border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400">
         <AddLogo className='mr-3'/>
         Add new task
