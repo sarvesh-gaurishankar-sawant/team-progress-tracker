@@ -4,12 +4,11 @@ import Subtask from '../models/subtask.js'
 
 // create subtask
 export const createSubtask = async (newSubtask) => {
-    const { taskId, ...subtaskData } = newSubtask;
-    const subtask = new Subtask(subtaskData);
+    const subtask = new Subtask(newSubtask);
     const subtaskSaved = await subtask.save();
-    const task = await taskService.findTaskById(taskId);
+    const task = await taskService.findTaskById(subtask.task);
     task.subtasks.push(subtaskSaved._id.toString());
-    const updatedTask = await taskService.updateTask(taskId, task);
+    await taskService.updateTask(subtask.task, task);
     return subtaskSaved;
 }
 
@@ -35,5 +34,9 @@ export const updateSubtask = async (updatedSubtask, id) => {
 
 // delete subtask
 export const deleteSubtask = async (id) => {
+    const subtask = await Subtask.findById(id).exec();
+    const task = await taskService.findTaskById(subtask.task);
+    task.subtasks = task.subtasks.remove(subtask._id.toString());
+    await taskService.updateTask(subtask.task, task);
     return await Subtask.findByIdAndDelete(id).exec();
 }

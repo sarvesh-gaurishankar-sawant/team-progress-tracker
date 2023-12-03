@@ -6,6 +6,10 @@ const SubtaskSchema = new Schema({
     title: {
         type: String,
         required: true
+    },
+    task: {
+        type: String,
+        required: true
     }
 },
 {

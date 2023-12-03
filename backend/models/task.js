@@ -35,7 +35,11 @@ const TaskSchema = new Schema({
     priority: {
         type: String,
         required: false
-    } 
+    },
+    board: {
+        type: String,
+        required: true
+    }
 },
 {
     versionKey: false
