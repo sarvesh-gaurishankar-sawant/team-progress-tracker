@@ -7,6 +7,9 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import Task from "../Tasks/Task";
 import { ColumnType } from "../type";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import {getTaskFromBoardAsync} from "../../store/task/taskSlice"
 
 
 
@@ -16,6 +19,14 @@ interface Props {
 }
 
 export default function DisplayColumn({ boardData, createNewColumn }: Props) {
+
+  //Connect to the state
+  const tasksObjectArr = useSelector((state: RootState) => state.tasksObjectArray.value);
+  //Dispatch actions, because react cant directly
+  const dispatch = useDispatch<AppDispatch>();
+
+
+
 
   const [tasksObjectArray, setTasksObjectArray] = useState<TaskType[]>([]);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
@@ -56,9 +67,13 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   }, [tasksObjectArray]);
   
   useEffect(() => {
+    
     const tasksMongoIds = boardData.tasks;
 
     const fetchTasks = async () => {
+      let tempValPromise = dispatch(getTaskFromBoardAsync(boardData));
+      let tempVal = await tempValPromise;
+      await console.log("boardData" + JSON.stringify(tempVal.payload))
       try {
         const tasksObjectPromiseArray = Promise.all(
           tasksMongoIds.map(tasksMongoId =>
@@ -69,7 +84,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
         const taskObjectArray: TaskType[] = await tasksObjectPromiseArray;
 
         const filteredTaskObjectArray = taskObjectArray.filter(task => task !== null);
-
+        console.log("filteredTaskObjectArray" + JSON.stringify(filteredTaskObjectArray))
         setTasksObjectArray(filteredTaskObjectArray);
       } catch (error) {
         console.error('Error fetching tasks:', error);
