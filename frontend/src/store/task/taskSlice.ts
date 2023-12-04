@@ -27,7 +27,7 @@ const taskSlice = createSlice({
         const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
         const overIndex = state.value.findIndex((task) => task._id === action.payload.overId);
 
-        if (state.value[activeIndex].status != state.value[overIndex].status) {
+        if (state.value[activeIndex].status !== state.value[overIndex].status) {
             state.value[activeIndex].status = state.value[overIndex].status;
             state.value =  arrayMove(state.value, activeIndex, overIndex - 1);
         }
@@ -80,9 +80,7 @@ export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], Board>(
 export const updateTaskFromBoardAsync = createAsyncThunk(
     "task/updateTaskFromBoardAsync",
     async (boardDataAndTasks: UpdateTaskState) => {
-        const tasksMongoIds = boardDataAndTasks.boardData.tasks;
-
-        const tasksObjectPromiseArray = Promise.all(
+          Promise.all(
             boardDataAndTasks.tasksObjectArray.map(task =>
               fetch(`http://localhost:3001/tasks/${task._id}`, {
                 method: 'PUT',

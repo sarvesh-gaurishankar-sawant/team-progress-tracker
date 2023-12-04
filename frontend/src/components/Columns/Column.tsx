@@ -1,7 +1,6 @@
 import { SortableContext } from "@dnd-kit/sortable";
 import { TaskType } from "../type";
 import Task from "../Tasks/Task";
-import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useSelector } from "react-redux";

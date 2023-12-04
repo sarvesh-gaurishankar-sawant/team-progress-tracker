@@ -38,7 +38,6 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
 
   //Get all the tasks for a board
   useEffect(() => {
-    const tasksMongoIds = boardData.tasks;
     const fetchTasks = async () => {
       dispatch(getTaskFromBoardAsync(boardData));
     };
@@ -46,16 +45,15 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       fetchTasks();
       setRefreshTasksData(false);
     }
-  }, [refreshTasksData]);
+  }, [refreshTasksData, boardData, dispatch]);
 
   //Update the task, in database after it is placed in different location on kanban board
   useEffect(() => {
-    const tasksMongoIds = boardData.tasks;
     const fetchTasks = async () => {
      dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
-  }, [tasksObjectArray]);
+  }, [tasksObjectArray, boardData, dispatch]);
   
   //Array of all columns in the board
   let allColumns;
