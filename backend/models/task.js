@@ -14,7 +14,7 @@ const TaskSchema = new Schema({
     },
     dueDate: {
         type: Date,
-        required: true
+        required: false
     },
     status: {
         type: String,
@@ -35,6 +35,10 @@ const TaskSchema = new Schema({
     priority: {
         type: String,
         required: false
+    },
+    index: {
+        type: Number,
+        required: true,
     },
     board: {
         type: String,
