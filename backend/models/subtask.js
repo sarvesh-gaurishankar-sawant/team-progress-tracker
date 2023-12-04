@@ -10,6 +10,10 @@ const SubtaskSchema = new Schema({
     task: {
         type: String,
         required: true
+    },
+    isComplete: {
+        type: Boolean,
+        required: true
     }
 },
 {
