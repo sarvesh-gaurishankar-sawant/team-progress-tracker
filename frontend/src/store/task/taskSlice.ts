@@ -93,8 +93,6 @@ export const updateTaskFromBoardAsync = createAsyncThunk(
     }
 );
 
-
-
 export const { swapTwoTasksIndex, addTaskToColumn } = taskSlice.actions;
 
 export default taskSlice.reducer;

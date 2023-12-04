@@ -4,15 +4,16 @@ import Task from "../Tasks/Task";
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface Props {
   columnTitle: string;
-  tasksObjectArray: TaskType[];
   index: number;
 }
 
-export default function Column({ columnTitle,  tasksObjectArray, index}: Props) {
-  
+export default function Column({ columnTitle, index}: Props) {
+  let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
   const {
     setNodeRef,
