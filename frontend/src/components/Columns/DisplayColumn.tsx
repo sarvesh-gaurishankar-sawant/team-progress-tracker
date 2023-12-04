@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@mui/material";
+import { Button } from "@mui/material";
 import Column from "./Column";
 import { Board, TaskType } from "../type";
 import { useEffect, useState } from "react";
@@ -9,6 +9,9 @@ import { ColumnType } from "../type";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import {getTaskFromBoardAsync, swapTwoTasksIndex, addTaskToColumn, updateTaskFromBoardAsync} from "../../store/task/taskSlice"
+import {setActiveColumn} from '../../store/active/activeColumnSlice';
+import {setActiveTask} from "../../store/active/activeTaskSlice";
+import Loading from "../Loading/Loading";
 
 interface Props {
     boardData: Board;
@@ -16,14 +19,14 @@ interface Props {
 }
 
 export default function DisplayColumn({ boardData, createNewColumn }: Props) {
+  //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
-  const dispatch = useDispatch<AppDispatch>();
+  let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
+  let activeTask: TaskType | null = useSelector((state: RootState) => state.activeTask.value);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
 
-  const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [activeTask, setActiveTask] = useState<TaskType | null>(null);
-  
   //Drag will trigger only after 10px drag
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -32,6 +35,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       },
     })
   );
+
   //Get all the tasks for a board
   useEffect(() => {
     const tasksMongoIds = boardData.tasks;
@@ -48,70 +52,73 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   useEffect(() => {
     const tasksMongoIds = boardData.tasks;
     const fetchTasks = async () => {
-     dispatch(updateTaskFromBoardAsync({
-      boardData,
-      tasksObjectArray
-     }));
+     dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
   }, [tasksObjectArray]);
   
-
+  //Array of all columns in the board
   let allColumns;
   let columns;
-
   if(tasksObjectArray){
     columns = boardData.columns;
     allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} index={index}/>);
   }
 
+  //On drag start set the activeTask and activeColumn state
   function onDragStart(event: DragStartEvent) {
     if (event.active.data.current?.type === "Task") {
-      setActiveTask(event.active.data.current.task);
+      const activeTask: TaskType | null = event.active.data.current.task;
+      dispatch(setActiveTask(activeTask))
       return;
     }
     if (event.active.data.current?.type === "Column") {
-      setActiveColumn(event.active.data.current.column);
+      const activeColumn: ColumnType | null = event.active.data.current.column;
+      dispatch(setActiveColumn(activeColumn));
       return;
     }
   }
+
+  //Perform action based on dragging task is over another task or column
   function onDragOver(event: DragOverEvent) {
     const { active, over } = event;
-    if (!over) return;
+    if (!over) return; //If over is undefined
+    //Get id
     const activeId = active.id;
     const overId = over.id;
+    //If it is same task return
     if (activeId === overId) return;
+    //Check if both task are Task
     const isActiveATask = active.data.current?.type === "Task";
     const isOverATask = over.data.current?.type === "Task";
-    if (!isActiveATask) return;
+    if (!isActiveATask) return; //Return if undefined
+    //Swap the id of both task
     if (isActiveATask && isOverATask) {
-      dispatch(swapTwoTasksIndex({
-        activeId,
-        overId,
-      }))
+      dispatch(swapTwoTasksIndex({activeId,overId,}))
     }
+    //If over column change the column id of task
     const isOverAColumn = over.data.current?.type === "Column"; 
     if (isActiveATask && isOverAColumn) {
-      dispatch(addTaskToColumn({
-        activeId,
-        overId,
-        boardData
-      }));
+      dispatch(addTaskToColumn({activeId,overId,boardData}));
     }
   }
+
+  //On drag end set the active column and task state to null
   function onDragEnd(event: DragEndEvent) {
-    setActiveColumn(null);
-    setActiveTask(null);
+    dispatch(setActiveTask(null));
+    dispatch(setActiveColumn(null));
   }
 
   if(allColumns){
     return (
       <DndContext onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd} sensors={sensors}>
       <div>
+        {/* Create new column button */}
         <div className="flex flex-row gap-x-9	">
         <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
         </div>
       </div>
+      {/* Portal for getting the component outside DOM */}
       {createPortal(
           <DragOverlay>
             {activeColumn && (
@@ -130,8 +137,8 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
   }
   else {
     return (
-      <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
+      // Loading component
+      <Loading />
     )
   }
-
 }

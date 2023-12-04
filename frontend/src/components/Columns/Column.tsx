@@ -13,8 +13,10 @@ interface Props {
 }
 
 export default function Column({ columnTitle, index}: Props) {
+  //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
-  const [activeTask, setActiveTask] = useState<TaskType | null>(null);
+
+  //Hook for DND
   const {
     setNodeRef,
     attributes,
@@ -39,6 +41,7 @@ export default function Column({ columnTitle, index}: Props) {
     transform: CSS.Transform.toString(transform),
   };
 
+  //If Task is dragging
   if (isDragging) {
     return (
       <div 
@@ -51,9 +54,6 @@ export default function Column({ columnTitle, index}: Props) {
       />
     );
   }
-
-
-
 
   if(tasksObjectArray.length > 0){//Filter task object
   const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)

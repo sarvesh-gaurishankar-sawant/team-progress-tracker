@@ -14,12 +14,13 @@ const initialState: TaskState = {
 
 //Create the slice
 const activeTaskSlice = createSlice({
-  name: "task",
+  name: "activetask",
   initialState,
   reducers: {
-    setActiveTask: (state, action: PayloadAction<TaskState>) => {
-        state = action.payload
-    }
+    //Set the active task slice
+    setActiveTask: (state, action: PayloadAction<TaskType | null>) => {
+        state.value = action.payload
+    },
   },
 });
 

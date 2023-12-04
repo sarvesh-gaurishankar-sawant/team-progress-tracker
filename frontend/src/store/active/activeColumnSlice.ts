@@ -14,12 +14,13 @@ const initialState: ColumnState = {
 
 //Create the slice
 const activeColumnSlice = createSlice({
-  name: "task",
+  name: "activecolumn",
   initialState,
   reducers: {
-    setActiveColumn: (state, action: PayloadAction<ColumnState>) => {
-        state = action.payload
-    }
+    //Set the active column slice
+    setActiveColumn: (state, action: PayloadAction<ColumnType | null>) => {
+      state.value = action.payload
+    },
   },
 });
 

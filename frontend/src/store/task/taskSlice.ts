@@ -22,6 +22,7 @@ const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
+    //Swap index of two task
     swapTwoTasksIndex: (state, action) => {
         const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
         const overIndex = state.value.findIndex((task) => task._id === action.payload.overId);
@@ -33,6 +34,7 @@ const taskSlice = createSlice({
 
         state.value = arrayMove(state.value, activeIndex, overIndex);
     },
+    //Change the column id of the task
     addTaskToColumn: (state, action) => {
         const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
         state.value[activeIndex].status = action.payload.boardData.columns[Number(action.payload.overId)];
@@ -54,6 +56,7 @@ const taskSlice = createSlice({
   }
 });
 
+//Get task and create an array of objects of tasks
 export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], Board>(
     "task/getTaskFromBoardAsync",
     async (boardData: Board) => {
@@ -73,6 +76,7 @@ export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], Board>(
     }
 );
 
+//Update task in database
 export const updateTaskFromBoardAsync = createAsyncThunk(
     "task/updateTaskFromBoardAsync",
     async (boardDataAndTasks: UpdateTaskState) => {

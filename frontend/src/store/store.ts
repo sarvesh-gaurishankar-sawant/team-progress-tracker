@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     tasksObjectArray: taskReducer,
     activeTask:activeTaskReducer,
-    activeColumn:activeColumnReducer
+    activeColumn:activeColumnReducer,
   },
 });
 
