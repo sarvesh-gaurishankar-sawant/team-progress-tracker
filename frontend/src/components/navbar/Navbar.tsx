@@ -32,7 +32,7 @@ function Navbar() {
   };
 
   return (
-    <div className="fixed top-0 right-0 w-9/12 bg-gray-800 h-24 flex border border-gray-900">
+    <div className="fixed top-0 right-0 w-4/5 bg-gray-800 h-24 flex border border-gray-900">
       <div className='flex items-center ml-2'>
         <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" className="text-white text-lg font-bold font-['Plus Jakarta Sans'] ">
           Platform Launch

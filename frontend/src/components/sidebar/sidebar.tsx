@@ -50,15 +50,15 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
 
 
     return (
-        <div className="fixed flex flex-col bg-gray-800 h-screen w-3/12 border border-gray-900">
+        <div className="fixed flex flex-col bg-gray-800 h-screen w-1/5 border border-gray-900">
             <div className="h-screen">
-                <div className="flex w-1/2 mx-auto mt-8">
+                <div className="flex mx-auto mt-8">
                     <FullLogo className="mx-auto" />
                 </div>
 
                 <div className="flex flex-col mt-24">
                     <div className="w-full ">
-                        <div className="text-center py-2 h-2 mb-10 uppercase text-slate-400 text-xs font-bold font-['Plus Jakarta Sans'] w-1/2 mx-auto tracking-[2.40px]">
+                        <div className="text-center py-2 h-2 mb-10 uppercase text-slate-400 text-xs font-bold font-['Plus Jakarta Sans'] mx-auto tracking-[2.40px]">
                             
                             all boards ({totalBoards})
                         </div>
@@ -77,12 +77,12 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
                 </div>
 
                 <div className="absolute inset-x-0 bottom-10 text-center">
-                    <button className="flex border border-gray-600 items-center justify-center h-12 w-[20rem] bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
+                    <button className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
                     <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={`mr-4 mt-[0.15rem] fill-mediumGrey group-hover:fill-purple   `}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="add-square"> <g> <rect data-name="--Rectangle" fill="none" height="20" id="_--Rectangle" rx="2" ry="2" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" x="2" y="2"></rect> <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="15.5" x2="8.5" y1="12" y2="12"></line> <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="15.5" y2="8.5"></line> </g> </g> </g> </g></svg>
                         <div className="text-hm capitalize">Create New Board</div>
                     </button>
 
-                    <button className="mt-4 border border-gray-600 flex items-center justify-center h-12 w-[20rem] bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
+                    <button className="mt-4 border border-gray-600 flex items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
                         <svg
                             width="18"
                             height="16"
