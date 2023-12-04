@@ -31,29 +31,22 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
     setSelectedOption(event.target.value);
   };
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setCheckedCount(checkedCount + 1);
-    } else {
-      setCheckedCount(checkedCount - 1);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
-        var result1 = await response1.json();
-        setTask(result1);
-        setSelectedOption(result1.status);
+        const taskResonse = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
+        var taskJson = await taskResonse.json();
+        setTask(taskJson);
+        setSelectedOption(taskJson.status);
 
-        const response2 = await fetch(`http://localhost:3001/subtasks/getSubtasksByTask/${taskId}`);
-        var result2 = await response2.json();
-        setSubtasks(result2);
+        const subtasksResponse = await fetch(`http://localhost:3001/subtasks/getSubtasksByTask/${taskId}`);
+        var subtasksJson = await subtasksResponse.json();
+        setSubtasks(subtasksJson);
+        setCheckedCount(subtasksJson.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
 
         const boardResponse = await fetch(`http://localhost:3001/boards/${boardId}`);
-        var board = await boardResponse.json();
-        setBoard(board);
+        var boardJson = await boardResponse.json();
+        setBoard(boardJson);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -85,6 +78,23 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
     setOpen(false);
   };
 
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setCheckedCount(checkedCount + 1);
+    } else {
+      setCheckedCount(checkedCount - 1);
+    }
+  };
+
+  // checkbox handler
+  const changeSubtaskStatus = (event: ChangeEvent<HTMLInputElement>) => {
+    const subtaskTitle = event.target.name;
+    const subtask = subtasks.find((subtask) => subtask.title === subtaskTitle);
+    subtask!.isComplete = event.target.checked;
+    setSubtasks(subtasks);
+  };
+
+  // handle modal close
   const handleClose = async () => {
     // update task
     task!.status = selectedOption;
@@ -100,7 +110,23 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
       console.log(result);
     } catch (error) {
       console.error('Error fetching data:', error);
-    } 
+    }
+    // update subtasks
+    subtasks.forEach(async (subtask) => {
+      try {
+        const response = await fetch(`http://localhost:3001/subtasks/${subtask._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(subtask)
+        });
+        var result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    });
     setOpen(false);
   };
 
@@ -139,7 +165,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
         <FormGroup onChange={handleCheckboxChange} className="w-full">
           {subtasks?.map((subtask) => (
             <div className="flex h-10.5 w-104 rounded-[4px] bg-[#20212c] hover:bg-[#393959] mt-2 w-full">
-              <FormControlLabel control={<Checkbox />} label={subtask.title} className="text-white pl-4" />
+              <FormControlLabel control={<Checkbox checked={subtask.isComplete} onChange={changeSubtaskStatus} name={subtask.title}/>} label={subtask.title} className="text-white pl-4" />
             </div>)
           )}
         </FormGroup>
