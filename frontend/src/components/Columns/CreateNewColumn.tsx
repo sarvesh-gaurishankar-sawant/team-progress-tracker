@@ -21,7 +21,9 @@ export default function CreateNewColumn({ boardData }: Props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    if(boardName !== "" && !(inputValues.filter(val => val === "").length > 0)){
+      setOpen(false);
+    }
   };
 
 
@@ -70,7 +72,7 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                     type="text"
                     name="boardname"
                     value={boardName}
-                    className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2 bg-[#2B2C37] border-solid border-gray-500 border-2'
+                    className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2 bg-[#2B2C37] border-solid border-gray-500 border-2 text-white'
                     onChange={handleBoardNameChange}
                     required
                 />
@@ -81,7 +83,7 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                       type="text"
                       value={value}
                       onChange={(e) => handleInputChange(index, e.target.value)}
-                      className='rounded-sm px-3.5 py-2 w-10/12 bg-[#2B2C37] border-solid border-gray-500 border-2'
+                      className='rounded-sm px-3.5 py-2 w-10/12 bg-[#2B2C37] border-solid border-gray-500 border-2 text-white'
                       required
                     />
                     <button type='button' onClick={() => removeInput(index)}><Delete /></button>
