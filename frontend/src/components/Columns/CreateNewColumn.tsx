@@ -26,8 +26,6 @@ export default function CreateNewColumn({ boardData }: Props) {
     }
   };
 
-  
-
  // State to manage the inputs' values
  const [inputValues, setInputValues] = React.useState<string[]>([]);
  const [boardName, setBoardName] = React.useState("");
@@ -39,6 +37,22 @@ export default function CreateNewColumn({ boardData }: Props) {
   },
   []
  )
+
+  const boardColumnNameUpdate = async () => {
+    fetch(`http://localhost:3001/boards/${boardData._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          ...boardData,
+          columns: inputValues,
+          name: boardName
+        }),
+      })
+      .then(response => response.json())
+  };
+
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {
@@ -62,12 +76,6 @@ export default function CreateNewColumn({ boardData }: Props) {
   function handleBoardNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setBoardName(event.target.value)
   }
-
-function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault()
-    // submitToApi(formData)
-}
-
 
 
   return (
@@ -101,7 +109,7 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                   </div>
                 ))}
                 <button className="bg-[#FFFFFF] text-[#635FC7] mx-auto w-10/12 mb-4 font-bold px-3.5 py-2 rounded-xl" onClick={addInput} type='button'>+ Add New Columns</button>
-                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={handleClose} type='submit'>Save Changes</button>
+                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='submit'>Save Changes</button>
             </form>
       </Dialog>
     </React.Fragment>

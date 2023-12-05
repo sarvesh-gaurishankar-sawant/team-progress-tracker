@@ -68,18 +68,18 @@ export default function Column({ columnTitle, index}: Props) {
   const tasksIds = filterTasksData.map(task => task._id)
 
   return (
-      <div className="w-72 touch-none" >
+      <div className="w-72" >
         {/* Column Title */}
-        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
+        <div key={index} className="mb-6" ref={setNodeRef} style={style} >{columnTitle}</div>
         {/* Tasks */}
         {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
       </div>
   )}
   else {
     return (
-      <div className="w-72 touch-none" >
+      <div className="w-72" >
         {/* Column Title */}
-        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
+        <div key={index} className="mb-6" ref={setNodeRef} style={style} >{columnTitle}</div>
       </div>
   )
   }
