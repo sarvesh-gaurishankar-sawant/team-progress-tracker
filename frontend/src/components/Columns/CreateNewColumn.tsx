@@ -1,11 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Delete from '../../icons/Delete';
 import { Board } from '../type';
 
@@ -77,6 +72,7 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                     value={boardName}
                     className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2 bg-[#2B2C37] border-solid border-gray-500 border-2'
                     onChange={handleBoardNameChange}
+                    required
                 />
                 <h3 className='mb-2 text-white font-bold'>Board Columns</h3>
                 {inputValues.map((value, index) => (
@@ -86,6 +82,7 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                       value={value}
                       onChange={(e) => handleInputChange(index, e.target.value)}
                       className='rounded-sm px-3.5 py-2 w-10/12 bg-[#2B2C37] border-solid border-gray-500 border-2'
+                      required
                     />
                     <button type='button' onClick={() => removeInput(index)}><Delete /></button>
                   </div>
