@@ -80,10 +80,10 @@ export default function CreateNewColumn({ boardData }: Props) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen} className="w-72 h-screen">
-        Open form dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}}>
+      <button onClick={handleClickOpen} className="w-72 h-screen bg-[#22232E]" >
+          <span className='text-zinc-400 text-2xl font-bold'>+ New Column</span>
+      </button>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
                 <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
                 <h3 className='mb-2 text-white font-bold'>Board Name</h3>

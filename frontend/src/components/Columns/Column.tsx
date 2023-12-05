@@ -70,7 +70,7 @@ export default function Column({ columnTitle, index}: Props) {
   return (
       <div className="w-72" >
         {/* Column Title */}
-        <div key={index} className="mb-6" ref={setNodeRef} style={style} >{columnTitle}</div>
+        <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
         {/* Tasks */}
         {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
       </div>
@@ -79,7 +79,7 @@ export default function Column({ columnTitle, index}: Props) {
     return (
       <div className="w-72" >
         {/* Column Title */}
-        <div key={index} className="mb-6" ref={setNodeRef} style={style} >{columnTitle}</div>
+        <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
       </div>
   )
   }
