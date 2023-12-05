@@ -7,12 +7,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Delete from '../../icons/Delete';
+import { Board } from '../type';
 
 interface NewBoardColumn {
   boardName: String;
   boardColumns: String[];
 }
-export default function CreateNewColumn() {
+
+interface Props {
+  boardData: Board;
+}
+export default function CreateNewColumn({ boardData }: Props) {
+  
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -23,15 +29,10 @@ export default function CreateNewColumn() {
     setOpen(false);
   };
 
-  const [formData, setFormData] = React.useState(
-    {
-        boardName: "", 
-        boardColumns: "", 
-    }
-)
 
  // State to manage the inputs' values
  const [inputValues, setInputValues] = React.useState<string[]>([]);
+ const [boardName, setBoardName] = React.useState("");
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {
@@ -52,12 +53,13 @@ export default function CreateNewColumn() {
     setInputValues(newValues);
   };
 
-
+  function handleBoardNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setBoardName(event.target.value)
+  }
 
 function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault()
     // submitToApi(formData)
-    console.log(formData)
 }
 
   return (
@@ -71,9 +73,10 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
                 <h3 className='mb-2 text-white font-bold'>Board Name</h3>
                 <input
                     type="text"
-                    name="firstName"
-                    value={formData.boardName}
+                    name="boardname"
+                    value={boardName}
                     className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2 bg-[#2B2C37] border-solid border-gray-500 border-2'
+                    onChange={handleBoardNameChange}
                 />
                 <h3 className='mb-2 text-white font-bold'>Board Columns</h3>
                 {inputValues.map((value, index) => (

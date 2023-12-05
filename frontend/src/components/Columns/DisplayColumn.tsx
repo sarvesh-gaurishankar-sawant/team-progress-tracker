@@ -115,7 +115,7 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
         {/* Create new column button */}
         <div className="flex flex-row gap-x-9	">
         {/* <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div> */}
-        <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn key="add_new_column" />]}</div>
+        <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn boardData={boardData}/>]}</div>
         </div>
       </div>
       {/* Portal for getting the component outside DOM */}
