@@ -26,10 +26,19 @@ export default function CreateNewColumn({ boardData }: Props) {
     }
   };
 
+  
 
  // State to manage the inputs' values
  const [inputValues, setInputValues] = React.useState<string[]>([]);
  const [boardName, setBoardName] = React.useState("");
+
+ React.useEffect(
+  () => {
+    setBoardName(boardData.name);
+    setInputValues(boardData.columns);
+  },
+  []
+ )
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {
@@ -58,6 +67,8 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault()
     // submitToApi(formData)
 }
+
+
 
   return (
     <React.Fragment>
