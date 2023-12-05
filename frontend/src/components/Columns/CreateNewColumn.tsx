@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Delete from '../../icons/Delete';
 
 interface NewBoardColumn {
   boardName: String;
@@ -66,24 +67,24 @@ function handleSubmit(event: React.ChangeEvent<HTMLInputElement>) {
       </Button>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}}>
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
-                <h2 className='mb-4 text-white font-bold'>Edit Board</h2>
+                <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
                 <h3 className='mb-2 text-white font-bold'>Board Name</h3>
                 <input
                     type="text"
                     name="firstName"
                     value={formData.boardName}
-                    className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2'
+                    className='mx-auto w-10/12 mb-4 rounded-sm px-3.5 py-2 bg-[#2B2C37] border-solid border-gray-500 border-2'
                 />
                 <h3 className='mb-2 text-white font-bold'>Board Columns</h3>
                 {inputValues.map((value, index) => (
-                  <div key={index} className='mx-auto flex flex-row w-10/12 justify-between mb-2'>
+                  <div key={index} className='mx-auto flex flex-row w-10/12 justify-between mb-3'>
                     <input
                       type="text"
                       value={value}
                       onChange={(e) => handleInputChange(index, e.target.value)}
-                      className='rounded-sm px-3.5 py-2 w-10/12'
+                      className='rounded-sm px-3.5 py-2 w-10/12 bg-[#2B2C37] border-solid border-gray-500 border-2'
                     />
-                    <button type='button' onClick={() => removeInput(index)}>Remove</button>
+                    <button type='button' onClick={() => removeInput(index)}><Delete /></button>
                   </div>
                 ))}
                 <button className="bg-[#FFFFFF] text-[#635FC7] mx-auto w-10/12 mb-4 font-bold px-3.5 py-2 rounded-xl" onClick={addInput} type='button'>+ Add New Columns</button>
