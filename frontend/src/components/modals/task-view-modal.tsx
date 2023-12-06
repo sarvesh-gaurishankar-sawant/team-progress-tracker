@@ -7,13 +7,15 @@ import { ISubtask } from "../../model interfaces/ISubtask";
 import { IBoard } from "../../model interfaces/IBoard";
 import TaskEditModal from "./task-edit-modal";
 import { set } from "mongoose";
+import TaskEdit from "./task-edit";
 
 interface TaskViewModalProps {
     taskId: string;
     boardId: string; // Replace with the actual type of your parameter
+    setShowFalse: () => void;
   }
 
-const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
+const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowFalse }) => {
   const [task, setTask] = useState<ITask>();
   const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
   const [board, setBoard] = useState<IBoard>();
@@ -30,6 +32,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
   const handleDropdownChange = (event: SelectChangeEvent<string>) => {
     setSelectedOption(event.target.value);
   };
+  const [showTaskEdit, setShowTaskEdit] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,10 +61,14 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
 
   const [open, setOpen] = useState(true);
 
+  const showMessage = () => {
+    alert('Task updated!');
+  }
+
   const handleEditTaskEvent = () => {
     console.log('edit task');
     setOpen(false);
-    <TaskEditModal taskId={taskId} boardId={boardId}/>
+    setShowTaskEdit(true);
   };
 
   const handleDeleteTaskEvent = async () => {
@@ -128,11 +135,13 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
       }
     });
     setOpen(false);
+    setShowFalse();
   };
 
   return (
-    <Modal open={open} onClose={handleClose} className="flex items-center justify-center">
-      <div className="flex flex-col items-start justify-start w-[480px] h-auto colum  bg-[#2b2c36] p-8 w-120 h-93" >
+    <div>
+      <Modal open={open} onClose={handleClose} className="flex items-center justify-center">
+      <div className="flex flex-col items-start justify-start w-[480px] h-auto bg-[#2b2c36] p-8 w-120 h-93" >
         <div className="mb-6 w-full flex justify-between align-middle items-center">
           <Typography className="text-white text-lg">
             {task?.title}
@@ -189,7 +198,12 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId }) => {
           
           
         </div>
+    
     </Modal>
+    {showTaskEdit && <TaskEdit />}
+    
+    </div>
+
   );
 }
 
