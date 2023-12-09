@@ -6,11 +6,18 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Navigation from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/sidebar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function App() {
   return (
     <div>
-      <HomeScreen />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/board" element={<HomeScreen />}>
+            
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }
