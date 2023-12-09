@@ -26,17 +26,22 @@ const taskSlice = createSlice({
     swapTwoTasksIndex: (state, action) => {
         const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
         const overIndex = state.value.findIndex((task) => task._id === action.payload.overId);
-
         if (state.value[activeIndex].status !== state.value[overIndex].status) {
+            let tempIndex = state.value[activeIndex].index;
+            state.value[activeIndex].index = state.value[overIndex].index;
+            state.value[overIndex].index = tempIndex;
             state.value[activeIndex].status = state.value[overIndex].status;
             state.value =  arrayMove(state.value, activeIndex, overIndex - 1);
         }
-
+        let tempIndex = state.value[activeIndex].index;
+        state.value[activeIndex].index = state.value[overIndex].index;
+        state.value[overIndex].index = tempIndex;
         state.value = arrayMove(state.value, activeIndex, overIndex);
     },
     //Change the column id of the task
     addTaskToColumn: (state, action) => {
         const activeIndex = state.value.findIndex((task) => task._id === action.payload.activeId);
+        state.value[activeIndex].index = 1;
         state.value[activeIndex].status = action.payload.boardData.columns[Number(action.payload.overId)];
         state.value = arrayMove(state.value, activeIndex, activeIndex) ;
     }

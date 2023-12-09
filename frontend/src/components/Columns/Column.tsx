@@ -60,19 +60,24 @@ export default function Column({ columnTitle, index}: Props) {
   //Display task previews on column
   const tasksPreviewData = filterTasksData.map(taskPreviewData => {
     return(
-      <Task key={taskPreviewData._id} task={taskPreviewData}/>
+      <Task key={taskPreviewData._id} task={taskPreviewData} />
     )
   })
 
+  const sortedTasksPreviewData = tasksPreviewData.sort(
+    (taskA, taskB) => taskA.props.task.index - taskB.props.task.index
+  );
+
   //Get all ids
-  const tasksIds = filterTasksData.map(task => task._id)
+  const tasksIds = sortedTasksPreviewData.map(task => task.props.task.index)
+  
 
   return (
       <div className="w-72" >
         {/* Column Title */}
         <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
         {/* Tasks */}
-        {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
+        {<SortableContext items={tasksIds}>{sortedTasksPreviewData}</SortableContext>}
       </div>
   )}
   else {
