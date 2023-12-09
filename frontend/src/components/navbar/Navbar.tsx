@@ -1,77 +1,78 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Logo from '../icons/Logo';
-import { ReactComponent as DropdownIcon } from '../../assets/svg/drop-down-icon.svg';
-import { ReactComponent as AddLogo } from '../../assets/svg/addlogo.svg';
-import { ReactComponent as KebabMenu } from '../../assets/svg/kebab-menu-icon.svg';
+import AddIcon from '@mui/icons-material/Add';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MenuIcon from '@mui/icons-material/Menu';
+import Sidebar from '../sidebar/sidebar';
+import '../../styles/styles.css';
+
+interface NavbarProps {
+  toggleSidebar: () => void;
+}
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const NavBar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust as needed for your mobile breakpoint
+    };
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   return (
-    <div className="fixed top-0 right-0 w-4/5 bg-gray-800 h-24 flex border border-gray-900">
-      <div className='flex items-center ml-2'>
-        <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" className="text-white text-lg font-bold font-['Plus Jakarta Sans'] ">
-          Platform Launch
-        </Typography>
-      </div>
-      <div className='ml-auto mr-5 flex items-center gap-6'>
-      <button className="border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400">
-        <AddLogo className='mr-3'/>
-        Add new task
-      </button>
-        <button className=''>
-        <KebabMenu className='h-8' />
-        </button>
+<div className={`fixed top-0 right-0 ${isMobile ? 'w-full' : 'w-4/5'} bg-gray-800 h-24 flex justify-between items-center border border-gray-900`}>
+{isMobile && (
+        <div className='ml-2'>
+          {/* Hamburger Icon for mobile */}
+          <MenuIcon
+            className="mobile-view-toggle h-6 w-6 cursor-pointer text-white"
+            onClick={toggleSidebar} // Toggle sidebar on click
+          />
+        </div>
+      )}
+      <div className='flex items-center flex-grow'>
+        <div className='ml-2'>
+          {/* Platform Launch Text */}
+          <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" className="text-white text-lg font-bold font-['Plus Jakarta Sans']">
+            Platform Launch
+          </Typography>
+        </div>
+        <div className='flex-grow' />
+        {!isMobile && (
+          <div className='mr-5 flex items-center gap-6'>
+            {/* Add Button - Desktop View */}
+            <button className={`border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400`}>
+              <AddIcon sx={{ marginRight: 1 }} />
+              Add new task
+            </button>
+            {/* Kebab Menu - Desktop View */}
+            <button>
+              <MoreVertIcon className='h-8' />
+            </button>
+          </div>
+        )}
+        {isMobile && (
+          <div className='mr-5 flex items-center gap-6'>
+            {/* Add Button - Mobile View */}
+            <button className={`border border-gray-600 flex items-center justify-center h-8 w-8 bg-[#625FC7] text-white rounded-full py-1 px-2 hover:bg-purple-400`}>
+              <AddIcon />
+            </button>
+            <button>
+              <MoreVertIcon className='h-8' />
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );
-}
-export default Navbar;
+};
 
-{/* <AppBar position="relative" className='w-[9/12]'>
-  <Container className="flex justify-end items-center bg-gray-800 h-24">
-    <Toolbar disableGutters className='flex items-center'>
-      <div className='flex items-center gap-2'>
-        <Logo />
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          href="#app-bar-with-responsive-menu"
-          className="text-white text-lg font-bold font-['Plus Jakarta Sans']"
-        >
-          Platform Launch
-        </Typography>
-        <DropdownIcon className="w-2 h-2 mx-1" />
-      </div>
-      <div className='ml-auto flex items-center gap-4'>
-        <AddLogo />
-        <KebabMenu className='h-4 mt-2' />
-      </div>
-    </Toolbar>
-  </Container>
-</AppBar> */}
+export default NavBar;
