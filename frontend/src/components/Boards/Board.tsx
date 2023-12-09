@@ -26,7 +26,7 @@ export default function Board() {
   //Get all the boards for the user
   const allBoards = useEffect(() => {
     if (setRefereshBoardsData) {
-      fetch('http://localhost:3001/boards/?userId=656aa538b391863d91b13869')
+      fetch('http://localhost:3001/boards/?userId=656f53065eab521c4c888b7e')
         .then(response => response.json())
         .then(boards => {
           setBoards(boards)
@@ -69,7 +69,7 @@ export default function Board() {
     boardData = boards[0];
   return (
     <div className="overflow-x-auto h-screen">   
-        <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>
+        <DisplayColumn boardData={boardData}/>
         {/* <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
         {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
         {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>} */}
@@ -80,25 +80,5 @@ export default function Board() {
     return (
       <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
     )
-  }
-
-  function createNewColumn(){
-    const columnIndex: number = columns.length;
-    const newColumn: Column = {
-      index: columnIndex,
-      title: `Column Title ${columnIndex}`
-    }
-    setColumns([...columns, newColumn]);
-  }
-
-  function createNewTask() {
-    const taskIndex: number = tasks.length;
-    const newTask: Task = {
-      index: taskIndex,
-      title: `Task Title ${taskIndex}`,
-      columnName: columns[0]?.title
-    }
-    setTasks([...tasks, newTask]);
-    console.log(tasks)
   }
 }

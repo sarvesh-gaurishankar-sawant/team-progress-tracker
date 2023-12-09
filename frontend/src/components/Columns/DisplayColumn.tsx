@@ -12,13 +12,13 @@ import {getTaskFromBoardAsync, swapTwoTasksIndex, addTaskToColumn, updateTaskFro
 import {setActiveColumn} from '../../store/active/activeColumnSlice';
 import {setActiveTask} from "../../store/active/activeTaskSlice";
 import Loading from "../Loading/Loading";
+import CreateNewColumn from "./CreateNewColumn";
 
 interface Props {
     boardData: Board;
-    createNewColumn: () => void
 }
 
-export default function DisplayColumn({ boardData, createNewColumn }: Props) {
+export default function DisplayColumn({ boardData }: Props) {
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
@@ -113,7 +113,8 @@ export default function DisplayColumn({ boardData, createNewColumn }: Props) {
       <div>
         {/* Create new column button */}
         <div className="flex flex-row gap-x-9	">
-        <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div>
+        {/* <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div> */}
+        <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn key="add_new_column" boardData={boardData}/>]}</div>
         </div>
       </div>
       {/* Portal for getting the component outside DOM */}
