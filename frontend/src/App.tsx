@@ -4,13 +4,12 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Navigation from "./components/navbar/Navbar";
-import Sidebar from "./components/sidebar/sidebar";
+import ResponsiveAppBar from "./components/navbar/HomeNavbar";
 
 export default function App() {
   return (
     <div>
-      <HomeScreen />
+      <ResponsiveAppBar />
     </div>
   )
 }
