@@ -16,7 +16,6 @@ interface TaskCardProps {
   onClose: () => void;
 }
 
-const PRIORITY_OPTIONS = ["Low", "Medium", "High", "Urgent"];
 
 const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose }) => {
   const [task, setTask] = useState<Task>({
