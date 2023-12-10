@@ -5,7 +5,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Navigation from "./components/navbar/Navbar";
-import Sidebar from "./components/sidebar/sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./components/Boards/Board";
 

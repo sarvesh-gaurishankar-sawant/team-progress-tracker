@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from "../sidebar/sidebar";
+import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import '../../styles/styles.css';
 import Board from '../Boards/Board';

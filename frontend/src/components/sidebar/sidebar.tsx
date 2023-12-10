@@ -4,6 +4,7 @@ import { ReactComponent as BoardLogo } from '../../assets/svg/board-icon.svg';
 import { Button, Typography } from "@mui/material";
 import '../../styles/styles.css';
 import PlusIcon from "../../icons/PlusIcon";
+import { Link } from "react-router-dom";
 
 interface Board {
     _id: string;
@@ -84,16 +85,16 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId, isSidebarOpen, setIsSi
                             all boards ({totalBoards})
                         </div>
                         {boards.map((board, index) => (
-                            <button
+                            <Link
                                 key={index}
                                 className={`w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex bg-purple-500 text-white uppercase items-center justify-center
                             ${
                                 activeButtonIndex === index ? 'bg-purple-500 text-white' : 'bg-transparent text-gray-500'
                             } ${!isMobile ? 'hover:bg-gray-400': 'hover:bg-purple-500'} hover:text-white`}
-                                onClick={() => handleButtonClick(index)}
+                                to={board._id}
                             >
                                 <span className="">{board.name}</span>
-                            </button>
+                            </Link>
                         ))}
                     </div>
                 </div>
