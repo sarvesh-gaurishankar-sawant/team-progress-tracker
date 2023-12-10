@@ -1,10 +1,13 @@
 import { SortableContext } from "@dnd-kit/sortable";
-import { TaskType } from "../type";
+import { BoardType, TaskType } from "../type";
 import Task from "../Tasks/Task";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import { useEffect } from "react";
+import { UniqueIdentifier } from "@dnd-kit/core";
+import {getTaskFromBoardAsync} from "../../store/task/taskSlice"
 
 interface Props {
   columnTitle: string;
@@ -12,8 +15,26 @@ interface Props {
 }
 
 export default function Column({ columnTitle, index}: Props) {
+  const dispatch = useDispatch<AppDispatch>();
+  
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
+  const emptyBoard: BoardType= {
+    columns: [],
+    name: "",
+    tasks: [],
+    _id: ""
+  }
+  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      dispatch(getTaskFromBoardAsync(boardData));
+    };
+
+      fetchTasks();
+
+  }, [boardData]);
 
   //Hook for DND
   const {
@@ -54,33 +75,38 @@ export default function Column({ columnTitle, index}: Props) {
     );
   }
 
-  if(tasksObjectArray.length > 0){//Filter task object
-  const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)
 
-  //Display task previews on column
-  const tasksPreviewData = filterTasksData.map(taskPreviewData => {
-    return(
-      <Task key={taskPreviewData._id} task={taskPreviewData}/>
-    )
-  })
+  if(tasksObjectArray.length > 0){
+    const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)
+  
+    //Display task previews on column
+    const tasksPreviewData = filterTasksData.map(taskPreviewData => {
+      return(
+        <Task key={taskPreviewData._id} task={taskPreviewData} />
+      )
+    })
+  
+    const sortedTasksPreviewData = tasksPreviewData.sort(
+      (taskA, taskB) => taskA.props.task.index - taskB.props.task.index
+    );
+  
+    //Get all ids
+    const tasksIds = sortedTasksPreviewData.map(task => task.props.task.index)
 
-  //Get all ids
-  const tasksIds = filterTasksData.map(task => task._id)
-
-  return (
-      <div className="w-72 touch-none" >
-        {/* Column Title */}
-        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
-        {/* Tasks */}
-        {<SortableContext items={tasksIds}>{tasksPreviewData}</SortableContext>}
-      </div>
-  )}
-  else {
+    
     return (
-      <div className="w-72 touch-none" >
-        {/* Column Title */}
-        <div key={index} className="mb-6 touch-none" ref={setNodeRef} style={style} >{columnTitle}</div>
+      <div className="w-72" >
+      {/* Column Title */}
+      <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
+      {/* Tasks */}
+      {<SortableContext items={tasksIds}>{sortedTasksPreviewData}</SortableContext>}
       </div>
-  )
+    )
   }
+  return (
+    <div className="w-72" >
+      {/* Column Title */}
+      <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
+    </div>
+  )
 }

@@ -1,5 +1,5 @@
 
-export type Board = {
+export type BoardType = {
     columns: string[];
     name: string;
     tasks: string[];

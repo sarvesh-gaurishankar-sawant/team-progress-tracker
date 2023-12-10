@@ -46,7 +46,7 @@ export default function Task({ task }: Props) {
   return (
     <div 
       key={task._id} 
-      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold  hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab touch-none"  
+      className="w-72 mb-6 bg-[#2B2C37] h-24	rounded py-7 px-5 font-bold  hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab touch-none text-lg"  
       ref={setNodeRef}
       style={style}
       {...attributes}

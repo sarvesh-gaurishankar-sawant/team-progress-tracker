@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
+import { getBoardAsync } from "../../store/active/activeBoardSlice"
+import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import { useParams } from "react-router-dom";
+import { BoardType } from "../type";
 
 type Column = {
   index: number;
@@ -13,8 +19,13 @@ type Task = {
   columnName: string;
 }
 
+interface Props {
+  isSidebarOpen: Boolean
+}
+
 export default function Board() {
 
+  const params = useParams()
 
   //State to get all the boards
   const [boards, setBoards] = useState([]);
@@ -22,57 +33,24 @@ export default function Board() {
   const [columns, setColumns] = useState<Column[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
+  let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
   
-  //Get all the boards for the user
-  const allBoards = useEffect(() => {
-    if (setRefereshBoardsData) {
-      fetch('http://localhost:3001/boards/?userId=656aa538b391863d91b13869')
-        .then(response => response.json())
-        .then(boards => {
-          setBoards(boards)
-          setRefereshBoardsData(false)
-        })
-    }
-  }, [refreshBoardsData])
+  const dispatch = useDispatch<AppDispatch>();
+
+  let paramsId: string = params?.id || ""
+  useEffect(() => {
+    const fetchTasks = async () => {
+      dispatch(getBoardAsync(paramsId));
+    };
+    fetchTasks(); 
+  }, [params.id]);
   
-  // return (
-  //   <div className="overflow-x-auto h-screen">   
-  //       <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
-  //       {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-  //       {columns.length !== 0 && <DisplayColumn columns={columns} createNewColumn={createNewColumn}/>}
-  //   </div>  
-  // )
+  if(boardData !== null){
 
-  // function createNewColumn(){
-  //   const columnIndex: number = columns.length;
-  //   const newColumn: Column = {
-  //     index: columnIndex,
-  //     title: `Column Title ${columnIndex}`
-  //   }
-  //   setColumns([...columns, newColumn]);
-  // }
-
-  // function createNewTask() {
-  //   const taskIndex: number = tasks.length;
-  //   const newTask: Task = {
-  //     index: taskIndex,
-  //     title: `Task Title ${taskIndex}`,
-  //     columnName: columns[0]?.title
-  //   }
-  //   setTasks([...tasks, newTask]);
-  //   console.log(tasks)
-  // }
-
-  //TODO-Sarvesh: This is temprory need to remove this and use Shashwat nav bar to send data here
-  let boardData;
-  if(boards.length != 0){
-    boardData = boards[0];
   return (
     <div className="overflow-x-auto h-screen">   
-        <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>
-        {/* <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
-        {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-        {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>} */}
+        <div className={!isSidebarOpen ? 'mt-28 ml-12 sm:ml-96' : 'mt-28 ml-72 sm:ml-96'}><DisplayColumn/></div>
     </div>  
   ) 
   }
@@ -80,25 +58,5 @@ export default function Board() {
     return (
       <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
     )
-  }
-
-  function createNewColumn(){
-    const columnIndex: number = columns.length;
-    const newColumn: Column = {
-      index: columnIndex,
-      title: `Column Title ${columnIndex}`
-    }
-    setColumns([...columns, newColumn]);
-  }
-
-  function createNewTask() {
-    const taskIndex: number = tasks.length;
-    const newTask: Task = {
-      index: taskIndex,
-      title: `Task Title ${taskIndex}`,
-      columnName: columns[0]?.title
-    }
-    setTasks([...tasks, newTask]);
-    console.log(tasks)
   }
 }
