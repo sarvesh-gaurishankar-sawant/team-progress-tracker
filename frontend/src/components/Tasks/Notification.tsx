@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
 
 interface NotificationProps {
   message: string;
@@ -6,6 +8,9 @@ interface NotificationProps {
 }
 
 const Notification: React.FC<NotificationProps> = ({ message, onTaskCreate }) => {
+
+  
+
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {

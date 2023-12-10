@@ -42,7 +42,8 @@ const NavBar: React.FC = () => {
     setNotificationMessage('Task successfully created!');
   };
 
-  let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
+
+
 
   
 
