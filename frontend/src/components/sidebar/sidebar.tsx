@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ReactComponent as FullLogo } from '../../assets/svg/full-icon.svg';
-import { ReactComponent as BoardLogo } from '../../assets/svg/board-icon.svg';
-import { Button, Typography } from "@mui/material";
-import '../../styles/styles.css';
 import PlusIcon from "../../icons/PlusIcon";
-import { Link, NavLink } from "react-router-dom";
-import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store"
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store"
 
 interface Board {
     _id: string;

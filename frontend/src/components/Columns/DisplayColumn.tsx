@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import Column from "./Column";
 import { BoardType, TaskType } from '../type';
 import { useEffect, useState } from "react";
@@ -14,11 +13,6 @@ import {setActiveTask} from "../../store/active/activeTaskSlice";
 import Loading from "../Loading/Loading";
 import CreateNewColumn from "./CreateNewColumn";
 import { useParams } from "react-router-dom";
-
-
-interface Props {
-    boardData: BoardType;
-}
 
 export default function DisplayColumn() {
   const params = useParams()

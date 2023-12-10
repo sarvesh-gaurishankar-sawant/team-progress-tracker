@@ -4,8 +4,6 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from '../sidebar/Sidebar';
-import '../../styles/styles.css';
 import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
@@ -18,7 +16,6 @@ const NavBar: React.FC = () => {
 
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768); // Adjust as needed for your mobile breakpoint
@@ -28,7 +25,6 @@ const NavBar: React.FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   return (
 <div className={`fixed top-0 right-0 ${isMobile ? 'w-full' : 'w-4/5'} bg-gray-800 h-24 flex justify-between items-center border border-gray-900`}>

@@ -1,38 +1,15 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
 import { getBoardAsync } from "../../store/active/activeBoardSlice"
-import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import { useParams } from "react-router-dom";
 import { BoardType } from "../type";
 
-type Column = {
-  index: number;
-  title: string;
-}
-
-type Task = {
-  index: number;
-  title: string;
-  columnName: string;
-}
-
-interface Props {
-  isSidebarOpen: Boolean
-}
-
 export default function Board() {
-
   const params = useParams()
-
-  //State to get all the boards
-  const [boards, setBoards] = useState([]);
-  const [refreshBoardsData, setRefereshBoardsData ] = useState(true)
-  const [columns, setColumns] = useState<Column[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
-
+  
   let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
   
@@ -44,7 +21,7 @@ export default function Board() {
       dispatch(getBoardAsync(paramsId));
     };
     fetchTasks(); 
-  }, [params.id]);
+  }, [paramsId, dispatch]);
   
   if(boardData !== null){
 

@@ -6,7 +6,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import { useEffect } from "react";
-import { UniqueIdentifier } from "@dnd-kit/core";
 import {getTaskFromBoardAsync} from "../../store/task/taskSlice"
 
 interface Props {
@@ -31,10 +30,8 @@ export default function Column({ columnTitle, index}: Props) {
     const fetchTasks = async () => {
       dispatch(getTaskFromBoardAsync(boardData));
     };
-
       fetchTasks();
-
-  }, [boardData]);
+  }, [boardData, dispatch]);
 
   //Hook for DND
   const {

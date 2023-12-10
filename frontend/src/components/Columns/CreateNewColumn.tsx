@@ -1,22 +1,11 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
-import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
-interface NewBoardColumn {
-  boardName: String;
-  boardColumns: String[];
-}
-
-interface Props {
-  boardData: BoardType;
-}
 export default function CreateNewColumn() {
-  const params = useParams()
 
   const emptyBoard: BoardType= {
     columns: [],

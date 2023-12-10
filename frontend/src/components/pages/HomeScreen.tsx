@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import '../../styles/styles.css';
-import Board from '../Boards/Board';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 const HomeScreen = () => {
 
