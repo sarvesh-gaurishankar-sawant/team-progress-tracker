@@ -6,8 +6,7 @@ interface Task {
   description: string;
   status: string;
   subtasks: string[];
-  label: string;
-  priority?: string;
+
 }
 
 interface TaskCardProps {
@@ -25,8 +24,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
     description: '',
     status: 'todo',
     subtasks: [''],
-    label: '',
-    priority: 'Medium',
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +71,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
       description: task.description,
       status: task.status,
       subtasks: task.subtasks,
-      priority: task.priority,
     };
   
     try {
@@ -97,8 +93,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
         description: '',
         status: 'todo',
         subtasks: [''],
-        label: '',
-        priority: 'Medium',
       });
       onClose();
     } catch (error) {
