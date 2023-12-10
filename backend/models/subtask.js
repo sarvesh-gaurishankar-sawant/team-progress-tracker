@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const SubtaskSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        isComplete: false
     }
 },
 {
