@@ -87,7 +87,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
       });
   
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response}`);
       }
   
       const result = await response.json();
@@ -145,21 +145,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
                 rows={4}
                 variant="filled"
               />
-            </div>
-
-            <div className="space-y-2">
-              <div className="text-sm text-white">Label</div>
-              <TextField
-                id="label"
-                className=" text-white border border-[#525960] rounded py-2 px-3 block w-full"
-                InputProps={{ className: "text-white", disableUnderline: true, style: {color: '#fff'} }}
-                name="label"
-                value={task.label}
-                onChange={handleChange}
-                variant="filled"
-              />
-            </div>
-            
+            </div>            
             <div className="space-y-2">
             <div className="text-sm font-bold mb-4 text-white">Subtasks</div>
             {task.subtasks.map((subtask, index) => (
@@ -207,23 +193,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
               </Select>
             </div>
 
-          <div className="space-y-2">
-          <div className="text-sm text-white">Priority</div>
-            <Select
-              labelId="priority-label"
-              id="priority"
-              name="priority"
-              value={task.priority}
-              onChange={handlePriorityChange}
-              className="bg-[#2A2E33] text-white border border-[#525960] rounded py-2 px-3 block w-full"
-              inputProps={{ 'aria-label': 'Priority' }}
-              style={{color: '#fff'}}
-            >
-            {PRIORITY_OPTIONS.map((option) => (
-              <MenuItem key={option} value={option}>{option}</MenuItem>
-            ))}
-            </Select>
-          </div>
             
             <button
               type="button"
