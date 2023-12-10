@@ -3,6 +3,7 @@ import { ReactComponent as FullLogo } from '../../assets/svg/full-icon.svg';
 import { ReactComponent as BoardLogo } from '../../assets/svg/board-icon.svg';
 import { Button, Typography } from "@mui/material";
 import '../../styles/styles.css';
+import PlusIcon from "../../icons/PlusIcon";
 
 interface Board {
     _id: string;
@@ -99,62 +100,7 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId, isSidebarOpen, setIsSi
 
                 <div className="absolute inset-x-0 bottom-10 text-center">
                     <button className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={`mr-4 mt-[0.15rem] fill-mediumGrey group-hover:fill-purple   `}
-                        >
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <title></title>
-                                <g id="Complete">
-                                    <g id="add-square">
-                                        <g>
-                                            <rect
-                                                data-name="--Rectangle"
-                                                fill="none"
-                                                height="20"
-                                                id="_--Rectangle"
-                                                rx="2"
-                                                ry="2"
-                                                stroke="#000000"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                width="20"
-                                                x="2"
-                                                y="2"
-                                            ></rect>
-                                            <line
-                                                fill="none"
-                                                stroke="#000000"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                x1="15.5"
-                                                x2="8.5"
-                                                y1="12"
-                                                y2="12"
-                                            ></line>
-                                            <line
-                                                fill="none"
-                                                stroke="#000000"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                x1="12"
-                                                x2="12"
-                                                y1="15.5"
-                                                y2="8.5"
-                                            ></line>
-                                        </g>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
+                        <PlusIcon />
                         <div className="text-hm capitalize">Create New Board</div>
                     </button>
                 </div>
