@@ -4,7 +4,7 @@ import { ReactComponent as BoardLogo } from '../../assets/svg/board-icon.svg';
 import { Button, Typography } from "@mui/material";
 import '../../styles/styles.css';
 import PlusIcon from "../../icons/PlusIcon";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
@@ -92,16 +92,15 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
                             all boards ({totalBoards})
                         </div>
                         {boards.map((board, index) => (
-                            <Link
-                                key={index}
-                                className={`w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex bg-purple-500 text-white uppercase items-center justify-center
-                            ${
-                                activeButtonIndex === index ? 'bg-purple-500 text-white' : 'bg-transparent text-gray-500'
-                            } ${!isMobile ? 'hover:bg-gray-400': 'hover:bg-purple-500'} hover:text-white`}
-                                to={board._id}
-                            >
-                                <span className="">{board.name}</span>
-                            </Link>
+                            <NavLink
+                            key={index}
+                            className={({ isActive }) => (
+                              `w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex text-white uppercase items-center hover:bg-purple-500 justify-center ${isActive && 'bg-purple-500'}`
+                            )}
+                            to={board._id}
+                          >
+                            <span className="">{board.name}</span>
+                          </NavLink>
                         ))}
                     </div>
                 </div>
