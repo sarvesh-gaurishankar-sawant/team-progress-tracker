@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from '../sidebar/sidebar';
 import Navbar from "../navbar/Navbar";
 import '../../styles/styles.css';
 import { Outlet } from 'react-router-dom';
+
 
 const HomeScreen = () => {
 
