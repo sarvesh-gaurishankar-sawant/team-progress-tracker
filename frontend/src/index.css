@@ -14,6 +14,6 @@ body,
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-rose-900 rounded-xl;
+  @apply bg-purple-400 rounded-xl;
 }
 
