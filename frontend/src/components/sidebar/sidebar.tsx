@@ -25,10 +25,6 @@ interface BoardComponentProps {
 
 const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
     const [boards, setBoards] = useState<Board[]>([]);
-    const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(null);
-    const [isMobile, setIsMobile] = useState<boolean>(false);
-
-    const dispatch = useDispatch<AppDispatch>();
 
     let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 
@@ -50,27 +46,13 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
         fetchBoards();
     }, [userId]);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768); // Set breakpoint as per your design
-        };
-
-        handleResize(); // Set initial width
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     const totalBoards = boards.length;
 
 
     return (
         <aside className={isSidebarOpen ? 'sidebar open' : 'sidebar'}>
-        <div className={`fixed ${isMobile ? 'block' : 'flex'} flex-col bg-gray-800 ${isMobile ? 'w-3/5 h-screen' : 'h-screen w-1/5'} border border-gray-900`}>
-        <div className={`fixed flex flex-col bg-gray-800 h-screen ${isMobile ? 'w-3/5 ' : 'w-1/5'}  border border-gray-900`}>
+        <div className={`fixed block sm:flex flex-col bg-gray-800 w-3/5 h-screen sm:h-screen sm:w-1/5 border border-gray-900`}>
+        <div className={`fixed flex flex-col bg-gray-800 h-screen w-3/5 sm:w-1/5 border border-gray-900`}>
             <div className="h-screen">
                 <div className="flex mx-auto mt-8">
                     <FullLogo className="mx-auto" />
@@ -89,7 +71,7 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
                             )}
                             to={board._id}
                           >
-                            <span className="">{board.name}</span>
+                            <span >{board.name}</span>
                           </NavLink>
                         ))}
                     </div>
