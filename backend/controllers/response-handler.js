@@ -4,6 +4,7 @@ export const setResponse  = (data, response) => {
 }
 
 export const setErrorResponse  = (error, response) => {
+    console.log(error)
     response.status(500)
         .json({
             code: "ServiceError",

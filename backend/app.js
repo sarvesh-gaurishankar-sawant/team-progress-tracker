@@ -2,7 +2,6 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import registerRouter from './routes/index.js'
-import models from './models/index.js'
 import yaml from 'js-yaml'; // Import YAML parser (js-yaml)
 import fs from 'fs'; // Import the file system module
 

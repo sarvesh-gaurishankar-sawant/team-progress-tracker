@@ -1,7 +1,17 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.19"
+=======
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.14.19",
+    "mongoose": "^8.0.3",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.39"
+>>>>>>> dev_yesha
   }
 }
