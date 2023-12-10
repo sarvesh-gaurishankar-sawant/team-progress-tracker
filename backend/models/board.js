@@ -14,10 +14,13 @@ const BoardSchema = new Schema({
 
     },
     tasks: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Task,
+        type: String,
         required: false
-    }]
+    }],
+    user: {
+        type: String,
+        required: true
+    }
 },
 {
     versionKey: false

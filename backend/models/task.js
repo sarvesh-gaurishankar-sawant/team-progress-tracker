@@ -14,11 +14,11 @@ const TaskSchema = new Schema({
     },
     dueDate: {
         type: Date,
-        required: true
+        required: false
     },
     status: {
         type: String,
-        required: false
+        required: true
     },
     label: {
         type: String,
@@ -29,14 +29,21 @@ const TaskSchema = new Schema({
         required: false
     },
     subtasks: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Subtask,
+        type: String,
         required: false
     }],
     priority: {
         type: String,
         required: false
-    } 
+    },
+    index: {
+        type: Number,
+        required: true,
+    },
+    board: {
+        type: String,
+        required: true
+    }
 },
 {
     versionKey: false

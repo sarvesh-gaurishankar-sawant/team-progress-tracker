@@ -25,10 +25,9 @@ const UserSchema = new Schema({
         required: true
     },
     boards: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Board,
+        type: String,
         required: false
-    }],
+    }]
 },
 {
     versionKey: false

@@ -5,8 +5,15 @@ const Schema = mongoose.Schema;
 const SubtaskSchema = new Schema({
     title: {
         type: String,
-        required: true,
-        isComplete: false
+        required: true
+    },
+    task: {
+        type: String,
+        required: true
+    },
+    isComplete: {
+        type: Boolean,
+        required: true
     }
 },
 {
