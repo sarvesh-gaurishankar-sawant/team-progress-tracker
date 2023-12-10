@@ -86,12 +86,12 @@ const NavBar: React.FC = () => {
             </button>
           </div>
         )}
-        {isModalOpen && <TaskCard taskId={taskId} boardId={boardId} isOpen={isModalOpen} onClose={() => {
+        {isModalOpen && <TaskCard boardId={boardId} isOpen={isModalOpen} onTaskCreate={() => {
             closeModal();
             handleTaskCreationSuccess();
-          }}/>}
+          }} onClose={() =>  closeModal()}/>}
     {notificationMessage && (
-        <Notification message={notificationMessage} onClose={() => setNotificationMessage('')} />
+        <Notification message={notificationMessage} onTaskCreate={() => setNotificationMessage('')} />
       )}
       </div>
     </div>

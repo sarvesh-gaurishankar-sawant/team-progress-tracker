@@ -10,14 +10,14 @@ interface Task {
 }
 
 interface TaskCardProps {
-  taskId: string;
   boardId: string;
   isOpen: boolean;
+  onTaskCreate: () => void;
   onClose: () => void;
 }
 
 
-const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ boardId, isOpen, onTaskCreate, onClose }) => {
   const [task, setTask] = useState<Task>({
     title: '',
     description: '',
@@ -93,7 +93,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
         status: 'todo',
         subtasks: [''],
       });
-      onClose();
+      onTaskCreate();
     } catch (error) {
       console.error('Error creating task:', error);
     }
@@ -103,15 +103,17 @@ const TaskCard: React.FC<TaskCardProps> = ({ taskId, boardId, isOpen, onClose })
   return (
     <Modal
       open={isOpen}
-      onClose={onClose}
+      onClose={onTaskCreate}
       aria-labelledby="task-modal-title"
       aria-describedby="task-modal-description"
     >
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-2 overflow-y-auto ">
         <div className="bg-[#33373B] w-full max-w-md rounded-lg shadow-lg">
           <div className="text-white p-4 space-y-4">
-            <div className="text-xl font-bold mb-4">Add New Task</div>
-            
+            <div className="text-xl font-bold mb-4 flex justify-between">
+              <div>Add New Task</div>
+              <div><button type="button" className="text-gray-400 hover:text-red-500" onClick={onClose}>&#x2715;</button></div>
+              </div>
             <div className="space-y-2">
               <div className="text-sm text-white">Title</div>
               <TextField

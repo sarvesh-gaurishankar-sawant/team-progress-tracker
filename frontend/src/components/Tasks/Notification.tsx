@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 
 interface NotificationProps {
   message: string;
-  onClose: () => void;
+  onTaskCreate: () => void;
 }
 
-const Notification: React.FC<NotificationProps> = ({ message, onClose }) => {
+const Notification: React.FC<NotificationProps> = ({ message, onTaskCreate }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-      onClose();
+      onTaskCreate();
     }, 2000);
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [onTaskCreate]);
 
   return (
     <div
