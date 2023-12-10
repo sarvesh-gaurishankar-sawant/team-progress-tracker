@@ -74,7 +74,6 @@ export default function Board({isSidebarOpen} :Props) {
   return (
     <div className="overflow-x-auto h-screen">   
         <div className={!isSidebarOpen ? 'mt-28 ml-12 sm:ml-96' : 'mt-28 ml-72 sm:ml-96'}><DisplayColumn boardData={boardData}/></div>
-        
         {/* <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
         {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
         {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>} */}
