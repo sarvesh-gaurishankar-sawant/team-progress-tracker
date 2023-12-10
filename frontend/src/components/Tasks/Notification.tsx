@@ -17,21 +17,9 @@ const Notification: React.FC<NotificationProps> = ({ message, onTaskCreate }) =>
   }, [onTaskCreate]);
 
   return (
-    <div
-      className={`notification ${isVisible ? 'visible' : 'hidden'}`}
-      style={{
-        position: 'fixed',
-        top: '4rem', 
-        right: '1rem', 
-        padding: '1rem',
-        border: '2px solid red',
-        backgroundColor: '#FDF8F7', 
-        borderRadius: '8px', 
-        zIndex: 1000, 
-      }}
-    >
-      {message}
-    </div>
+  <div className="notification fixed top-16 right-4 p-10 border-4 border-purple-500 font-bold	bg-[#2B2C37] rounded-md z-100">
+    {message}
+  </div>
   );
 };
 

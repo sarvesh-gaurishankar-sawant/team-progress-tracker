@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import TaskCard from '../Tasks/TaskCard';
 import Notification from '../Tasks/Notification';
+import { BoardType } from '../type';
 
 
 const NavBar: React.FC = () => {
@@ -28,9 +29,7 @@ const NavBar: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
-  const taskId = "6569ebee95a139a036ae352e"; // Replace with the actual value for your parameter
-  const boardId = "656c2fd50fd3446bad8bbacb"; // Replace with the actual value for your parameter
+ 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState<string>('');
@@ -42,6 +41,10 @@ const NavBar: React.FC = () => {
     closeModal();
     setNotificationMessage('Task successfully created!');
   };
+
+  let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
+
+  
 
   return (
 <div className={`fixed top-0 right-0 ${isMobile ? 'w-full' : 'w-4/5'} bg-gray-800 h-24 flex justify-between items-center border border-gray-900`}>
@@ -86,13 +89,10 @@ const NavBar: React.FC = () => {
             </button>
           </div>
         )}
-        {isModalOpen && <TaskCard boardId={boardId} isOpen={isModalOpen} onTaskCreate={() => {
-            closeModal();
-            handleTaskCreationSuccess();
-          }} onClose={() =>  closeModal()}/>}
-    {notificationMessage && (
-        <Notification message={notificationMessage} onTaskCreate={() => setNotificationMessage('')} />
-      )}
+        
+        
+        {isModalOpen && <TaskCard  isOpen={isModalOpen} onTaskCreate={() => {closeModal();handleTaskCreationSuccess();}} onClose={() =>  closeModal()}/>}
+        {notificationMessage && (<Notification message={notificationMessage} onTaskCreate={() => setNotificationMessage('')} />)}
       </div>
     </div>
   );

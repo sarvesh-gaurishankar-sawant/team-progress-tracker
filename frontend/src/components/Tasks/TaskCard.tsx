@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { BoardType } from '../type';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 interface Task {
   title: string;
@@ -10,19 +13,32 @@ interface Task {
 }
 
 interface TaskCardProps {
-  boardId: string;
+
   isOpen: boolean;
   onTaskCreate: () => void;
   onClose: () => void;
 }
 
 
-const TaskCard: React.FC<TaskCardProps> = ({ boardId, isOpen, onTaskCreate, onClose }) => {
+const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => {
+
+  const emptyBoard: BoardType= {
+    columns: [],
+    name: "",
+    tasks: [],
+    _id: ""
+  }
+
+  
+  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+  let boardId = boardData._id;
+  let index = boardData.tasks.length + 1
+  let columns = boardData.columns;
   const [task, setTask] = useState<Task>({
     title: '',
     description: '',
     status: 'todo',
-    subtasks: [''],
+    subtasks: [],
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,19 +70,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ boardId, isOpen, onTaskCreate, onCl
     const newSubtasks = [...task.subtasks];
     newSubtasks.splice(index, 1);
     setTask({ ...task, subtasks: newSubtasks });
-  };
-
-  const handlePriorityChange = (event: SelectChangeEvent) => {
-    setTask(prevTask => ({
-      ...prevTask,
-      priority: event.target.value as string,
-    }));
-  };  
+  }; 
 
   const handleSubmit = async () => {
     const newTaskData = {
       board: boardId, 
       title: task.title,
+      index,
       description: task.description,
       status: task.status,
       subtasks: task.subtasks,
@@ -86,18 +96,19 @@ const TaskCard: React.FC<TaskCardProps> = ({ boardId, isOpen, onTaskCreate, onCl
       }
   
       const result = await response.json();
-      console.log('New task created:', result);
+      
       setTask({
         title: '',
         description: '',
-        status: 'todo',
-        subtasks: [''],
+        status: '',
+        subtasks: [],
       });
       onTaskCreate();
     } catch (error) {
       console.error('Error creating task:', error);
     }
   };
+  
   
 
   return (
@@ -182,9 +193,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ boardId, isOpen, onTaskCreate, onCl
                 inputProps={{ 'aria-label': 'Status' }}
                 style={{color: '#fff'}}
               >
-                <MenuItem value="todo">To Do</MenuItem>
-                <MenuItem value="inProgress">In Progress</MenuItem>
-                <MenuItem value="done">Done</MenuItem>
+                {
+                  columns.map(column => (
+                    <MenuItem value={column}>{column}</MenuItem>
+                  ))
+                }
               </Select>
             </div>
 
