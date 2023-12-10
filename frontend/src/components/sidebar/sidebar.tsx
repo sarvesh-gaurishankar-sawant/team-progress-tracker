@@ -64,16 +64,6 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
         };
     }, []);
 
-    const handleButtonClick = (index: number) => {
-        if (activeButtonIndex === index) {
-            // Clicked on the already active button, toggle it off
-            setActiveButtonIndex(null);
-        } else {
-            // Clicked on a different button, set it as active
-            setActiveButtonIndex(index);
-        }
-    };
-
     const totalBoards = boards.length;
 
 
