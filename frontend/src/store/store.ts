@@ -3,6 +3,7 @@ import taskReducer from "./task/taskSlice";
 import activeTaskReducer from './active/activeTaskSlice';
 import activeColumnReducer from './active/activeColumnSlice';
 import activeBoardReducer from './active/activeBoardSlice';
+import sideBarFlagReducer from './flags/sideBarFlagSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     activeTask:activeTaskReducer,
     activeColumn:activeColumnReducer,
     activeBoard:activeBoardReducer,
+    sideBarFlag:sideBarFlagReducer,
   },
 });
 

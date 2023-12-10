@@ -15,7 +15,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/board" element={<HomeScreen />}>
-            <Route path=":id" element={<Board isSidebarOpen={true}/>} />
+            <Route path=":id" element={<Board />} />
           </Route>
         </Routes>
       </BrowserRouter>

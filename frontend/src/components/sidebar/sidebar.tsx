@@ -5,6 +5,9 @@ import { Button, Typography } from "@mui/material";
 import '../../styles/styles.css';
 import PlusIcon from "../../icons/PlusIcon";
 import { Link } from "react-router-dom";
+import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
 
 interface Board {
     _id: string;
@@ -20,10 +23,14 @@ interface BoardComponentProps {
 }
 
 
-const Sidebar: React.FC<BoardComponentProps> = ({ userId, isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
     const [boards, setBoards] = useState<Board[]>([]);
     const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(null);
     const [isMobile, setIsMobile] = useState<boolean>(false);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 
     useEffect(() => {
         const fetchBoards = async () => {

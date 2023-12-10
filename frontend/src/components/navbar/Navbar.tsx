@@ -6,14 +6,18 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from '../sidebar/Sidebar';
 import '../../styles/styles.css';
+import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
 
-interface NavbarProps {
-  toggleSidebar: () => void;
-}
 
-
-const NavBar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
+const NavBar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,7 +37,7 @@ const NavBar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
           {/* Hamburger Icon for mobile */}
           <MenuIcon
             className="mobile-view-toggle h-6 w-6 cursor-pointer text-white"
-            onClick={toggleSidebar} // Toggle sidebar on click
+            onClick={() => dispatch(setSideBarFlag(!isSidebarOpen))} // Toggle sidebar on click
           />
         </div>
       )}
