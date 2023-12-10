@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import Column from "./Column";
-import { Board, TaskType } from "../type";
+import { BoardType, TaskType } from '../type';
 import { useEffect, useState } from "react";
 import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { createPortal } from "react-dom";
@@ -13,13 +13,24 @@ import {setActiveColumn} from '../../store/active/activeColumnSlice';
 import {setActiveTask} from "../../store/active/activeTaskSlice";
 import Loading from "../Loading/Loading";
 import CreateNewColumn from "./CreateNewColumn";
+import { useParams } from "react-router-dom";
+
 
 interface Props {
-    boardData: Board;
+    boardData: BoardType;
 }
 
-export default function DisplayColumn({ boardData }: Props) {
-  console.log("boardData" + JSON.stringify(boardData))
+export default function DisplayColumn() {
+  const params = useParams()
+
+  const emptyBoard: BoardType= {
+    columns: [],
+    name: "",
+    tasks: [],
+    _id: ""
+  }
+  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
@@ -46,7 +57,7 @@ export default function DisplayColumn({ boardData }: Props) {
       fetchTasks();
       setRefreshTasksData(false);
     }
-  }, [refreshTasksData, boardData, dispatch]);
+  }, [refreshTasksData, boardData, dispatch, params]);
 
   //Update the task, in database after it is placed in different location on kanban board
   useEffect(() => {
@@ -54,15 +65,17 @@ export default function DisplayColumn({ boardData }: Props) {
      dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
-  }, [tasksObjectArray, boardData, dispatch]);
+  }, [tasksObjectArray, boardData, dispatch, params]);
   
   //Array of all columns in the board
   let allColumns;
   let columns;
-  if(tasksObjectArray){
-    columns = boardData.columns;
-    allColumns = columns.map((column, index) => <Column key={index} columnTitle={column} index={index}/>);
-  }
+  
+  columns = boardData?.columns;
+  allColumns = columns?.map((column, index) => <Column key={index} columnTitle={column} index={index}/>);
+ 
+
+  
 
   //On drag start set the activeTask and activeColumn state
   function onDragStart(event: DragStartEvent) {
@@ -113,8 +126,8 @@ export default function DisplayColumn({ boardData }: Props) {
       <DndContext onDragStart={onDragStart} onDragOver={onDragOver} onDragEnd={onDragEnd} sensors={sensors}>
       <div>
         {/* Create new column button */}
-        <div className="flex flex-row gap-x-9	">
-        <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn key="add_new_column" boardData={boardData}/>]}</div>
+        <div className="flex flex-row gap-x-9">
+        <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn key="add_new_column" />]}</div>
         </div>
       </div>
       {/* Portal for getting the component outside DOM */}

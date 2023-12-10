@@ -2,7 +2,10 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Delete from '../../icons/Delete';
-import { Board } from '../type';
+import { BoardType } from '../type';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 interface NewBoardColumn {
   boardName: String;
@@ -10,9 +13,18 @@ interface NewBoardColumn {
 }
 
 interface Props {
-  boardData: Board;
+  boardData: BoardType;
 }
-export default function CreateNewColumn({ boardData }: Props) {
+export default function CreateNewColumn() {
+  const params = useParams()
+
+  const emptyBoard: BoardType= {
+    columns: [],
+    name: "",
+    tasks: [],
+    _id: ""
+  }
+  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
   
   const [open, setOpen] = React.useState(false);
 
@@ -35,7 +47,7 @@ export default function CreateNewColumn({ boardData }: Props) {
     setBoardName(boardData.name);
     setInputValues(boardData.columns);
   },
-  []
+  [boardData]
  )
 
   const boardColumnNameUpdate = async () => {

@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Board, TaskType } from "../../components/type";
+import { BoardType, TaskType } from "../../components/type";
 import { arrayMove } from "@dnd-kit/sortable";
 
 //Interface for typescript
@@ -9,7 +9,7 @@ interface TaskState {
 
 interface UpdateTaskState {
     tasksObjectArray:TaskType[]; 
-    boardData:Board;
+    boardData:BoardType;
 }
 
 //Create the initial slice
@@ -62,10 +62,10 @@ const taskSlice = createSlice({
 });
 
 //Get task and create an array of objects of tasks
-export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], Board>(
+export const getTaskFromBoardAsync = createAsyncThunk<TaskType[], BoardType>(
     "task/getTaskFromBoardAsync",
-    async (boardData: Board) => {
-        const tasksMongoIds = boardData.tasks;
+    async (boardData: BoardType) => {
+        const tasksMongoIds = boardData?.tasks;
 
         const tasksObjectPromiseArray = Promise.all(
             tasksMongoIds.map(tasksMongoId =>

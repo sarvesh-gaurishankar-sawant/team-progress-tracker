@@ -1,10 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Board } from "../../components/type";
+import { BoardType } from "../../components/type";
 
 
 //Interface for typescript
 interface BoardState {
-  value: Board | null;
+  value: BoardType | null;
 }
 
 //Create the initial slice
@@ -21,7 +21,7 @@ const activeBoardSlice = createSlice({
     builder
       .addCase(
         getBoardAsync.fulfilled,
-        (state, action: PayloadAction<Board>) => {
+        (state, action: PayloadAction<BoardType>) => {
             state.value = action.payload;
         }
       )
@@ -29,10 +29,10 @@ const activeBoardSlice = createSlice({
 });
 
 //Get Board based on board id
-export const getBoardAsync = createAsyncThunk<Board, string>(
-    "task/getBoardAsync",
+export const getBoardAsync = createAsyncThunk<BoardType, string>(
+    "activeboard/getBoardAsync",
     async (boardId: string) => {
-        const board: Board = await fetch(`http://localhost:3001/boards/${boardId}`).then(response => response.json())
+        const board: BoardType = await fetch(`http://localhost:3001/boards/${boardId}`).then(response => response.json())
         return board;
     }
 );
