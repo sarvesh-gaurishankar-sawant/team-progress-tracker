@@ -19,6 +19,7 @@ interface Props {
 }
 
 export default function DisplayColumn({ boardData }: Props) {
+  console.log("boardData" + JSON.stringify(boardData))
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
@@ -113,7 +114,6 @@ export default function DisplayColumn({ boardData }: Props) {
       <div>
         {/* Create new column button */}
         <div className="flex flex-row gap-x-9	">
-        {/* <div className="flex flex-row gap-x-9">{[...allColumns, <Button key="add_new_column" className="w-72 border border-sky-500 h-screen" onClick={() => {createNewColumn()}}>Add new column</Button>]}</div> */}
         <div className="flex flex-row gap-x-9">{[...allColumns, <CreateNewColumn key="add_new_column" boardData={boardData}/>]}</div>
         </div>
       </div>

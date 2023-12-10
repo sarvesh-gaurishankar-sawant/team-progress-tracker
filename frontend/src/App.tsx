@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 import Navigation from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Board from "./components/Boards/Board";
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/board" element={<HomeScreen />}>
-            
+            <Route path=":id" element={<Board isSidebarOpen={true}/>} />
           </Route>
         </Routes>
       </BrowserRouter>
