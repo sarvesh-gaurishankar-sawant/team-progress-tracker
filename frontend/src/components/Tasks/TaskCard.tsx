@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import { BoardType } from '../type';
+import { BoardType, TaskType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import {setNotificationMessage} from "../../store/notification/notificationSlice"
 import { getBoardAsync } from '../../store/active/activeBoardSlice';
+import { createNewTaskAsync } from '../../store/task/singleTaskSlice';
 
 interface Task {
   title: string;
@@ -36,10 +36,11 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   let boardId = boardData._id;
   let index = boardData.tasks.length + 1
   let columns = boardData.columns;
+
   const [task, setTask] = useState<Task>({
     title: '',
     description: '',
-    status: 'todo',
+    status: '',
     subtasks: [],
   });
   
@@ -76,43 +77,29 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
 
   
   const handleSubmit = async () => {
-    const newTaskData = {
-      board: boardId, 
+    const newTaskData: TaskType= {
+      board: boardId.toString(), 
       title: task.title,
       index,
       description: task.description,
       status: task.status,
-      subtasks: task.subtasks,
+      subtask: task.subtasks,
     };
   
-    try {
-      const response = await fetch('http://localhost:3001/tasks/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newTaskData)
-      });
-      dispatch(getBoardAsync(boardData._id))
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response}`);
-      }
-  
-      const result = await response.json();
-      
-      setTask({
-        title: '',
-        description: '',
-        status: '',
-        subtasks: [],
-      });
-      onTaskCreate();
-    } catch (error) {
-      console.error('Error creating task:', error);
-    }
+
+    dispatch(createNewTaskAsync(newTaskData))
+    dispatch(getBoardAsync(boardData._id))
+    
+    setTask({
+      title: '',
+      description: '',
+      status: '',
+      subtasks: [],
+    });
+    onTaskCreate();
+    
   };
   
-
 
   return (
     <Modal
