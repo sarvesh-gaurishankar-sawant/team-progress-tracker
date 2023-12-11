@@ -4,6 +4,7 @@ import { BoardType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import {setNotificationMessage} from "../../store/notification/notificationSlice"
+import { getBoardAsync } from '../../store/active/activeBoardSlice';
 
 interface Task {
   title: string;
@@ -42,7 +43,6 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     subtasks: [],
   });
   
-  console.log(boardData.columns.length)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setTask((prevTask) => ({
@@ -93,7 +93,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
         },
         body: JSON.stringify(newTaskData)
       });
-  
+      dispatch(getBoardAsync(boardData._id))
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response}`);
       }
