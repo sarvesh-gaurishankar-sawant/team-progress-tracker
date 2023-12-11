@@ -18,7 +18,7 @@ export default function Task({ task }: Props) {
     transition,
     isDragging,
   } = useSortable({
-    id: task._id,
+    id: task._id || "",
     data: {
       type: "Task",
       task,

@@ -1,78 +1,40 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
+import { getBoardAsync } from "../../store/active/activeBoardSlice"
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import { useParams } from "react-router-dom";
+import { BoardType } from "../type";
 
-type Column = {
-  index: number;
-  title: string;
-}
-
-type Task = {
-  index: number;
-  title: string;
-  columnName: string;
-}
 
 export default function Board() {
+  const params = useParams()
+  
+  let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
+  let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
+  let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
+ 
+  
+  const dispatch = useDispatch<AppDispatch>();
 
-
-  //State to get all the boards
-  const [boards, setBoards] = useState([]);
-  const [refreshBoardsData, setRefereshBoardsData ] = useState(true)
-  const [columns, setColumns] = useState<Column[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  let paramsId: string = params?.id || ""
+  useEffect(() => {
+    console.log("Inside Board")
+    const fetchTasks = async () => {
+      await dispatch(getBoardAsync(paramsId));
+    };
+    fetchTasks(); 
+  }, [paramsId, dispatch, reloadBoard, reloadTaskSliceFlag]);
 
   
-  //Get all the boards for the user
-  const allBoards = useEffect(() => {
-    if (setRefereshBoardsData) {
-      fetch('http://localhost:3001/boards/?userId=656f53065eab521c4c888b7e')
-        .then(response => response.json())
-        .then(boards => {
-          setBoards(boards)
-          setRefereshBoardsData(false)
-        })
-    }
-  }, [refreshBoardsData])
   
-  // return (
-  //   <div className="overflow-x-auto h-screen">   
-  //       <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
-  //       {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-  //       {columns.length !== 0 && <DisplayColumn columns={columns} createNewColumn={createNewColumn}/>}
-  //   </div>  
-  // )
+  if(boardData !== null){
 
-  // function createNewColumn(){
-  //   const columnIndex: number = columns.length;
-  //   const newColumn: Column = {
-  //     index: columnIndex,
-  //     title: `Column Title ${columnIndex}`
-  //   }
-  //   setColumns([...columns, newColumn]);
-  // }
-
-  // function createNewTask() {
-  //   const taskIndex: number = tasks.length;
-  //   const newTask: Task = {
-  //     index: taskIndex,
-  //     title: `Task Title ${taskIndex}`,
-  //     columnName: columns[0]?.title
-  //   }
-  //   setTasks([...tasks, newTask]);
-  //   console.log(tasks)
-  // }
-
-  //TODO-Sarvesh: This is temprory need to remove this and use Shashwat nav bar to send data here
-  let boardData;
-  if(boards.length != 0){
-    boardData = boards[0];
   return (
     <div className="overflow-x-auto h-screen">   
-        <DisplayColumn boardData={boardData}/>
-        {/* <Button key="add_new_column" className="w-72 border border-sky-500" onClick={() => {createNewTask()}}>Add new tasks</Button>
-        {columns.length === 0 && <EmptyBoard createNewColumn={createNewColumn} />}
-        {columns.length !== 0 && <DisplayColumn boardData={boardData} createNewColumn={createNewColumn}/>} */}
+        <div className={!isSidebarOpen ? 'mt-28 ml-12 sm:ml-96' : 'mt-28 ml-72 sm:ml-96'}><DisplayColumn/></div>
     </div>  
   ) 
   }

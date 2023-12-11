@@ -1,5 +1,5 @@
 
-export type Board = {
+export type BoardType = {
     columns: string[];
     name: string;
     tasks: string[];
@@ -7,12 +7,23 @@ export type Board = {
   }
 
 export type TaskType = {
+    board?:string,
     description: string,
     index: number,
     status: string,
     subtask: string[],
     title: string,
-    _id: string
+    _id?: string
+}
+
+export type UserType = {
+    firstName:string,
+    lastName:string,
+    email:string,
+    password:string,
+    phoneNo:string,
+    boards: string[],
+    _id:string
 }
 
 export type ColumnType = {

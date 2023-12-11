@@ -1,0 +1,21 @@
+import React, { useState } from 'react';
+import Sidebar from '../sidebar/sidebar';
+import Navbar from "../navbar/Navbar";
+import '../../styles/styles.css';
+import { Outlet } from 'react-router-dom';
+
+
+const HomeScreen = () => {
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  return (
+    <div className="bg-gray-900 h-screen flex relative">
+      <Sidebar />
+      <Navbar />
+      <Outlet />
+    </div>
+  );
+};
+
+export default HomeScreen;
