@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import {setNotificationMessage} from "../../store/notification/notificationSlice"
-
-
-
+  
 const Notification: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();

@@ -41,6 +41,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     status: 'todo',
     subtasks: [],
   });
+  
   console.log(boardData.columns.length)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

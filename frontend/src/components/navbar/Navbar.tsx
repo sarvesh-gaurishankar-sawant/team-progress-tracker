@@ -71,7 +71,7 @@ const NavBar: React.FC = () => {
         <div className='ml-2'>
           {/* Platform Launch Text */}
           <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" className="text-white text-lg font-bold font-['Plus Jakarta Sans']">
-            Platform Launch
+            {boardData.name}
           </Typography>
         </div>
         <div className='flex-grow' />
