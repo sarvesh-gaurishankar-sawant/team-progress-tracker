@@ -5,9 +5,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./components/Boards/Board";
-import { setUserSlice } from "./store/user/userSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
+import { setUserSlice } from "./store/user/userSlice";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,6 +22,8 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      
     </div>
   )
+  
 }
