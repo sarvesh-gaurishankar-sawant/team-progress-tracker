@@ -8,6 +8,7 @@ import Board from "./components/Boards/Board";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { setUserSlice } from "./store/user/userSlice";
+import Login from "./components/Auth/Login";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,6 +18,7 @@ export default function App() {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/board" element={<HomeScreen />}>
             <Route path=":id" element={<Board />} />
           </Route>
