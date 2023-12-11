@@ -9,8 +9,9 @@ import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
-import {cols} from '../../components/LoadJson/LoadJson';
-import axios from 'axios';
+import { cols } from '../../components/LoadJson/LoadJson';
+import { translate } from '../Translations/translate';
+
 
 
 const NavBar: React.FC = () => {
@@ -20,51 +21,7 @@ const NavBar: React.FC = () => {
 
   const handleLanguageSelect = async (languageCode: string) => {
     setLanguageModalOpen(false);
-
-    try {
-      const textNodes = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT,
-        null
-      );
-
-      let currentNode = textNodes.nextNode();
-      while (currentNode) {
-        const originalText = currentNode.nodeValue;
-
-        const options = {
-          method: 'POST',
-          url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
-          params: {
-            'to[0]': languageCode,
-            'api-version': '3.0',
-            profanityAction: 'NoAction',
-            textType: 'plain'
-          },
-          headers: {
-            'content-type': 'application/json',
-            'X-RapidAPI-Key': '9561c759bdmsh07cf923a568b5d3p1852dfjsn8f22dcc8d72c',
-            'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
-          },
-          data: [
-            {
-              Text: originalText
-            }
-          ]
-        };
-
-        const response = await axios.request(options);
-
-        const translatedText = response.data[0].translations[0].text;
-
-        currentNode.nodeValue = translatedText;
-
-        currentNode = textNodes.nextNode();
-      }
-    }
-    catch (error) {
-      console.error('Translation error:', error);
-    }
+    await translate(languageCode);
   };
 
   const dispatch = useDispatch<AppDispatch>();
@@ -136,18 +93,18 @@ const NavBar: React.FC = () => {
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (
                     <List key={index} style={{ flex: 1 }}>
-                    {column.map((language: { native_name: string ;language_code: React.Key | null | undefined; display_name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
-                      <button onClick={() => {
-                        if (typeof language.language_code === 'string') {
-                          handleLanguageSelect(language.language_code);
-                        }
-                      }}>
-                        <ListItem button key={language.language_code}>
-                          <ListItemText primary={language.display_name + '(' + language.native_name + ')'} />
-                        </ListItem>
-                       </button>
-                    ))}
-                  </List>
+                      {column.map((language: { native_name: string; language_code: React.Key | null | undefined; display_name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                        <button onClick={() => {
+                          if (typeof language.language_code === 'string') {
+                            handleLanguageSelect(language.language_code);
+                          }
+                        }}>
+                          <ListItem button key={language.language_code}>
+                            <ListItemText primary={language.display_name + '(' + language.native_name + ')'} />
+                          </ListItem>
+                        </button>
+                      ))}
+                    </List>
                   ))}
                 </div>
               </DialogContent>
@@ -178,7 +135,7 @@ const NavBar: React.FC = () => {
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (
                     <List key={index} style={{ flex: 1 }}>
-                      {column.map((language: { native_name: string ;language_code: React.Key | null | undefined; display_name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                      {column.map((language: { native_name: string; language_code: React.Key | null | undefined; display_name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
                         <button onClick={() => {
                           if (typeof language.language_code === 'string') {
                             handleLanguageSelect(language.language_code);
