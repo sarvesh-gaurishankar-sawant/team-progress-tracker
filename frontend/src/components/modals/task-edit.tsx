@@ -51,6 +51,7 @@ const TaskEdit: React.FC<TaskEditModalProps> = ({ initialTask, initialSubtasks, 
             console.error('Error fetching data:', error);
         }
         setSubtasks([...subtasks, result as ISubtask]);
+        setTask({...task, subtasks: [...task.subtasks, result._id]} as ITask);
     };
 
     const handleDeleteSubtask = async (id: string) =>  {
@@ -96,6 +97,8 @@ const TaskEdit: React.FC<TaskEditModalProps> = ({ initialTask, initialSubtasks, 
         // setOpen(false);
         // setShowTaskView(true);
 
+        console.log(task);
+        console.log(subtasks);
         onSave(task, subtasks);
         onClose();
     }

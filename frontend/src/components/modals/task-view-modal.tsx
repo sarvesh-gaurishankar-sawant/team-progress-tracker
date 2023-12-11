@@ -144,6 +144,18 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
             <MenuItem onClick={handleDeleteTaskEvent}>Delete Task</MenuItem>
           </Menu>
         </div>
+
+        <div className="mb-4 w-full">
+          <Typography className="text text-xs text-[#848fa1]">
+            Description
+          </Typography>
+        </div>
+
+        <div className="mb-4 w-full">
+          <Typography className="text text-xs text-white">
+            {task?.description}
+          </Typography>
+        </div>
         
         <div className="mb-4 w-full">
           <Typography className="text text-xs text-[#848fa1]">
