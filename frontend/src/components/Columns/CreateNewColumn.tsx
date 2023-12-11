@@ -2,10 +2,13 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { createNewBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
 
 export default function CreateNewColumn() {
+  
+  const dispatch = useDispatch<AppDispatch>();
 
   const emptyBoard: BoardType= {
     columns: [],
@@ -39,21 +42,15 @@ export default function CreateNewColumn() {
   [boardData]
  )
 
+ //Update board
   const boardColumnNameUpdate = async () => {
-    fetch(`http://localhost:3001/boards/${boardData._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-        body: JSON.stringify({
-          ...boardData,
-          columns: inputValues,
-          name: boardName
-        }),
-      })
-      .then(response => response.json())
+    dispatch(updateBoardAsync({
+      ...boardData,
+      columns: inputValues,
+      name: boardName
+    }))
   };
-
+  
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {

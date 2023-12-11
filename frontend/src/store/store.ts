@@ -5,7 +5,8 @@ import activeColumnReducer from './active/activeColumnSlice';
 import activeBoardReducer from './active/activeBoardSlice';
 import sideBarFlagReducer from './flags/sideBarFlagSlice';
 import notificationReducer from './notification/notificationSlice';
-import singleTaskReducer from './task/singleTaskSlice'
+import singleTaskReducer from './task/singleTaskSlice';
+import singleBoardReducer from './board/singleBoardSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     activeBoard:activeBoardReducer,
     sideBarFlag:sideBarFlagReducer,
     notification:notificationReducer,
-    singleTask:singleTaskReducer
+    singleTask:singleTaskReducer,
+    singleBoard:singleBoardReducer
   },
 });
 
