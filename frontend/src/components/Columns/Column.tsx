@@ -1,0 +1,91 @@
+import { SortableContext } from "@dnd-kit/sortable";
+import { TaskType } from "../type";
+import Task from "../Tasks/Task";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+
+interface Props {
+  columnTitle: string;
+  index: number;
+}
+
+export default function Column({ columnTitle, index}: Props) {
+  //State
+  let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
+
+  //Hook for DND
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: index,
+    data: {
+      type: "Column",
+      column: {
+        columnTitle,
+        tasksObjectArray,
+        index,
+      },
+    }
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+  //If Task is dragging
+  if (isDragging) {
+    return (
+      <div 
+      key={index} 
+      className="w-72 border border-sky-500" 
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      />
+    );
+  }
+
+  if(tasksObjectArray.length > 0){//Filter task object
+  const filterTasksData = tasksObjectArray.filter(task => task.status === columnTitle)
+
+  //Display task previews on column
+  const tasksPreviewData = filterTasksData.map(taskPreviewData => {
+    return(
+      <Task key={taskPreviewData._id} task={taskPreviewData} />
+    )
+  })
+
+  const sortedTasksPreviewData = tasksPreviewData.sort(
+    (taskA, taskB) => taskA.props.task.index - taskB.props.task.index
+  );
+
+  //Get all ids
+  const tasksIds = sortedTasksPreviewData.map(task => task.props.task.index)
+  
+
+  return (
+      <div className="w-72" >
+        {/* Column Title */}
+        <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
+        {/* Tasks */}
+        {<SortableContext items={tasksIds}>{sortedTasksPreviewData}</SortableContext>}
+      </div>
+  )}
+  else {
+    return (
+      <div className="w-72" >
+        {/* Column Title */}
+        <div key={index} className="mb-6 text-zinc-400 text-lg font-semibold" ref={setNodeRef} style={style} >{columnTitle}</div>
+      </div>
+  )
+  }
+}
