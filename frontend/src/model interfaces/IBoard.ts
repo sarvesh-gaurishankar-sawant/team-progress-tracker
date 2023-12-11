@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 
 export interface IBoard extends Document {
-    id: string;
+    _id: string;
     name: string;
     columns: string[];
     tasks: string[];

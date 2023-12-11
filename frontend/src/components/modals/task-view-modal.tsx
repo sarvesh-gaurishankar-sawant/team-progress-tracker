@@ -5,20 +5,21 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ITask } from "../../model interfaces/ITask" 
 import { ISubtask } from "../../model interfaces/ISubtask";
 import { IBoard } from "../../model interfaces/IBoard";
-import TaskEditModal from "./task-edit-modal";
 import { set } from "mongoose";
 import TaskEdit from "./task-edit";
 
+
 interface TaskViewModalProps {
-    taskId: string;
-    boardId: string; // Replace with the actual type of your parameter
-    setShowFalse: () => void;
+    initialTask: ITask;
+    initialSubtasks: ISubtask[]; // Replace with the actual type of your parameter
+    initialColumns: string[];
+    onEdit: () => void;
   }
 
-const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowFalse }) => {
-  const [task, setTask] = useState<ITask>();
-  const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
-  const [board, setBoard] = useState<IBoard>();
+const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit }) => {
+  const [task, setTask] = useState<ITask>(initialTask);
+  const [subtasks, setSubtasks] = useState<ISubtask[]>(initialSubtasks);
+  const [columns, setColumns] = useState<string[]>(initialColumns);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [checkedCount, setCheckedCount] = useState<number>(0);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,27 +36,8 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
   const [showTaskEdit, setShowTaskEdit] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const taskResonse = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
-        var taskJson = await taskResonse.json();
-        setTask(taskJson);
-        setSelectedOption(taskJson.status);
-
-        const subtasksResponse = await fetch(`http://localhost:3001/subtasks/getSubtasksByTask/${taskId}`);
-        var subtasksJson = await subtasksResponse.json();
-        setSubtasks(subtasksJson);
-        setCheckedCount(subtasksJson.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
-
-        const boardResponse = await fetch(`http://localhost:3001/boards/${boardId}`);
-        var boardJson = await boardResponse.json();
-        setBoard(boardJson);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
+        setSelectedOption(task.status);
+        setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
   }, []);
 
 
@@ -67,14 +49,13 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
 
   const handleEditTaskEvent = () => {
     console.log('edit task');
-    setOpen(false);
-    setShowTaskEdit(true);
+    onEdit();
   };
 
   const handleDeleteTaskEvent = async () => {
     console.log('delete task');
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${taskId}`, {
+      const response = await fetch(`http://localhost:3001/tasks/${task._id}`, {
         method: 'DELETE'
       });
       var result = await response.json();
@@ -106,7 +87,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
     // update task
     task!.status = selectedOption;
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${taskId}`, {
+      const response = await fetch(`http://localhost:3001/tasks/${task._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -135,13 +116,12 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
       }
     });
     setOpen(false);
-    setShowFalse();
   };
 
   return (
     <div>
       <Modal open={open} onClose={handleClose} className="flex items-center justify-center">
-      <div className="flex flex-col items-start justify-start w-[480px] h-auto bg-[#2b2c36] p-8 w-120 h-93" >
+      <div className="flex flex-col items-start justify-start w-[480px] overflow-y-auto max-h-[640px] bg-[#2b2c36] p-8 w-120 h-93" >
         <div className="mb-6 w-full flex justify-between align-middle items-center">
           <Typography className="text-white text-lg">
             {task?.title}
@@ -188,10 +168,10 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
         </div>
 
         
-        <div className="w-full border-solid border-1px border-[#828fa3] focus:border-[#483f95]">
-          <Select onChange={handleDropdownChange} value={selectedOption} className="w-full custom-dropdow" style={{color: 'white'}}>
-              {board?.columns.map((column) => (
-                <MenuItem value={column} className="bg-[#b5b5ba]">{column}</MenuItem>
+        <div className="w-full border-solid border-1px border-[#828fa3]">
+          <Select onChange={handleDropdownChange} value={selectedOption} className="w-full custom-dropdow" style={{color: 'white', outline: '1px '}}>
+              {columns.map((column) => (
+                <MenuItem value={column} className="bg-red-300">{column}</MenuItem>
               ))}
           </Select>
         </div>
@@ -200,7 +180,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ taskId, boardId, setShowF
         </div>
     
     </Modal>
-    {showTaskEdit && <TaskEdit />}
+    {/* {showTaskEdit && task && subtasks && columns && <TaskEdit initialTask={task} initialSubtasks={subtasks} initialColumns={board?.columns} onSave={() => openViewModal(task, setShowFalse)}/>} */}
     
     </div>
 
