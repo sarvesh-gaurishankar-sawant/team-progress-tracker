@@ -53,6 +53,7 @@ export default function CreateNewColumn() {
       name: boardName
     }))
     dispatch(reloadBoard(!reloadBoardFlag))
+    
     handleClose();
   };
   

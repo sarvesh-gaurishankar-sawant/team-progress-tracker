@@ -33,7 +33,7 @@ export const getBoardAsync = createAsyncThunk<BoardType, string>(
     "activeboard/getBoardAsync",
     async (boardId: string) => {
         const board: BoardType = await fetch(`http://localhost:3001/boards/${boardId}`).then(response => response.json())
-        return board;
+        return {... board};
     }
 );
 

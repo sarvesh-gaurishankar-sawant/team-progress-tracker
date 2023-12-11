@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
 import { getBoardAsync } from "../../store/active/activeBoardSlice"
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import { useParams } from "react-router-dom";
 import { BoardType } from "../type";
@@ -14,6 +14,7 @@ export default function Board() {
   let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
   let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+ 
   
   const dispatch = useDispatch<AppDispatch>();
 
@@ -25,6 +26,8 @@ export default function Board() {
     };
     fetchTasks(); 
   }, [paramsId, dispatch, reloadBoard]);
+
+  
   
   if(boardData !== null){
 

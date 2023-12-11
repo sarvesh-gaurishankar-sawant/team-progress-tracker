@@ -30,6 +30,7 @@ export default function DisplayColumn() {
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
   let activeTask: TaskType | null = useSelector((state: RootState) => state.activeTask.value);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
+  let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -51,7 +52,7 @@ export default function DisplayColumn() {
       fetchTasks();
       setRefreshTasksData(false);
     }
-  }, [refreshTasksData, boardData, dispatch, params]);
+  }, [refreshTasksData, boardData, dispatch, params, reloadBoard]);
 
   //Update the task, in database after it is placed in different location on kanban board
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function DisplayColumn() {
      dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
-  }, [tasksObjectArray, boardData, dispatch, params]);
+  }, [tasksObjectArray, boardData, dispatch, params, reloadBoard]);
   
   //Array of all columns in the board
   let allColumns;

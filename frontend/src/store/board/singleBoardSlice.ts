@@ -59,7 +59,9 @@ export const updateBoardAsync = createAsyncThunk<BoardType, BoardType>(
           body: JSON.stringify(board),
         })
           .then(response => response.json())
-        return data;
+        return {
+          ...data
+        };
     }
 );
 
