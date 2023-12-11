@@ -14,15 +14,11 @@ interface Board {
     tasks: any[];
 }
 
-interface BoardComponentProps {
-    userId: string;
-    isSidebarOpen: boolean;
-    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 
-const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
+const Sidebar: React.FC = () => {
     const [boards, setBoards] = useState<Board[]>([]);
+    let userId: string = useSelector((state: RootState) => state.singleUser.value);
 
     let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 

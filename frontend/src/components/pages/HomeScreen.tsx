@@ -11,8 +11,8 @@ const HomeScreen = () => {
   
   return (
     <div className="bg-gray-900 h-screen flex relative">
-      <Sidebar userId='656b811ba83badbd99125a44' isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-      <Navbar  />
+      <Sidebar />
+      <Navbar />
       <Outlet />
     </div>
   );

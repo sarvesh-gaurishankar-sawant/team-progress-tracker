@@ -9,6 +9,7 @@ import singleTaskReducer from './task/singleTaskSlice';
 import singleBoardReducer from './board/singleBoardSlice';
 import reloadBoardReducer from './flags/reloadBoardSlice'
 import reloadTasksSlice from "./flags/reloadTasksSlice";
+import userReducer from './user/userSlice'
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     singleTask:singleTaskReducer,
     singleBoard:singleBoardReducer,
     reloadBoard:reloadBoardReducer,
-    reloadTask:reloadTasksSlice
+    reloadTask:reloadTasksSlice,
+    singleUser:userReducer
   },
 });
 

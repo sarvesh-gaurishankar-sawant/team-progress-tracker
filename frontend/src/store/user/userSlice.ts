@@ -1,66 +1,25 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BoardType } from "../../components/type";
-
-//Interface for typescript
-interface BoardState {
-  value: BoardType | null;
-}
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 //Create the initial slice
-const initialState: BoardState = {
-  value: null,
+const initialState = {
+  value: "",
 };
 
 //Create the slice
-const singleBoardSlice = createSlice({
-  name: "singleBoard",
+const userSlice = createSlice({
+  name: "user",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(
-        createNewBoardAsync.fulfilled,
-        (state, action: PayloadAction<BoardType>) => {
-            state.value = action.payload;
-        }
-    ).addCase(
-      updateBoardAsync.fulfilled,
-      (state, action: PayloadAction<BoardType>) => {
-          state.value = action.payload;
-      }
-  )
-  }
+  reducers: {
+    //Set the side bar flag
+    setUserSlice: (state, action: PayloadAction<string>) => {
+      state.value = action.payload
+    },
+    deleteUserSlice:(state) => {
+      state.value = ""
+    }
+  },
 });
 
-//create new board in database
-export const createNewBoardAsync = createAsyncThunk<BoardType, BoardType>(
-    "singleBoard/createNewBoardAsync",
-    async (board: BoardType) => { 
-        const data = fetch(`http://localhost:3001/boards/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(board),
-        })
-          .then(response => response.json())
-        return data;
-    }
-);
+export const { setUserSlice } = userSlice.actions;
 
-//update board in database 
-export const updateBoardAsync = createAsyncThunk<BoardType, BoardType>(
-    "singleBoard/updateBoardAsync",
-    async (board: BoardType) => { 
-        const data = fetch(`http://localhost:3001/boards/${board._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(board),
-        })
-          .then(response => response.json())
-        return data;
-    }
-);
-
-export default singleBoardSlice.reducer;
+export default userSlice.reducer;

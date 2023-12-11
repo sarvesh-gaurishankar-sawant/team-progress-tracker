@@ -5,8 +5,14 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./components/Boards/Board";
+import { setUserSlice } from "./store/user/userSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store/store";
 
 export default function App() {
+  const dispatch = useDispatch<AppDispatch>();
+  dispatch(setUserSlice("656b811ba83badbd99125a44"))
+
   return (
     <div>
       <BrowserRouter>
