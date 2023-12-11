@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { UserType } from "../../components/type";
 
 //Create the initial slice
 const initialState = {
@@ -19,6 +20,34 @@ const userSlice = createSlice({
     }
   },
 });
+
+//update user in database 
+export const updateUserAsync = createAsyncThunk(
+  "user/updateBoardAsync",
+  async (user: UserType) => { 
+      const data = fetch(`http://localhost:3001/users/${user._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+        .then(response => response.json())
+      return {
+        ...data
+      };
+  }
+);
+
+//get user in database 
+export const getUserAsync = createAsyncThunk(
+  "user/getUserAsync",
+  async (userId: string) => { 
+      const data = fetch(`http://localhost:3001/users/${userId}`)
+        .then(response => response.json())
+      return data;
+  }
+);
 
 export const { setUserSlice } = userSlice.actions;
 

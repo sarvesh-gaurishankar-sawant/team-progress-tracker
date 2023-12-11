@@ -16,6 +16,16 @@ export type TaskType = {
     _id?: string
 }
 
+export type UserType = {
+    firstName:string,
+    lastName:string,
+    email:string,
+    password:string,
+    phoneNo:string,
+    boards: string[],
+    _id:string
+}
+
 export type ColumnType = {
     columnTitle: string,
     tasksObjectArray: TaskType[],
