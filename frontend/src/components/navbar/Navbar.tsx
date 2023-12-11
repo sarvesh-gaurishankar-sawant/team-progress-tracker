@@ -169,7 +169,7 @@ const NavBar: React.FC = () => {
                             handleLanguageSelect(language.language_code);
                           }
                         }}>
-                          <ListItem button key={language.language_code}>
+                          <ListItem key={language.language_code}>
                             <ListItemText primary={language.display_name + '(' + language.native_name + ')'} />
                           </ListItem>
                         </button>
