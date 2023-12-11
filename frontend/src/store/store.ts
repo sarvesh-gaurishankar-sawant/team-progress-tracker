@@ -13,7 +13,7 @@ export const store = configureStore({
     activeColumn:activeColumnReducer,
     activeBoard:activeBoardReducer,
     sideBarFlag:sideBarFlagReducer,
-    notification:sideBarFlagReducer
+    notification:notificationReducer
   },
 });
 

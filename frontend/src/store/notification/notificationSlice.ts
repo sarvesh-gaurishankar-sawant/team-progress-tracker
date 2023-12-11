@@ -1,7 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+interface NotificationType {
+  value: string;
+}
 //Create the initial slice
-const initialState = {
+const initialState: NotificationType = {
   value: '',
 };
 
@@ -11,12 +14,12 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     //Set the side bar flag
-    setNotification: (state, action: PayloadAction<string>) => {
+    setNotificationMessage: (state, action: PayloadAction<string>) => {
       state.value = action.payload
     },
   },
 });
 
-export const { setNotification } = notificationSlice.actions;
+export const { setNotificationMessage } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

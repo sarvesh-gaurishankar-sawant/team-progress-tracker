@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { BoardType } from '../type';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import {setNotificationMessage} from "../../store/notification/notificationSlice"
 
 interface Task {
   title: string;
@@ -21,7 +22,7 @@ interface TaskCardProps {
 
 
 const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => {
-
+  const dispatch = useDispatch<AppDispatch>();
   const emptyBoard: BoardType= {
     columns: [],
     name: "",
@@ -40,7 +41,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     status: 'todo',
     subtasks: [],
   });
-
+  console.log(boardData.columns.length)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setTask((prevTask) => ({
@@ -72,6 +73,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     setTask({ ...task, subtasks: newSubtasks });
   }; 
 
+  
   const handleSubmit = async () => {
     const newTaskData = {
       board: boardId, 
@@ -109,7 +111,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     }
   };
   
-  
+
 
   return (
     <Modal
@@ -202,13 +204,18 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
             </div>
 
             
-            <button
+            {boardData.columns.length !== 0 ? (<button
               type="button"
               className="bg-mainPurple text-white w-full py-2 rounded-full transition duration-300 ease-in-out hover:bg-primary-dark"
               onClick={handleSubmit}
             >
               Create Task
-            </button>
+            </button>) : (<button
+              type="button"
+              className="bg-mainPurple text-white w-full py-2 rounded-full transition duration-300 ease-in-out hover:bg-primary-dark cursor-not-allowed"
+            >
+              Create new column first
+            </button>)}
           </div>
         </div>
       </div>

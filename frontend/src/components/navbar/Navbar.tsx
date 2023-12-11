@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "../../store/store"
 import TaskCard from '../Tasks/TaskCard';
 import Notification from '../Tasks/Notification';
 import { BoardType } from '../type';
+import {setNotificationMessage} from "../../store/notification/notificationSlice"
 
 
 const NavBar: React.FC = () => {
@@ -18,6 +19,16 @@ const NavBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
+
+  const emptyBoard: BoardType= {
+    columns: [],
+    name: "",
+    tasks: [],
+    _id: ""
+  }
+  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+
+  let notificationMessage: string = useSelector((state: RootState) => state.notification.value);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,18 +43,16 @@ const NavBar: React.FC = () => {
  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState<string>('');
+
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  
 
   const handleTaskCreationSuccess = () => {
     closeModal();
-    setNotificationMessage('Task successfully created!');
+    dispatch(setNotificationMessage('Task successfully created!'));
   };
-
-
-
 
   
 
@@ -93,7 +102,8 @@ const NavBar: React.FC = () => {
         
         
         {isModalOpen && <TaskCard  isOpen={isModalOpen} onTaskCreate={() => {closeModal();handleTaskCreationSuccess();}} onClose={() =>  closeModal()}/>}
-        {notificationMessage && (<Notification message={notificationMessage} onTaskCreate={() => setNotificationMessage('')} />)}
+
+        {notificationMessage && (<Notification/>)}
       </div>
     </div>
   );
