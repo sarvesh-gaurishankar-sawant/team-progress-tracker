@@ -190,7 +190,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
                 labelId="status-label"
                 id="status"
                 name="status"
-                value={task.status}
+                value={columns[0]}
                 onChange={handleStatusChange}
                 className="bg-[#2A2E33] text-white border border-[#525960] rounded py-2 px-3 block w-full"
                 inputProps={{ 'aria-label': 'Status' }}
