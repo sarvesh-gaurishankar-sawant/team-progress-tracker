@@ -8,6 +8,7 @@ import notificationReducer from './notification/notificationSlice';
 import singleTaskReducer from './task/singleTaskSlice';
 import singleBoardReducer from './board/singleBoardSlice';
 import reloadBoardReducer from './flags/reloadBoardSlice'
+import reloadTasksSlice from "./flags/reloadTasksSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
     notification:notificationReducer,
     singleTask:singleTaskReducer,
     singleBoard:singleBoardReducer,
-    reloadBoard:reloadBoardReducer
+    reloadBoard:reloadBoardReducer,
+    reloadTask:reloadTasksSlice
   },
 });
 

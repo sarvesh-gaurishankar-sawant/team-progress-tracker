@@ -47,7 +47,7 @@ export default function CreateNewColumn() {
 
  //Update board
   const boardColumnNameUpdate = async () => {
-    dispatch(updateBoardAsync({
+    await dispatch(updateBoardAsync({
       ...boardData,
       columns: inputValues,
       name: boardName

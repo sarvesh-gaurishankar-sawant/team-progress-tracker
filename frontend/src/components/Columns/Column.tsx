@@ -27,13 +27,14 @@ export default function Column({ columnTitle, index}: Props) {
 
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
   let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
 
   useEffect(() => {
     const fetchTasks = async () => {
-      dispatch(getTaskFromBoardAsync(boardData));
+      await dispatch(getTaskFromBoardAsync(boardData));
     };
       fetchTasks();
-  }, [boardData, dispatch, reloadBoard]);
+  }, [boardData, dispatch, reloadBoard, reloadTaskSliceFlag]);
 
   //Hook for DND
   const {

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { getBoardAsync } from '../../store/active/activeBoardSlice';
 import { createNewTaskAsync } from '../../store/task/singleTaskSlice';
+import { reloadTask } from '../../store/flags/reloadTasksSlice';
+
 
 interface Task {
   title: string;
@@ -29,7 +31,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     tasks: [],
     _id: ""
   }
-
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
   
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
   let boardId = boardData._id;
@@ -86,8 +88,9 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     };
   
 
-    dispatch(createNewTaskAsync(newTaskData))
-    dispatch(getBoardAsync(boardData._id))
+    await dispatch(createNewTaskAsync(newTaskData));
+    await dispatch(getBoardAsync(boardData._id));
+    dispatch(reloadTask(!reloadTaskSliceFlag));
     
     setTask({
       title: '',

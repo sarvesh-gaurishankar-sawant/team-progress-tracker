@@ -18,8 +18,6 @@ export default function CreateNewBoard() {
     _id: ""
   }
   
-
-  
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -48,7 +46,7 @@ export default function CreateNewBoard() {
     }
     emptyBoard.columns = inputValues
     emptyBoard.name = boardName
-    dispatch(createNewBoardAsync(emptyBoard))
+    await dispatch(createNewBoardAsync(emptyBoard))
   };
   
 

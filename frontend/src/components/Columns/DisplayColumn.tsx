@@ -24,7 +24,7 @@ export default function DisplayColumn() {
     _id: ""
   }
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
@@ -46,21 +46,21 @@ export default function DisplayColumn() {
   //Get all the tasks for a board
   useEffect(() => {
     const fetchTasks = async () => {
-      dispatch(getTaskFromBoardAsync(boardData));
+      await dispatch(getTaskFromBoardAsync(boardData));
     };
     if(refreshTasksData){
       fetchTasks();
       setRefreshTasksData(false);
     }
-  }, [refreshTasksData, boardData, dispatch, params, reloadBoard]);
+  }, [refreshTasksData, boardData, dispatch, params, reloadBoard, reloadTaskSliceFlag]);
 
   //Update the task, in database after it is placed in different location on kanban board
   useEffect(() => {
     const fetchTasks = async () => {
-     dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
+     await dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
-  }, [tasksObjectArray, boardData, dispatch, params, reloadBoard]);
+  }, [tasksObjectArray, boardData, dispatch, params, reloadBoard, reloadTaskSliceFlag]);
   
   //Array of all columns in the board
   let allColumns;

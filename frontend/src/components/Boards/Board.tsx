@@ -14,6 +14,7 @@ export default function Board() {
   let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
   let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
  
   
   const dispatch = useDispatch<AppDispatch>();
@@ -22,10 +23,10 @@ export default function Board() {
   useEffect(() => {
     console.log("Inside Board")
     const fetchTasks = async () => {
-      dispatch(getBoardAsync(paramsId));
+      await dispatch(getBoardAsync(paramsId));
     };
     fetchTasks(); 
-  }, [paramsId, dispatch, reloadBoard]);
+  }, [paramsId, dispatch, reloadBoard, reloadTaskSliceFlag]);
 
   
   
