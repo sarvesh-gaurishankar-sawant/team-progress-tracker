@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Subtask from "./subtask.js";
 
 const Schema = mongoose.Schema;
 
