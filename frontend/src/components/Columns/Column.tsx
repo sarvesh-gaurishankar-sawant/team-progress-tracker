@@ -15,7 +15,7 @@ interface Props {
 
 export default function Column({ columnTitle, index}: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  
+
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   const emptyBoard: BoardType= {
@@ -24,6 +24,7 @@ export default function Column({ columnTitle, index}: Props) {
     tasks: [],
     _id: ""
   }
+
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
 
   useEffect(() => {

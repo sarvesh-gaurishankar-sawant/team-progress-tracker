@@ -7,21 +7,24 @@ import { AppDispatch, RootState } from "../../store/store"
 import { useParams } from "react-router-dom";
 import { BoardType } from "../type";
 
+
 export default function Board() {
   const params = useParams()
   
   let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
+  let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   
   const dispatch = useDispatch<AppDispatch>();
 
   let paramsId: string = params?.id || ""
   useEffect(() => {
+    console.log("Inside Board")
     const fetchTasks = async () => {
       dispatch(getBoardAsync(paramsId));
     };
     fetchTasks(); 
-  }, [paramsId, dispatch]);
+  }, [paramsId, dispatch, reloadBoard]);
   
   if(boardData !== null){
 

@@ -4,11 +4,10 @@ import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { getBoardAsync } from '../../store/active/activeBoardSlice';
 import { createNewBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
-import { reloadBoard } from '../../store/flags/reloadBoardSlice';
+import PlusIcon from '../../icons/PlusIcon';
 
-export default function CreateNewColumn() {
+export default function CreateNewBoard() {
   
   const dispatch = useDispatch<AppDispatch>();
 
@@ -18,8 +17,9 @@ export default function CreateNewColumn() {
     tasks: [],
     _id: ""
   }
-  let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-  let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  
+
+  
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -36,24 +36,19 @@ export default function CreateNewColumn() {
  const [inputValues, setInputValues] = React.useState<string[]>([]);
  const [boardName, setBoardName] = React.useState("");
 
-
- React.useEffect(
-  () => {
-    setBoardName(boardData.name);
-    setInputValues(boardData.columns);
-  },
-  [boardData]
- )
+ 
 
  //Update board
   const boardColumnNameUpdate = async () => {
-    dispatch(updateBoardAsync({
-      ...boardData,
-      columns: inputValues,
-      name: boardName
-    }))
-    dispatch(reloadBoard(!reloadBoardFlag))
-    handleClose();
+    const emptyBoard: BoardType= {
+      columns: [],
+      name: "",
+      tasks: [],
+      _id: ""
+    }
+    emptyBoard.columns = inputValues
+    emptyBoard.name = boardName
+    dispatch(createNewBoardAsync(emptyBoard))
   };
   
 
@@ -83,12 +78,13 @@ export default function CreateNewColumn() {
 
   return (
     <React.Fragment>
-      <button onClick={handleClickOpen} className="w-72 h-screen bg-[#22232E]" >
-          <span className='text-zinc-400 text-2xl font-bold'>+ New Column</span>
+      <button onClick={handleClickOpen} className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400" >
+            <PlusIcon />
+            <div className="text-hm capitalize">Create New Board</div>
       </button>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
-                <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
+                <h2 className='mb-4 text-white font-bold text-xl'>Add new board</h2>
                 <h3 className='mb-2 text-white font-bold'>Board Name</h3>
                 <input
                     type="text"
@@ -112,7 +108,7 @@ export default function CreateNewColumn() {
                   </div>
                 ))}
                 <button className="bg-[#FFFFFF] text-[#635FC7] mx-auto w-10/12 mb-4 font-bold px-3.5 py-2 rounded-xl" onClick={addInput} type='button'>+ Add New Columns</button>
-                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='button'>Save Changes</button>
+                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='submit'>Save Changes</button>
             </form>
       </Dialog>
     </React.Fragment>

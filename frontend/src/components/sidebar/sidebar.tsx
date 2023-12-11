@@ -4,6 +4,8 @@ import PlusIcon from "../../icons/PlusIcon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store"
+import CreateNewBoard from "../Boards/CreateNewBoard";
+
 
 interface Board {
     _id: string;
@@ -53,7 +55,6 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
                 <div className="flex mx-auto mt-8">
                     <FullLogo className="mx-auto" />
                 </div>
-
                 <div className="flex flex-col mt-24">
                     <div className="w-full ">
                         <div className="text-center py-2 h-2 mb-10 uppercase text-slate-400 text-xs font-bold font-['Plus Jakarta Sans'] mx-auto tracking-[2.40px]">
@@ -75,8 +76,7 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
 
                 <div className="absolute inset-x-0 bottom-10 text-center">
                     <button className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
-                        <PlusIcon />
-                        <div className="text-hm capitalize">Create New Board</div>
+                        <CreateNewBoard />
                     </button>
                 </div>
             </div>

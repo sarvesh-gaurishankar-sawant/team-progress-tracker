@@ -7,6 +7,7 @@ import sideBarFlagReducer from './flags/sideBarFlagSlice';
 import notificationReducer from './notification/notificationSlice';
 import singleTaskReducer from './task/singleTaskSlice';
 import singleBoardReducer from './board/singleBoardSlice';
+import reloadBoardReducer from './flags/reloadBoardSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     sideBarFlag:sideBarFlagReducer,
     notification:notificationReducer,
     singleTask:singleTaskReducer,
-    singleBoard:singleBoardReducer
+    singleBoard:singleBoardReducer,
+    reloadBoard:reloadBoardReducer
   },
 });
 
