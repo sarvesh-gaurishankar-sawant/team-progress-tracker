@@ -5,12 +5,19 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store/store';
 import { setLogin } from '../../store/user/loginSlice';
 import { auth, googleProvider } from "../../firebase-config";
+import { createUserAsync, getUserByEmailAsync } from '../../store/user/singleUserAsyncSlice';
+import { UserType } from '../type';
+import { setUserSlice } from '../../store/user/userSlice';
 
 function SignUp() {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
     const isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
+    let emptyUser: UserType = {
+      email: ""
+    }
+    let userObject: UserType = useSelector((state: RootState) => state.singleUserObjectFromDb.value) || emptyUser;
 
     const location = useLocation();
     const message = location.state?.message;
@@ -27,7 +34,22 @@ function SignUp() {
           window.localStorage.setItem('userToken', idToken);
           dispatch(setLogin(true))
           window.localStorage.setItem('isLoggedIn', 'true');
+          let emptyUserToBeUpdated: UserType = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            phoneNo: "",
+            boards: []
+          }
+          let userToBeUpdate: UserType = {...emptyUserToBeUpdated, email:emailId} 
+          await dispatch(createUserAsync(userToBeUpdate))
+          await dispatch(getUserByEmailAsync(emailId))
+          
+          
+          dispatch(setUserSlice(userObject._id || ""))
         } catch (err) {  
+
           navigate("/", { state: { message: "User already exists" } })
         }
       };
