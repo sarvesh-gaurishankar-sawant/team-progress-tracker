@@ -62,12 +62,12 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
   const url1 = '/assests/loginpage1.png';
   const url2 = '/assests/loginpage2.png';
   return (
-    // linear-gradient(90deg, rgba(102,68,171,1) 0%, rgba(158,74,175,1) 58%, rgba(219,78,179,1) 100%)
-    <div className="flex h-screen bg-cover" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
-      <div className="w-[50%] flex items-center justify-center">
-        <div className='w-[70%] gap-5 flex flex-col'>
-        <div className="text-white text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</div>
-        <div className="text-white text-3xl">Keep everything in the same place, even if your team isn’t.</div>
+    <div className="flex flex-col lg:flex-row items-center justify-center" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
+      {/* Info Section  */}
+      <div className="w-full lg:w-1/2 p-4">
+        <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
+        <h1 className="text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
+        <p className="text-white text-3xl">Keep everything in the same place, even if your team isn’t.</p>
         <div className='flex'>
           <img src={url1} alt="" style={{ width: '300px', height: '250px' }}/>
           <img src={url2} alt=""  style={{ width: '300px', height: '250px' }}/>
