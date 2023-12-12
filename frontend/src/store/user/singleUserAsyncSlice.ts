@@ -32,6 +32,12 @@ const singleUserSlice = createSlice({
             state.value = action.payload;
         }
       )
+      .addCase(
+        getUserByEmailAsync.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+            state.value = action.payload;
+        }
+      )
   }
 });
 
@@ -76,6 +82,17 @@ export const getUserAsync = createAsyncThunk<UserType, string>(
   "user/getUserAsync",
   async (userId: string) => { 
       const response = await fetch(`http://localhost:3001/users/${userId}`)
+      const data: UserType= await response.json()
+      return data;
+  }
+);
+
+
+//get user in database 
+export const getUserByEmailAsync = createAsyncThunk<UserType, string>(
+  "user/getUserByEmailAsync",
+  async (email: string) => { 
+      const response = await fetch(`http://localhost:3001/users/email/${email}`)
       const data: UserType= await response.json()
       return data;
   }
