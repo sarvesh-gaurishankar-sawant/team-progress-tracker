@@ -8,7 +8,7 @@ import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoar
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import { useNavigate } from 'react-router-dom';
 import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
-import { setActiveBoard } from '../../store/active/activeBoardSlice';
+
 
 export default function EditBoard() {
   
