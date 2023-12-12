@@ -12,8 +12,15 @@ import { Line } from 'react-chartjs-2';
 Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
     LineElement, LineController);
 
-export default function DisplayCharts() {
-    const boardId = '657766dcd6306c0036a67e44';
+    type TaskDueDates = { [key: string]: { [key: string]: string } };
+    type TasksData = { [key: string]: number };
+    
+    interface DisplayChartsProps {
+        boardId: string;
+    }
+
+    const DisplayCharts: React.FC<DisplayChartsProps> = ({ boardId }) => {
+    // const boardId = '657766dcd6306c0036a67e44';
 
     const [columnData, setColumnData] = useState<{ [key: string]: number }>({});
     const [showModal, setShowModal] = useState(false);
@@ -153,9 +160,9 @@ export default function DisplayCharts() {
 
     return (
         <div>
-            <Button variant="contained" onClick={handleShowModal}>
-                Open Modal
-            </Button>
+            <button onClick={handleShowModal} className="text-white">
+            View Board's Insights
+            </button>
             <Modal open={showModal} onClose={handleCloseModal} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ width: '50%', height: '80%', backgroundColor: '#fff', padding: '20px', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <h1 style={{ color: '#000', marginBottom: '20px', textDecoration: 'underline' }}>Board Analytics</h1>
@@ -198,3 +205,5 @@ export default function DisplayCharts() {
         </div>
     );
 }
+
+export default DisplayCharts;
