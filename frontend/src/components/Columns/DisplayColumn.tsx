@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import Column from "./Column";
 import { BoardType, TaskType } from '../type';
 import { useEffect, useState } from "react";
@@ -15,11 +14,6 @@ import Loading from "../Loading/Loading";
 import CreateNewColumn from "./CreateNewColumn";
 import { useParams } from "react-router-dom";
 
-
-interface Props {
-    boardData: BoardType;
-}
-
 export default function DisplayColumn() {
   const params = useParams()
 
@@ -30,12 +24,13 @@ export default function DisplayColumn() {
     _id: ""
   }
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
   //State
   let tasksObjectArray: TaskType[] = useSelector((state: RootState) => state.tasksObjectArray.value);
   let activeColumn: ColumnType | null = useSelector((state: RootState) => state.activeColumn.value);
   let activeTask: TaskType | null = useSelector((state: RootState) => state.activeTask.value);
   const [refreshTasksData, setRefreshTasksData ] = useState(true)
+  let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -51,21 +46,21 @@ export default function DisplayColumn() {
   //Get all the tasks for a board
   useEffect(() => {
     const fetchTasks = async () => {
-      dispatch(getTaskFromBoardAsync(boardData));
+      await dispatch(getTaskFromBoardAsync(boardData));
     };
     if(refreshTasksData){
       fetchTasks();
       setRefreshTasksData(false);
     }
-  }, [refreshTasksData, boardData, dispatch, params]);
+  }, [refreshTasksData, boardData, dispatch, params, reloadBoard, reloadTaskSliceFlag]);
 
   //Update the task, in database after it is placed in different location on kanban board
   useEffect(() => {
     const fetchTasks = async () => {
-     dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
+     await dispatch(updateTaskFromBoardAsync({boardData,tasksObjectArray }));
     }
     fetchTasks();
-  }, [tasksObjectArray, boardData, dispatch, params]);
+  }, [tasksObjectArray, boardData, dispatch, params, reloadBoard, reloadTaskSliceFlag]);
   
   //Array of all columns in the board
   let allColumns;

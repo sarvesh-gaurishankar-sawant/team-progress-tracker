@@ -28,6 +28,7 @@
     "dhtmlx-gantt": "^8.0.6",
     "dotenv": "^16.3.1",
     "env": "^0.0.2",
+    "firebase": "^10.7.1",
     "frappe-gantt": "^0.6.1",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
@@ -48,7 +49,8 @@
     "util": "^0.12.5",
     "victory": "^36.7.0",
     "vis-timeline": "^7.7.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "mongoose": "^8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

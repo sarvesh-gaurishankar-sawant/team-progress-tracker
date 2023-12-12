@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ReactComponent as FullLogo } from '../../assets/svg/full-icon.svg';
-import { ReactComponent as BoardLogo } from '../../assets/svg/board-icon.svg';
-import { Button, Typography } from "@mui/material";
-import '../../styles/styles.css';
 import PlusIcon from "../../icons/PlusIcon";
-import { Link } from "react-router-dom";
-import { setSideBarFlag } from "../../store/flags/sideBarFlagSlice"
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store"
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store"
+import CreateNewBoard from "../Boards/CreateNewBoard";
+
 
 interface Board {
     _id: string;
@@ -16,19 +14,11 @@ interface Board {
     tasks: any[];
 }
 
-interface BoardComponentProps {
-    userId: string;
-    isSidebarOpen: boolean;
-    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 
-const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
+const Sidebar: React.FC = () => {
     const [boards, setBoards] = useState<Board[]>([]);
-    const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(null);
-    const [isMobile, setIsMobile] = useState<boolean>(false);
-
-    const dispatch = useDispatch<AppDispatch>();
+    let userId: string = useSelector((state: RootState) => state.singleUser.value);
 
     let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 
@@ -50,66 +40,39 @@ const Sidebar: React.FC<BoardComponentProps> = ({ userId }) => {
         fetchBoards();
     }, [userId]);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768); // Set breakpoint as per your design
-        };
-
-        handleResize(); // Set initial width
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    const handleButtonClick = (index: number) => {
-        if (activeButtonIndex === index) {
-            // Clicked on the already active button, toggle it off
-            setActiveButtonIndex(null);
-        } else {
-            // Clicked on a different button, set it as active
-            setActiveButtonIndex(index);
-        }
-    };
-
     const totalBoards = boards.length;
 
 
     return (
         <aside className={isSidebarOpen ? 'sidebar open' : 'sidebar'}>
-        <div className={`fixed ${isMobile ? 'block' : 'flex'} flex-col bg-gray-800 ${isMobile ? 'w-3/5 h-screen' : 'h-screen w-1/5'} border border-gray-900`}>
-        <div className={`fixed flex flex-col bg-gray-800 h-screen ${isMobile ? 'w-3/5 ' : 'w-1/5'}  border border-gray-900`}>
+        <div className={`fixed block sm:flex flex-col bg-gray-800 w-3/5 h-screen sm:h-screen sm:w-1/5 border border-gray-900`}>
+        <div className={`fixed flex flex-col bg-gray-800 h-screen w-3/5 sm:w-1/5 border border-gray-900`}>
             <div className="h-screen">
                 <div className="flex mx-auto mt-8">
                     <FullLogo className="mx-auto" />
                 </div>
-
                 <div className="flex flex-col mt-24">
                     <div className="w-full ">
                         <div className="text-center py-2 h-2 mb-10 uppercase text-slate-400 text-xs font-bold font-['Plus Jakarta Sans'] mx-auto tracking-[2.40px]">
                             all boards ({totalBoards})
                         </div>
                         {boards.map((board, index) => (
-                            <Link
-                                key={index}
-                                className={`w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex bg-purple-500 text-white uppercase items-center justify-center
-                            ${
-                                activeButtonIndex === index ? 'bg-purple-500 text-white' : 'bg-transparent text-gray-500'
-                            } ${!isMobile ? 'hover:bg-gray-400': 'hover:bg-purple-500'} hover:text-white`}
-                                to={board._id}
-                            >
-                                <span className="">{board.name}</span>
-                            </Link>
+                            <NavLink
+                            key={index}
+                            className={({ isActive }) => (
+                              `w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex text-white uppercase items-center hover:bg-purple-500 justify-center ${isActive && 'bg-purple-500'}`
+                            )}
+                            to={board._id}
+                          >
+                            <span >{board.name}</span>
+                          </NavLink>
                         ))}
                     </div>
                 </div>
 
                 <div className="absolute inset-x-0 bottom-10 text-center">
                     <button className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400">
-                        <PlusIcon />
-                        <div className="text-hm capitalize">Create New Board</div>
+                        <CreateNewBoard />
                     </button>
                 </div>
             </div>

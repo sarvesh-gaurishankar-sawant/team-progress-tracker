@@ -20,6 +20,6 @@ const SubtaskSchema = new Schema({
     versionKey: false
 });
 
-const SubtaskModel = mongoose.model('course', SubtaskSchema);
+const SubtaskModel = mongoose.model('subtasks', SubtaskSchema);
 
 export default SubtaskModel;
