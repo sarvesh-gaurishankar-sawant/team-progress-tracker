@@ -58,18 +58,18 @@ const SignUp: React.FC = () => {
       {/* Info Section */}
       <div className="w-full lg:w-1/2 p-4">
         <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
-          <h1 className="text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
-          <p className="text-white text-lg md:text-xl">Keep everything in the same place, even if your team isn’t.</p>
+          <h1 className="hidden md:block text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
+          <p className="hidden md:block text-white text-lg md:text-xl">Keep everything in the same place, even if your team isn’t.</p>
           <div className='flex flex-wrap justify-center gap-4'>
-            <img src={url1} alt="" style={{ width: '300px', height: '250px' }}/>
-            <img src={url2} alt=""  style={{ width: '300px', height: '250px' }}/>
+            <img src={url1} alt="" style={{ width: '300px', height: '250px' }} className='hidden md:block'/>
+            <img src={url2} alt=""  style={{ width: '300px', height: '250px' }} className='hidden md:block'/>
           </div>
         </div>
       </div>
 
       {/* Form Section */}
       <div className="w-full lg:w-1/2 flex items-center justify-center">
-        <form className="w-full max-w-lg p-4 bg-black bg-opacity-50 shadow-md rounded-md" onSubmit={handleSignUp}>
+        <form className="w-full max-w-lg p-4 bg-transparent md:bg-black md:bg-opacity-50 shadow-md rounded-md" onSubmit={handleSignUp}>
           <h2 className="text-white text-2xl mb-4">Sign Up</h2>
           
           {/* First Name */}
