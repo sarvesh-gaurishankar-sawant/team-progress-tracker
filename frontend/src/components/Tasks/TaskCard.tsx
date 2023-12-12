@@ -84,7 +84,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
       index,
       description: task.description,
       status: task.status,
-      subtask: task.subtasks,
+      subtasks: task.subtasks,
     };
   
 
