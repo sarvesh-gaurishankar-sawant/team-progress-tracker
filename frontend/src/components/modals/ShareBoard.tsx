@@ -41,7 +41,7 @@ async function UpdateUserData(userData: any, userID: string): Promise<any> {
         }
 
         const data = await response.json();
-        console.log('Data:', data);
+        // console.log('Data:', data);
 
         return data;
     } catch (error) {
@@ -88,11 +88,11 @@ const ShareBoardModal: React.FC = () => {
                 // Update the user data with the modified 'boards' array
                 const updatedUserData = { ...userData, boards: updatedBoards };
 
-                console.log('Updated user data:', updatedUserData);
+                // console.log('Updated user data:', updatedUserData);
     
                 // Hit another endpoint with the updated user data
                 const secondResponse = await UpdateUserData(updatedUserData, userData._id);
-                console.log('Updated user data:', secondResponse);
+                // console.log('Updated user data:', secondResponse);
 
                 if (secondResponse) {
                     Swal.fire({

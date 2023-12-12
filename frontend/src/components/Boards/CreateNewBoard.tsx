@@ -73,8 +73,7 @@ export default function CreateNewBoard() {
     setBoardName(event.target.value)
   }
 
-  // className="flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400"
-
+  
   return (
     <React.Fragment>
       <button onClick={handleClickOpen} className='flex items-center justify-center' >
