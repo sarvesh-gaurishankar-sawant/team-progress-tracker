@@ -11,7 +11,7 @@ export type TaskType = {
     description: string,
     index: number,
     status: string,
-    subtask: string[],
+    subtasks: string[],
     title: string,
     _id?: string
 }

@@ -3,6 +3,13 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TaskType } from "../type";
+import TaskViewModal from "../modals/task-view-modal";
+import { useEffect, useState } from "react";
+import TaskCRUD from "./TaskCRUD";
+import { Console } from "console";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { reloadTask } from "../../store/flags/reloadTasksSlice";
 
 interface Props {
   task: TaskType;
@@ -26,8 +33,14 @@ export default function Task({ task }: Props) {
   });
   const style = {
     transition,
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Transform.toString(transform)
   };
+
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [showViewModal, setShowViewModal] = useState(false);
+
   //Component to be shown if the task is dragging
   if (isDragging) {
     return (
@@ -51,8 +64,10 @@ export default function Task({ task }: Props) {
       style={style}
       {...attributes}
       {...listeners}
+      onClick={() => {console.log("Clicked"); setShowViewModal(true)}}
     >
         {task.title}
+        {showViewModal && <TaskCRUD taskId={task._id} viewModal={showViewModal} closeModal={() => {setShowViewModal(false); dispatch(reloadTask(!reloadTaskSliceFlag));}} />}
     </div>
   )
 }

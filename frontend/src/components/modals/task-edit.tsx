@@ -2,10 +2,11 @@ import { Modal, SelectChangeEvent } from '@mui/material';
 import React, { ChangeEvent, ReactEventHandler, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from "@mui/system/Box";
-import { ITask }from '../../model interfaces/ITask';
-import { ISubtask } from '../../model interfaces/ISubtask';
 import { set } from 'mongoose';
 import TaskViewModal from './task-view-modal';
+import { TaskType } from '../type';
+import { ITask } from '../../model interfaces/ITask';
+import { ISubtask } from '../../model interfaces/ISubtask';
 
  interface TaskEditModalProps {
     initialTask: ITask;

@@ -2,11 +2,11 @@ import { Checkbox, FormControlLabel, FormGroup, IconButton, Menu, MenuItem, Typo
 import Modal from '@mui/material/Modal';
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { ITask } from "../../model interfaces/ITask" 
-import { ISubtask } from "../../model interfaces/ISubtask";
-import { IBoard } from "../../model interfaces/IBoard";
 import { set } from "mongoose";
 import TaskEdit from "./task-edit";
+import { TaskType } from "../type";
+import { ITask } from "../../model interfaces/ITask";
+import { ISubtask } from "../../model interfaces/ISubtask";
 
 
 interface TaskViewModalProps {
@@ -14,9 +14,12 @@ interface TaskViewModalProps {
     initialSubtasks: ISubtask[]; // Replace with the actual type of your parameter
     initialColumns: string[];
     onEdit: () => void;
+    onClose: () => void;
   }
 
-const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit }) => {
+const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit, onClose }) => {
+  console.log("inside task view modal");
+  console.log(initialColumns);
   const [task, setTask] = useState<ITask>(initialTask);
   const [subtasks, setSubtasks] = useState<ISubtask[]>(initialSubtasks);
   const [columns, setColumns] = useState<string[]>(initialColumns);
@@ -36,9 +39,10 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
   const [showTaskEdit, setShowTaskEdit] = useState(false);
 
   useEffect(() => {
+        setColumns(initialColumns);
         setSelectedOption(task.status);
         setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
-  }, []);
+  }, [initialColumns]);
 
 
   const [open, setOpen] = useState(true);
@@ -115,7 +119,8 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
         console.error('Error fetching data:', error);
       }
     });
-    setOpen(false);
+    // setOpen(false);
+    onClose();
   };
 
   return (
