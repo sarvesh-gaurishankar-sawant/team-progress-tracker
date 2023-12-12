@@ -7,6 +7,11 @@ import {
 } from 'chart.js';
 import { Modal, Button } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import {  useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store"
+import { BoardType } from "../components/type";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store"
 
 
 Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
@@ -19,8 +24,21 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         boardId: string;
     }
 
-    const DisplayCharts: React.FC<DisplayChartsProps> = ({ boardId }) => {
+    const DisplayCharts: React.FC = ( ) => {
+
+        const emptyBoard: BoardType= {
+            columns: [],
+            name: "",
+            tasks: [],
+            _id: ""
+          }
+        
+            let board: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+            let boardId: string = board._id;
+            console.log("boardId", boardId);
+        
     // const boardId = '657766dcd6306c0036a67e44';
+
 
     const [columnData, setColumnData] = useState<{ [key: string]: number }>({});
     const [showModal, setShowModal] = useState(false);
@@ -35,9 +53,16 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         setShowModal(true);
     };
 
+
+
     useEffect(() => {
         const fetchDataAndTasks = async () => {
             try {
+
+                if (boardId == '') {
+                    return <div>No board ID provided</div>;
+                }
+
                 const columns = await FetchData(boardId);
 
                 const columnTasksCounts: { [key: string]: number } = {};
@@ -76,7 +101,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
             }
         }
         fetchDataAndTasks();
-    }, []);
+    }, [board]);
 
 
     const generateRandomColorPalette = (count: number): string[] => {
@@ -155,6 +180,8 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
             datasets,
         });
     }, [taskDueDates]);
+
+    console.log("taskDueDates", taskDueDates);
     
 
 
