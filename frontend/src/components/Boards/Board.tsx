@@ -2,9 +2,9 @@ import { useEffect } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
 import { getBoardAsync } from "../../store/active/activeBoardSlice"
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { BoardType } from "../type";
 
 
@@ -27,6 +27,14 @@ export default function Board() {
     };
     fetchTasks(); 
   }, [paramsId, dispatch, reloadBoard, reloadTaskSliceFlag]);
+
+  let isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
+
+  if(!isLoggedIn){
+    return (
+      <Navigate to="/" />
+    )
+  }
 
   
   

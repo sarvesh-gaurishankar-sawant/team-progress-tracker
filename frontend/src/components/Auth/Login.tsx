@@ -8,18 +8,18 @@ import {
 } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import HomeScreen from "../pages/HomeScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { setLogin } from "../../store/user/loginSlice";
 
 
 function Login() {
 
-    const [isLoggedIn, setisLoggedIn] = useState(
-      false || window.localStorage.getItem('isLoggedIn') === 'true'
-    );
-
-    const [token, setToken] = useState('');
+    const isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
+    const dispatch = useDispatch<AppDispatch>();
 
     console.log(`isLoggedIn ${isLoggedIn}`)
-    console.log(`token ${token}`)
+    console.log(`token ${window.localStorage.getItem('userToken')}`)
 
     
     const signInWithGoogle = async () => {
@@ -27,20 +27,9 @@ function Login() {
           const result = await signInWithPopup(auth, googleProvider);
           const user = result.user;
           const idToken = await user.getIdToken();
-          setToken(idToken)
-          setisLoggedIn(true)
+          window.localStorage.setItem('userToken', idToken);
+          dispatch(setLogin(true))
           window.localStorage.setItem('isLoggedIn', 'true');
-        } catch (err) {
-          console.error(err);
-        }
-    };
-
-    const logout = async () => {
-        try {
-          await signOut(auth);
-          setisLoggedIn(false)
-          setToken('')
-          window.localStorage.setItem('isLoggedIn', 'false');
         } catch (err) {
           console.error(err);
         }

@@ -15,6 +15,7 @@ import '../../styles/styles.css';
 import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
 import { cols } from '../../components/LoadJson/LoadJson';
 import { translate } from '../Translations/translate';
+import AccountMenu from '../Auth/AccountMenu';
 
 
 
@@ -111,6 +112,7 @@ const NavBar: React.FC = () => {
             <button>
               <MoreVertIcon className='h-8' />
             </button>
+            <AccountMenu />
 
             {/* Language Selection Modal */}
 
@@ -155,6 +157,7 @@ const NavBar: React.FC = () => {
             <button>
               <MoreVertIcon className='h-8' />
             </button>
+            <AccountMenu />
 
             {/* Language Selection Modal */}
             <Dialog open={languageModalOpen} onClose={closeLanguageModal}>
