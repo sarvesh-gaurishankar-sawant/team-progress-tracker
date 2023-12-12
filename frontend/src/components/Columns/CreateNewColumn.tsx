@@ -8,6 +8,7 @@ import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoar
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import { useNavigate } from 'react-router-dom';
 import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
+import { setActiveBoard } from '../../store/active/activeBoardSlice';
 
 export default function CreateNewColumn() {
   
@@ -62,6 +63,7 @@ export default function CreateNewColumn() {
   const handleDeleteBoard = async () => {
     await dispatch(deleteBoardAsync(boardData._id || ''))
     await dispatch(getBoardFromUserAsync(boardData?.user || ''))
+    
     navigate('/board')
     handleClose();
   }
@@ -111,7 +113,7 @@ export default function CreateNewColumn() {
                     required
                 />
                 <h3 className='mb-2 text-white font-bold'>Board Columns</h3>
-                {inputValues.map((value, index) => (
+                {inputValues && inputValues.map((value, index) => (
                   <div key={index} className='mx-auto flex flex-row w-10/12 justify-between mb-3'>
                     <input
                       type="text"
