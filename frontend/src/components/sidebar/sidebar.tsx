@@ -24,9 +24,7 @@ interface Board {
 
 
 const Sidebar: React.FC = () => {
-    // const [boards, setBoards] = useState<Board[]>([]);
-    const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
-
+    
     const emptyBoard: BoardType= {
         columns: [],
         name: "",
@@ -34,6 +32,7 @@ const Sidebar: React.FC = () => {
         _id: ""
       }
       let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
+      
       const location = useLocation();
     let userId: string = useSelector((state: RootState) => state.singleUser.value);
     console.log(userId + "userId is")
@@ -44,11 +43,6 @@ const Sidebar: React.FC = () => {
 
     let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
 
-    const handleBoardClick = (boardId: string) => {
-        setActiveBoardId(boardId); // Set the clicked board as active
-    };
-
-    console.log("activeBoardId", activeBoardId);
     const dispatch = useDispatch<AppDispatch>();
 
     let emptyUser: UserType = {
@@ -91,7 +85,7 @@ const Sidebar: React.FC = () => {
                                             `w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex text-white uppercase items-center hover:bg-purple-500 justify-center ${isActive && 'bg-purple-500'}`
                                         )}
                                         to={board._id}
-                                        onClick={() => handleBoardClick(board._id)}
+                                        
                                     >
                                         <span >{board.name}</span>
                                     </NavLink>
