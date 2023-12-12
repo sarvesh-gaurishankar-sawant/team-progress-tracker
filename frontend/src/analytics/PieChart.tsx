@@ -1,23 +1,24 @@
 import { FetchData, FetchTasksinColumn } from "../analytics/FetchDataAnalytics";
 import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
-import { Chart, ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement 
-    , LineElement, LineController} from 'chart.js';
-import { VictoryChart, VictoryLine, VictoryLegend, VictoryAxis } from 'victory';
+import {
+    Chart, ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement
+    , LineElement, LineController
+} from 'chart.js';
 import { Modal, Button } from '@mui/material';
 import { Line } from 'react-chartjs-2';
-import {  } from 'chart.js';
 
-Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement, 
+
+Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
     LineElement, LineController);
 
 export default function PieChart() {
     const boardId = '657766dcd6306c0036a67e44';
-    const column = 'test1'
 
     const [columnData, setColumnData] = useState<{ [key: string]: number }>({});
     const [showModal, setShowModal] = useState(false);
-    const [taskDueDates, setTaskDueDates] = useState<{ [key: string]: { [key: string]: string[] } }>({});
+    const [taskDueDates, setTaskDueDates] = useState<{ [key: string]: { [key: string]: string } }>({});
+    const [tasks, setTasks] = useState({});
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -33,7 +34,7 @@ export default function PieChart() {
                 const columns = await FetchData(boardId);
 
                 const columnTasksCounts: { [key: string]: number } = {};
-                const tasksDueDates: { [key: string]: { [key: string]: string[] } } = {};
+                const tasksDueDates: { [key: string]: { [key: string]: string } } = {};
 
                 // Loop through each column name
                 for (const columnName of columns) {
@@ -45,22 +46,23 @@ export default function PieChart() {
                         if (!tasksDueDates[columnName]) {
                             tasksDueDates[columnName] = {};
                         }
-                        if (!tasksDueDates[columnName][task.title]) {
-                            tasksDueDates[columnName][task.title] = []; // Initialize as an empty array if it doesn't exist
-                        }
+                        // if (!tasksDueDates[columnName][task.title]) {
+                        //     tasksDueDates[columnName][task.title] = []; // Initialize as an empty array if it doesn't exist
+                        // }
                         const dueDate = new Date(task.dueDate);
                         const year = dueDate.getFullYear();
                         const month = dueDate.getMonth() + 1; // Month is zero-indexed, so adding 1
                         const day = dueDate.getDate();
 
                         const completeDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-                        tasksDueDates[columnName][task.title].push(completeDate); // Append the due date to the list
+                        tasksDueDates[columnName][task.title] = completeDate; // Append the due date to the list
                     });
                 }
                 setColumnData(columnTasksCounts);
                 setTaskDueDates(tasksDueDates);
+                setTasks(tasks);
 
-                // console.log(tasksDueDates);
+                console.log(tasksDueDates);
             }
             catch (error) {
                 console.error('Error:', error);
@@ -107,7 +109,45 @@ export default function PieChart() {
     };
 
 
-    
+    const [lineChartData, setLineChartData] = useState<{ labels: string[], datasets: { data: number[] }[] }>({
+        labels: [],
+        datasets: [{ data: [] }],
+    });
+
+
+    useEffect(() => {
+        // ... (existing code remains unchanged)
+
+        const datesCountMap: { [date: string]: number } = {};
+
+        // Calculate task counts for each date
+        Object.values(taskDueDates).forEach(columnTasks => {
+            Object.values(columnTasks).forEach(date => {
+                if (datesCountMap[date]) {
+                    datesCountMap[date]++;
+                } else {
+                    datesCountMap[date] = 1;
+                }
+            });
+        });
+
+        const sortedDates = Object.keys(datesCountMap).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+        const taskCounts = sortedDates.map(date => datesCountMap[date]);
+
+        setLineChartData({
+            ...lineChartData,
+            labels: sortedDates,
+            datasets: [
+                {
+                    ...lineChartData.datasets[0],
+                    data: taskCounts,
+                },
+            ],
+        });
+    }, [taskDueDates]);
+
+
+
 
     return (
         <div>
@@ -115,7 +155,7 @@ export default function PieChart() {
                 Open Modal
             </Button>
             <Modal open={showModal} onClose={handleCloseModal} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: '50%', height: '50%', backgroundColor: '#fff', padding: '20px', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: '50%', height: '80%', backgroundColor: '#fff', padding: '20px', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <h2 style={{ color: '#000', marginBottom: '20px', textDecoration: 'underline' }}>Board Analytics</h2>
 
                     <div style={{ width: '100%', height: '50%' }}>
@@ -133,6 +173,17 @@ export default function PieChart() {
                         </div>
                         <hr style={{ width: '100%', marginTop: '20px', marginBottom: '20px', borderTop: '1px solid #000' }} />
                     </div>
+
+                    <div style={{ width: '100%', height: '50%' }}>
+                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '10px', textDecoration: 'underline' }}>
+                            Line Graph (Tasks Due Over Time)
+                        </h2>
+                        <div style={{ width: '100%', height: '90%', maxWidth: '100%' }}>
+                            <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
+                        </div>
+                        <hr style={{ width: '100%', marginTop: '20px', marginBottom: '20px', borderTop: '1px solid #000' }} />
+                    </div>
+
                 </div>
             </Modal>
         </div>
