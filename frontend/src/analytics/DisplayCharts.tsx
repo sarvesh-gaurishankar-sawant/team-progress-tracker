@@ -7,11 +7,10 @@ import {
 } from 'chart.js';
 import { Modal, Button } from '@mui/material';
 import { Line } from 'react-chartjs-2';
-import {  useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store"
 import { BoardType } from "../components/type";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store"
+import generatePDF from '../analytics/GenerateReport';
 
 
 Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
@@ -35,7 +34,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         
             let board: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
             let boardId: string = board._id;
-            console.log("boardId", boardId);
+            // console.log("boardId", boardId);
         
     // const boardId = '657766dcd6306c0036a67e44';
 
@@ -186,7 +185,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
 
 
     return (
-        <div>
+        <div id="AnalyticsReport">
             <button onClick={handleShowModal} className="text-white">
             View Board's Insights
             </button>
@@ -226,6 +225,10 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
                         <Button variant="contained" onClick={handleCloseModal}>
                             Close
                         </Button>
+{/* 
+                        <Button variant="contained" onClick={generatePDF}>
+                            Download Report
+                        </Button> */}
                     </div>
                 </div>
             </Modal>
