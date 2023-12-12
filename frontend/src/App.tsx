@@ -10,6 +10,7 @@ import { AppDispatch } from "./store/store";
 import { setUserSlice } from "./store/user/userSlice";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
+import PageNotFound from './components/pages/PageNotFound';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/board" element={<HomeScreen />}>
             <Route path=":id" element={<Board />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       

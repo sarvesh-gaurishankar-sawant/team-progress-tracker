@@ -19,7 +19,10 @@ const HomeScreen = () => {
   useEffect(() => {
     async function setVal() {
       await dispatch(getUserByEmailAsync(window.localStorage.getItem('email') || ""))
-      dispatch(setUserSlice(userObject._id || ""))
+      if(userObject._id){
+        dispatch(setUserSlice(userObject._id || ""))
+      }
+      
     }
     setVal()
   }, [isLoggedIn])

@@ -47,7 +47,10 @@ const Sidebar: React.FC = () => {
     
     let userObject: UserType = useSelector((state: RootState) => state.singleUserObjectFromDb.value) || emptyUser;
       
-    dispatch(setUserSlice(userObject._id || ""))
+    if(userObject.email !== "" && userObject._id){
+        dispatch(setUserSlice(userObject._id || ""))
+    }
+    
 
 
     useEffect(() => {
