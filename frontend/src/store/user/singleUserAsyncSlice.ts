@@ -25,7 +25,13 @@ const singleUserSlice = createSlice({
       .addCase(
         getUserAsync.fulfilled,
         (state) => {}
-      );
+      )
+      .addCase(
+        createUserAsync.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+            state.value = action.payload;
+        }
+      )
   }
 });
 
@@ -35,6 +41,24 @@ export const updateUserAsync = createAsyncThunk<UserType, UserType>(
   async (user: UserType) => { 
       const response = await fetch(`http://localhost:3001/users/${user._id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+      const data: UserType= await response.json()
+      return {
+        ...data
+      };
+  }
+);
+
+//update user in database 
+export const createUserAsync = createAsyncThunk<UserType, UserType>(
+  "user/createUserAsync",
+  async (user: UserType) => { 
+      const response = await fetch(`http://localhost:3001/users/`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
