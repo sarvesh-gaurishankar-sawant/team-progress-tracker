@@ -6,11 +6,11 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     firstName: {
         type: String,
-        required: true
+        required: false
     },
     lastName: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -18,11 +18,11 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
     phoneNo: {
         type: String,
-        required: true
+        required: false
     },
     boards: [{
         type: String,
