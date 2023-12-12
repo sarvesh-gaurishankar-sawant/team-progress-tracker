@@ -60,7 +60,7 @@ const Sidebar: React.FC = () => {
                             <NavLink
                             key={index}
                             className={({ isActive }) => (
-                              `w-full h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex text-white uppercase items-center hover:bg-purple-500 justify-center ${isActive && 'bg-purple-500'}`
+                              `w-4/5 h-12 border border-gray-600 text-hm rounded-full rounded-l-none flex text-white uppercase items-center hover:bg-purple-500 justify-center ${isActive && 'bg-purple-500'} mb-3`
                             )}
                             to={board._id}
                           >

@@ -18,8 +18,7 @@ interface TaskViewModalProps {
   }
 
 const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit, onClose }) => {
-  console.log("inside task view modal");
-  console.log(initialColumns);
+
   const [task, setTask] = useState<ITask>(initialTask);
   const [subtasks, setSubtasks] = useState<ISubtask[]>(initialSubtasks);
   const [columns, setColumns] = useState<string[]>(initialColumns);
@@ -39,10 +38,12 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
   const [showTaskEdit, setShowTaskEdit] = useState(false);
 
   useEffect(() => {
+        setTask(initialTask);
+        setSubtasks(initialSubtasks);
         setColumns(initialColumns);
         setSelectedOption(task.status);
-        setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
-  }, [initialColumns]);
+        setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);       
+  }, [initialColumns, initialTask, initialSubtasks]);
 
 
   const [open, setOpen] = useState(true);
