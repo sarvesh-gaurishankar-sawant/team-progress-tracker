@@ -83,7 +83,7 @@ export default function CreateNewBoard() {
   }
 
   return (
-    <React.Fragment>
+    <div className='flex border border-gray-600 items-center justify-center h-12 w-full bg-[#625FC7] text-white rounded-full py-2 px-4 mx-auto hover:bg-purple-400'>
       <button onClick={handleClickOpen} className='flex items-center justify-center' >
             <PlusIcon />
             <div className="text-hm capitalize">Create New Board</div>
@@ -117,6 +117,6 @@ export default function CreateNewBoard() {
                 <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='button'>Save Changes</button>
             </form>
       </Dialog>
-    </React.Fragment>
+    </div>
   );
 }
