@@ -9,7 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setLogin } from "../../store/user/loginSlice";
@@ -71,6 +71,7 @@ function Login() {
       {!isLoggedIn 
         ? 
       <div className="flex flex-col justify-center items-center">
+        <h2 className="text-white p-4 mt-4 mb-8 font-bold">Login for existing user</h2>
         <input
           placeholder="Email..."
           onChange={(e) => setEmail(e.target.value)}
@@ -83,6 +84,7 @@ function Login() {
           className="text-white bg-slate-700 px-4 py-2 rounded-md border border-slate-600 focus:border-slate-500 mb-4"
         />
         <button onClick={signIn} className="bg-primary text-white px-4 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition duration-300 ease-in-out">Sign In</button>
+        <NavLink to="/signup" className="bg-primary text-white px-4 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition duration-300 ease-in-out">New User ?</NavLink>
       </div> : <Navigate to="/board"/>}
     </div>
     </div>

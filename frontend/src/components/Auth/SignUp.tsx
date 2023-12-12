@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store/store';
 import { setLogin } from '../../store/user/loginSlice';
 import { auth, googleProvider } from "../../firebase-config";
@@ -65,6 +65,7 @@ function SignUp() {
         {!isLoggedIn 
         ? 
         <div className="flex flex-col justify-center items-center">
+       <h2 className="text-white mt-4 mb-8 font-bold">SignUp for new user</h2>   
   <input
     placeholder="Email..."
     onChange={(e) => setEmail(e.target.value)}
@@ -82,6 +83,7 @@ function SignUp() {
   >
     Sign Up
   </button>
+  <NavLink to="/" className="bg-primary text-white px-4 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition duration-300 ease-in-out">Existing User ?</NavLink>
 </div> : <Navigate to="/board"/>}
     </div>
   )
