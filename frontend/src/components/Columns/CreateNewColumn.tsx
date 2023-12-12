@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import { useNavigate } from 'react-router-dom';
+import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
 
 export default function CreateNewColumn() {
   
@@ -54,12 +55,13 @@ export default function CreateNewColumn() {
       columns: inputValues,
       name: boardName
     }))
-    
+    await dispatch(getBoardFromUserAsync(boardData?.user || ''))
     handleClose();
   };
   
   const handleDeleteBoard = async () => {
     await dispatch(deleteBoardAsync(boardData._id || ''))
+    await dispatch(getBoardFromUserAsync(boardData?.user || ''))
     navigate('/board')
     handleClose();
   }

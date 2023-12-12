@@ -53,25 +53,10 @@ const Sidebar: React.FC = () => {
         dispatch(setUserSlice(userObject._id || ""))
     }
     
-
-
     useEffect(() => {
         const fetchBoards = async () => {
-            // try {
-            //     const response = await fetch(`http://localhost:3001/boards/?userId=${userId}`);
-            //     if (response.ok) {
-            //         const data = await response.json();
-            //         setBoards(data);
-            //     } else {
-            //         throw new Error('Failed to fetch boards');
-            //     }
-            // } catch (error) {
-            //     console.error('Error fetching boards:', error);
-            // }
             await dispatch(getBoardFromUserAsync(userId))
-            
         };
-
         fetchBoards();
     }, [userId, reloadBoardFlag]);
 
@@ -91,7 +76,7 @@ const Sidebar: React.FC = () => {
                                 <div className="text-center py-2 h-2 mb-10 uppercase text-slate-400 text-xs font-bold font-['Plus Jakarta Sans'] mx-auto tracking-[2.40px]">
                                     all boards ({totalBoards})
                                 </div>
-                                {boards.map((board, index) => (
+                                {boards.length > 0 && boards.map((board, index) => (
                                     <NavLink
                                         key={index}
                                         className={({ isActive }) => (
