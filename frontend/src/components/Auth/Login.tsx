@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
   const url1 = '/assests/loginpage1.png';
   const url2 = '/assests/loginpage2.png';
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
+    <div className="flex flex-col lg:flex-row items-center justify-center h-screen" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
       {/* Info Section  */}
       <div className="w-full lg:w-1/2 p-4">
         <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
