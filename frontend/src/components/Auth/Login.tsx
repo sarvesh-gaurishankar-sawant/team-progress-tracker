@@ -67,25 +67,27 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
       <div className="w-full lg:w-1/2 p-4">
         <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
         <h1 className="text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
-        <p className="text-white text-3xl">Keep everything in the same place, even if your team isn’t.</p>
-        <div className='flex'>
+        <p className="text-white text-lg md:text-xl">Keep everything in the same place, even if your team isn’t.</p>
+        <div className='flex flex-wrap justify-center gap-4'>
           <img src={url1} alt="" style={{ width: '300px', height: '250px' }}/>
           <img src={url2} alt=""  style={{ width: '300px', height: '250px' }}/>
         </div>
         </div>
       </div>
-      <div className="w-[50%] flex items-center justify-center">
-        <div className="w-full max-w-lg">
-          <form className="bg-black bg-opacity-50 shadow-md rounded-md px-4 pt-6 pb-8 mb-4">
-            <div className="mb-4">
-              <h1 className="text-white text-2xl mb-2">Login</h1>
+
+      {/* Form Section  */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center">
+          <form className="w-full max-w-lg p-4 bg-black bg-opacity-50 shadow-md rounded-md">
+              <h1 className="text-white text-2xl mb-4">Login</h1>
               <h4 className="text-white mb-2">Glad you are back!</h4>
-              <div>
+
+              {/* user name */}
+              <div className="mb-4">
                 <label className="block text-white text-sm font-bold mb-2" htmlFor="username">
                   Username
                 </label>
                 <input
-                  className="bg-black border-white shadow appearance-none border rounded w-full py-4 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                  className="bg-gray-800 border border-gray-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                   id="username"
                   type="text"
                   placeholder="Username"
@@ -95,13 +97,14 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
                 />
                 {emailError && <p className="text-red-500 text-xs italic">{emailError}</p>}
               </div>
-            </div>
-            <div className="mb-6">
+
+              {/* password  */}
+            <div className="mb-4">
               <label className="block text-white text-sm font-bold mb-2" htmlFor="password">
                 Password
               </label>
               <input
-                className="bg-black border-white shadow appearance-none border rounded w-full py-4 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                className="bg-gray-800 border border-gray-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="password"
                 placeholder="Password"
@@ -156,7 +159,7 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
           </p>
         </div>
           </form>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );
