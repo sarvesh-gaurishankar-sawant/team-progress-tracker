@@ -37,7 +37,8 @@
     "translate": "^2.0.2",
     "typescript": "^4.9.5",
     "util": "^0.12.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "mongoose": "^8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

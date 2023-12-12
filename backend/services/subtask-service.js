@@ -1,5 +1,7 @@
 import e from 'express';
-import Subtask from '../models/subtask.js'
+import Subtask from '../models/subtask.js';
+import * as taskService from './task-service.js';
+
 
 
 // create subtask
