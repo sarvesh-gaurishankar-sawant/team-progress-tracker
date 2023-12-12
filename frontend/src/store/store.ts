@@ -12,6 +12,7 @@ import reloadTasksSlice from "./flags/reloadTasksSlice";
 import userReducer from './user/userSlice';
 import loginReducer from './user/loginSlice'
 import singleUserReducer from './user/singleUserAsyncSlice'
+import getBoardFromUserReducer from './board/getBoardFromUserSlice'
 
 export const store = configureStore({
   reducer: {
@@ -27,7 +28,8 @@ export const store = configureStore({
     reloadTask:reloadTasksSlice,
     singleUser:userReducer,
     login:loginReducer,
-    singleUserObjectFromDb:singleUserReducer
+    singleUserObjectFromDb:singleUserReducer,
+    getBoardFromUser:getBoardFromUserReducer
   },
 });
 

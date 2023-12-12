@@ -4,20 +4,21 @@ import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { getBoardAsync } from '../../store/active/activeBoardSlice';
-import { createNewBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
+import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateNewColumn() {
   
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate()
   const emptyBoard: BoardType= {
     columns: [],
     name: "",
     tasks: [],
     _id: ""
   }
+
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
   let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   const [open, setOpen] = React.useState(false);
@@ -27,6 +28,7 @@ export default function CreateNewColumn() {
   };
 
   const handleClose = () => {
+    dispatch(reloadBoard(!reloadBoardFlag))
     if(boardName !== "" && !(inputValues.filter(val => val === "").length > 0)){
       setOpen(false);
     }
@@ -52,11 +54,15 @@ export default function CreateNewColumn() {
       columns: inputValues,
       name: boardName
     }))
-    dispatch(reloadBoard(!reloadBoardFlag))
     
     handleClose();
   };
   
+  const handleDeleteBoard = async () => {
+    await dispatch(deleteBoardAsync(boardData._id || ''))
+    navigate('/board')
+    handleClose();
+  }
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {
@@ -82,6 +88,8 @@ export default function CreateNewColumn() {
   }
 
 
+
+
   return (
     <React.Fragment>
       <button onClick={handleClickOpen} className="w-72 h-screen bg-[#22232E]" >
@@ -90,7 +98,8 @@ export default function CreateNewColumn() {
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
                 <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
-                <h3 className='mb-2 text-white font-bold'>Board Name</h3>
+                <div className='flex justify-between'><h3 className='mb-5 text-white font-bold'>Board Name</h3><button className="mb-5 text-white font-bold text-lg bg-red-500 hover:bg-red-700 rounded-md px-2 py-0.5" type='button' onClick={handleDeleteBoard}>Delete Board</button>
+</div>
                 <input
                     type="text"
                     name="boardname"

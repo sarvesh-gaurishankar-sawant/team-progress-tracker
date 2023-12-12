@@ -34,10 +34,12 @@ export const findBoards = async (request, response) => {
 
 //Controller to delete the board
 export const deleteBoard = async (request, response) => {
-
+    
     try {
         //Get the board id
         const boardId = request.params.id;
+
+        console.log(boardId)
         //Remove the board
         await boardService.remove(boardId);
         //Set the response

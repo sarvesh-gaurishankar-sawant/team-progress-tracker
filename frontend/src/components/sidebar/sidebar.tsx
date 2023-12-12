@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from "../../store/store"
 import CreateNewBoard from "../Boards/CreateNewBoard";
 import { setUserSlice } from "../../store/user/userSlice";
 import { UserType } from "../type";
+import { getBoardFromUserAsync } from "../../store/board/getBoardFromUserSlice";
 
 
 interface Board {
@@ -23,7 +24,7 @@ interface Board {
 
 
 const Sidebar: React.FC = () => {
-    const [boards, setBoards] = useState<Board[]>([]);
+    // const [boards, setBoards] = useState<Board[]>([]);
     const [activeBoardId, setActiveBoardId] = useState<string | null>(null);
 
     let userId: string = useSelector((state: RootState) => state.singleUser.value);
@@ -31,8 +32,9 @@ const Sidebar: React.FC = () => {
 
     let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
 
-    // const { boardId } = useParams<{ boardId: string }>();
-    // console.log("boardId", boardId);
+    let boards: Board[] = useSelector((state: RootState) => state.getBoardFromUser.value)
+
+    let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
 
     const handleBoardClick = (boardId: string) => {
         setActiveBoardId(boardId); // Set the clicked board as active
@@ -55,21 +57,23 @@ const Sidebar: React.FC = () => {
 
     useEffect(() => {
         const fetchBoards = async () => {
-            try {
-                const response = await fetch(`http://localhost:3001/boards/?userId=${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setBoards(data);
-                } else {
-                    throw new Error('Failed to fetch boards');
-                }
-            } catch (error) {
-                console.error('Error fetching boards:', error);
-            }
+            // try {
+            //     const response = await fetch(`http://localhost:3001/boards/?userId=${userId}`);
+            //     if (response.ok) {
+            //         const data = await response.json();
+            //         setBoards(data);
+            //     } else {
+            //         throw new Error('Failed to fetch boards');
+            //     }
+            // } catch (error) {
+            //     console.error('Error fetching boards:', error);
+            // }
+            await dispatch(getBoardFromUserAsync(userId))
+            
         };
 
         fetchBoards();
-    }, [userId]);
+    }, [userId, reloadBoardFlag]);
 
     const totalBoards = boards.length;
 

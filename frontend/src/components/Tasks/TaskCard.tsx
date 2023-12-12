@@ -34,7 +34,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
   
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-  let boardId = boardData._id;
+  let boardId = boardData._id || "";
   let index = boardData.tasks.length + 1
   let columns = boardData.columns;
 
@@ -89,7 +89,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   
 
     await dispatch(createNewTaskAsync(newTaskData));
-    await dispatch(getBoardAsync(boardData._id));
+    await dispatch(getBoardAsync(boardData._id || ""));
     dispatch(reloadTask(!reloadTaskSliceFlag));
     
     setTask({

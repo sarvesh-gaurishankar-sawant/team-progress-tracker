@@ -1,9 +1,10 @@
 
 export type BoardType = {
+    user?:string,
     columns: string[];
     name: string;
     tasks: string[];
-    _id: string;
+    _id?: string;
   }
 
 export type TaskType = {

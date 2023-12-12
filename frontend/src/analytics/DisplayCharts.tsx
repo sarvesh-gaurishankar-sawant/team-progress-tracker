@@ -33,7 +33,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
           }
         
             let board: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-            let boardId: string = board._id;
+            let boardId: string = board._id || "";
             // console.log("boardId", boardId);
         
     // const boardId = '657766dcd6306c0036a67e44';

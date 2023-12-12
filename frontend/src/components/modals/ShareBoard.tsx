@@ -72,7 +72,7 @@ const ShareBoardModal: React.FC = () => {
     }
 
     let board: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-    let boardId: string = board._id;
+    let boardId: string = board._id || "";
 
 
     const handleSubmit = async () => {

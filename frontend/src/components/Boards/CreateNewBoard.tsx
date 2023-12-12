@@ -4,12 +4,18 @@ import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { createNewBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
+import { createNewBoardAsync } from '../../store/board/singleBoardSlice';
 import PlusIcon from '../../icons/PlusIcon';
+import { reloadBoard } from '../../store/flags/reloadBoardSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateNewBoard() {
   
   const dispatch = useDispatch<AppDispatch>();
+  let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  const user: string = useSelector((state: RootState) => state.singleUser.value);
+
+  
 
   const emptyBoard: BoardType= {
     columns: [],
@@ -38,15 +44,18 @@ export default function CreateNewBoard() {
 
  //Update board
   const boardColumnNameUpdate = async () => {
+    
     const emptyBoard: BoardType= {
+      user,
       columns: [],
       name: "",
       tasks: [],
-      _id: ""
     }
     emptyBoard.columns = inputValues
     emptyBoard.name = boardName
+
     await dispatch(createNewBoardAsync(emptyBoard))
+    dispatch(reloadBoard(!reloadBoardFlag))
   };
   
 
@@ -73,7 +82,6 @@ export default function CreateNewBoard() {
     setBoardName(event.target.value)
   }
 
-  
   return (
     <React.Fragment>
       <button onClick={handleClickOpen} className='flex items-center justify-center' >
@@ -106,7 +114,7 @@ export default function CreateNewBoard() {
                   </div>
                 ))}
                 <button className="bg-[#FFFFFF] text-[#635FC7] mx-auto w-10/12 mb-4 font-bold px-3.5 py-2 rounded-xl" onClick={addInput} type='button'>+ Add New Columns</button>
-                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='submit'>Save Changes</button>
+                <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='button'>Save Changes</button>
             </form>
       </Dialog>
     </React.Fragment>
