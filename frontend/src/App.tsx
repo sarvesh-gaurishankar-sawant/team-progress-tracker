@@ -30,6 +30,7 @@ export default function App() {
           <Route path="/login" element={<Login isOpen={false} onClose={() => {
             closeLogin();
           }} />} />
+          <Route path="/signup" element={<SignUp />} />
        
         </Routes>
       </BrowserRouter>
