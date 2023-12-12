@@ -62,7 +62,8 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
   const url1 = '/assests/loginpage1.png';
   const url2 = '/assests/loginpage2.png';
   return (
-    <div className="flex h-screen bg-cover" style={{ background: 'linear-gradient(90deg, rgba(102,68,171,1) 0%, rgba(158,74,175,1) 58%, rgba(219,78,179,1) 100%)' }}>
+    // linear-gradient(90deg, rgba(102,68,171,1) 0%, rgba(158,74,175,1) 58%, rgba(219,78,179,1) 100%)
+    <div className="flex h-screen bg-cover" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
       <div className="w-[50%] flex items-center justify-center">
         <div className='w-[70%] gap-5 flex flex-col'>
         <div className="text-white text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</div>
