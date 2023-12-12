@@ -31,6 +31,16 @@ export const findUserById = async (req, res) => {
     }
 }
 
+export const findUserByEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await userService.findUserByEmail(email);
+        setResponse(user, res);
+    } catch (error) {
+        setErrorResponse(error, res);
+    }
+}
+
 export const updateUser = async (req, res) => {
     try {
         const id = req.params.id;

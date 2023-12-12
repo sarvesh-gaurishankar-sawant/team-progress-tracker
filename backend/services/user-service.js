@@ -19,6 +19,12 @@ export const findUserById = async (id) => {
     return user;
 }
 
+// Find user by email
+export const findUserByEmail = async (email) => {
+    const user = await User.findOne({ email }).exec();
+    return user;
+};
+
 // update user
 export const updateUser = async (updatedUser, id) => {
     const user = await User.findByIdAndUpdate(id, updatedUser, { new: true }).exec();
