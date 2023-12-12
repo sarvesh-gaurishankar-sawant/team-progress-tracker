@@ -12,9 +12,6 @@ import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
 
 export default function App() {
-  const dispatch = useDispatch<AppDispatch>();
-  dispatch(setUserSlice("656b811ba83badbd99125a44"))
-
   return (
     <div>
       <BrowserRouter>

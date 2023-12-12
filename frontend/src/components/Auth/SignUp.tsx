@@ -14,10 +14,8 @@ function SignUp() {
     const dispatch = useDispatch<AppDispatch>();
 
     const isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
-    let emptyUser: UserType = {
-      email: ""
-    }
-    let userObject: UserType = useSelector((state: RootState) => state.singleUserObjectFromDb.value) || emptyUser;
+   
+    
 
     const location = useLocation();
     const message = location.state?.message;
@@ -44,10 +42,11 @@ function SignUp() {
           }
           let userToBeUpdate: UserType = {...emptyUserToBeUpdated, email:emailId} 
           await dispatch(createUserAsync(userToBeUpdate))
+          window.localStorage.setItem('email', emailId)
           await dispatch(getUserByEmailAsync(emailId))
           
           
-          dispatch(setUserSlice(userObject._id || ""))
+   
         } catch (err) {  
 
           navigate("/", { state: { message: "User already exists" } })

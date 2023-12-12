@@ -22,11 +22,9 @@ import { getUserAsync, setUserSlice } from "../../store/user/userSlice";
 function Login() {
 
     const isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
-    let emptyUser: UserType = {
-      email: ""
-    }
-    let userObject: UserType = useSelector((state: RootState) => state.singleUserObjectFromDb.value) || emptyUser;
     
+    
+
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
@@ -49,9 +47,9 @@ function Login() {
           window.localStorage.setItem('userToken', idToken);
           dispatch(setLogin(true))
           window.localStorage.setItem('isLoggedIn', 'true');
+          window.localStorage.setItem('email', emailId)
           await dispatch(getUserByEmailAsync(emailId))
           
-          dispatch(setUserSlice(userObject._id || ""))
         } catch (err) {
           let errString: string = String(err);
           if(errString.includes("auth/user-not-found")){

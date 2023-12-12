@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { ReactComponent as FullLogo } from '../../assets/svg/full-icon.svg';
 import PlusIcon from "../../icons/PlusIcon";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
 import CreateNewBoard from "../Boards/CreateNewBoard";
+import { setUserSlice } from "../../store/user/userSlice";
+import { UserType } from "../type";
 
 
 interface Board {
@@ -19,8 +21,20 @@ interface Board {
 const Sidebar: React.FC = () => {
     const [boards, setBoards] = useState<Board[]>([]);
     let userId: string = useSelector((state: RootState) => state.singleUser.value);
+    console.log(userId + "userId is")
 
     let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    let emptyUser: UserType = {
+        email: ""
+      }
+    
+    let userObject: UserType = useSelector((state: RootState) => state.singleUserObjectFromDb.value) || emptyUser;
+      
+    dispatch(setUserSlice(userObject._id || ""))
+
 
     useEffect(() => {
         const fetchBoards = async () => {
