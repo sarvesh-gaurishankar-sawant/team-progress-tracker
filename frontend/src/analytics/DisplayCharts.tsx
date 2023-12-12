@@ -12,7 +12,7 @@ import { Line } from 'react-chartjs-2';
 Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
     LineElement, LineController);
 
-export default function PieChart() {
+export default function DisplayCharts() {
     const boardId = '657766dcd6306c0036a67e44';
 
     const [columnData, setColumnData] = useState<{ [key: string]: number }>({});
@@ -109,44 +109,46 @@ export default function PieChart() {
     };
 
 
-    const [lineChartData, setLineChartData] = useState<{ labels: string[], datasets: { data: number[] }[] }>({
+    const [lineChartData, setLineChartData] = useState<{
+        labels: string[];
+        datasets: { label: string; data: number[] }[];
+    }>({
         labels: [],
-        datasets: [{ data: [] }],
+        datasets: [],
     });
 
-
     useEffect(() => {
-        // ... (existing code remains unchanged)
-
-        const datesCountMap: { [date: string]: number } = {};
-
-        // Calculate task counts for each date
-        Object.values(taskDueDates).forEach(columnTasks => {
+        const datesCountMap: { [date: string]: { [column: string]: number } } = {};
+    
+        // Calculate task counts for each date and each column
+        Object.entries(taskDueDates).forEach(([columnName, columnTasks]) => {
             Object.values(columnTasks).forEach(date => {
-                if (datesCountMap[date]) {
-                    datesCountMap[date]++;
-                } else {
-                    datesCountMap[date] = 1;
+                if (!datesCountMap[date]) {
+                    datesCountMap[date] = {};
                 }
+                if (!datesCountMap[date][columnName]) {
+                    datesCountMap[date][columnName] = 0;
+                }
+                datesCountMap[date][columnName]++;
             });
         });
-
+    
+        const columns = Object.keys(taskDueDates);
+    
         const sortedDates = Object.keys(datesCountMap).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-        const taskCounts = sortedDates.map(date => datesCountMap[date]);
-
+    
+        const datasets = columns.map(column => ({
+            label: column,
+            data: sortedDates.map(date => datesCountMap[date][column] || 0),
+        }));
+    
         setLineChartData({
             ...lineChartData,
             labels: sortedDates,
-            datasets: [
-                {
-                    ...lineChartData.datasets[0],
-                    data: taskCounts,
-                },
-            ],
+            datasets,
         });
     }, [taskDueDates]);
-
-
+    
 
 
     return (
@@ -156,10 +158,13 @@ export default function PieChart() {
             </Button>
             <Modal open={showModal} onClose={handleCloseModal} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ width: '50%', height: '80%', backgroundColor: '#fff', padding: '20px', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <h2 style={{ color: '#000', marginBottom: '20px', textDecoration: 'underline' }}>Board Analytics</h2>
+                    <h1 style={{ color: '#000', marginBottom: '20px', textDecoration: 'underline' }}>Board Analytics</h1>
+
+                    <hr style={{ width: '100%', borderTop: '1px solid #000' }} />
+
 
                     <div style={{ width: '100%', height: '50%' }}>
-                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '10px', textDecoration: 'underline' }}>Pie Chart</h2>
+                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '10px', textDecoration: 'underline' }}>Task's Distribution according to status: Pie Chart</h2>
                         <div style={{ width: '100%', height: '90%', maxWidth: '100%' }}>
                             <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
                         </div>
@@ -167,7 +172,7 @@ export default function PieChart() {
                     </div>
 
                     <div style={{ width: '100%', height: '50%' }}>
-                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '10px', textDecoration: 'underline' }}>Bar Graph</h2>
+                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '40px', textDecoration: 'underline' }}>Count of each tasks under a status: Bar Graph</h2>
                         <div style={{ width: '100%', height: '90%', maxWidth: '100%' }}>
                             <Bar data={barChartData} options={{ maintainAspectRatio: false }} />
                         </div>
@@ -175,37 +180,21 @@ export default function PieChart() {
                     </div>
 
                     <div style={{ width: '100%', height: '50%' }}>
-                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '10px', textDecoration: 'underline' }}>
-                            Line Graph (Tasks Due Over Time)
+                        <h2 style={{ color: '#000', textAlign: 'center', marginTop: '80px', textDecoration: 'underline' }}>
+                            Tasks Due Over Time: Line Graph
                         </h2>
                         <div style={{ width: '100%', height: '90%', maxWidth: '100%' }}>
                             <Line data={lineChartData} options={{ maintainAspectRatio: false }} />
                         </div>
                         <hr style={{ width: '100%', marginTop: '20px', marginBottom: '20px', borderTop: '1px solid #000' }} />
                     </div>
-
+                    <div style={{ marginTop: '120px' }}>
+                        <Button variant="contained" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                    </div>
                 </div>
             </Modal>
         </div>
     );
 }
-
-
-
-
-
-
-
-{/* <Modal open={showModal} onClose={handleCloseModal} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '50%', height: '50%', backgroundColor: '#fff', padding: '20px', overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div>
-            <h2 style={{ color: '#000' }}>Your Task's Distribution according to status: Pie Chart</h2>
-            <Pie data={pieChartData}  />
-          </div>
-
-          <div style={{ marginTop: '20px' }}>
-            <h2 style={{ color: '#000' }}>Count of each tasks under a status: Bar Graph</h2>
-            <Bar data={barChartData}/>
-          </div>
-        </div>
-      </Modal> */}

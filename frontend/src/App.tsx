@@ -6,7 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./components/Boards/Board";
-import PieChart from "./analytics/PieChart";
+import DisplayCharts from "./analytics/DisplayCharts";
 
 export default function App() {
   // return (
@@ -24,7 +24,7 @@ export default function App() {
   return (
   
     <div>
-      <PieChart />
+      <DisplayCharts />
     </div>
   );
 }
