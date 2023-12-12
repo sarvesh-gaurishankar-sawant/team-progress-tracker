@@ -13,4 +13,7 @@ router.route('/:id')
     .put(userController.updateUser)
     .delete(userController.deleteUser);
 
+router.route('/email/:email')
+    .get(userController.findUserByEmail)
+
 export default router;
