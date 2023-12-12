@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { setUserSlice } from "./store/user/userSlice";
 import Login from "./components/Auth/Login";
+import SignUp from "./components/Auth/SignUp";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +20,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/board" element={<HomeScreen />}>
             <Route path=":id" element={<Board />} />
           </Route>
