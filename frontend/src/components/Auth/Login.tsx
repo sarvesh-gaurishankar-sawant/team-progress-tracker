@@ -8,6 +8,7 @@ import {
   EmailAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +17,7 @@ import { setLogin } from "../../store/user/loginSlice";
 import { getUserByEmailAsync } from "../../store/user/singleUserAsyncSlice";
 import { UserType } from "../type";
 import { getUserAsync, setUserSlice } from "../../store/user/userSlice";
+import Swal from 'sweetalert2';
 
 
 
@@ -58,6 +60,21 @@ function Login() {
         }
       };
 
+      function handleForgotPassword(){
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Password reset email sent',
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+      }
+
 	return (
 	<div>
     <div className='flex justify-center items-center min-h-screen flex-col'>
@@ -85,6 +102,7 @@ function Login() {
         />
         <button onClick={signIn} className="bg-primary text-white px-4 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition duration-300 ease-in-out">Sign In</button>
         <NavLink to="/signup" className="bg-primary text-white px-4 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition duration-300 ease-in-out">New User ?</NavLink>
+        <button onClick={handleForgotPassword}>Forgot password ?</button>
       </div> : <Navigate to="/board"/>}
     </div>
     </div>
