@@ -8,6 +8,7 @@ export const translate = async (languageCode: string) => {
         NodeFilter.SHOW_TEXT,
         null
       );
+  
 
       let currentNode = textNodes.nextNode();
       while (currentNode) {
