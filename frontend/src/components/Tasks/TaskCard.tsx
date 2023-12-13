@@ -88,6 +88,9 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     setTask({ ...task, subtasks: newSubtasks });
   }; 
 
+  function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   
   const handleSubmit = async () => {
     const newTaskData: TaskType= {
@@ -104,25 +107,23 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     // create new subtasks
     const newTask = taskCreateResponse.payload as Task;
 
-    let subtaskPromises = subtasks.map( async (subtask) => {
+    for(const index in subtasks){
       try {
         const response = await fetch(`http://localhost:3001/subtasks`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({title: subtask, task: newTask._id, isComplete: false})
+          body: JSON.stringify({title: subtasks[index], task: newTask._id, isComplete: false})
         });
         var result = await response.json();
-        console.log('creating subtask with title: '+subtask);
+        console.log('creating subtask with title: '+subtasks[index]);
         console.log(result);
+        await delay(100);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    });
-
-    await Promise.all(subtaskPromises);
-    console.log('All subtasks created successfully.');
+    }
 
     await dispatch(getBoardAsync(boardData._id || ""));
 
