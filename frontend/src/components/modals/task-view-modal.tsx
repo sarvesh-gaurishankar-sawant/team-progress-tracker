@@ -7,6 +7,9 @@ import TaskEdit from "./task-edit";
 import { TaskType } from "../type";
 import { ITask } from "../../model interfaces/ITask";
 import { ISubtask } from "../../model interfaces/ISubtask";
+import {  useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import { reloadTask } from "../../store/flags/reloadTasksSlice";
 
 
 interface TaskViewModalProps {
@@ -18,6 +21,9 @@ interface TaskViewModalProps {
   }
 
 const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit, onClose }) => {
+
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
+  const dispatch = useDispatch<AppDispatch>();
 
   const [task, setTask] = useState<ITask>(initialTask);
   const [subtasks, setSubtasks] = useState<ISubtask[]>(initialSubtasks);
@@ -68,6 +74,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
     } catch (error) {
       console.error('Error fetching data:', error);
     } 
+    dispatch(reloadTask(!reloadTaskSliceFlag));
     setOpen(false);
   };
 
