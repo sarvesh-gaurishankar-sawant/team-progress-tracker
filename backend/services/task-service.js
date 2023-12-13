@@ -9,6 +9,7 @@ import * as boardService from './board-service.js';
  * @returns {Promise<Object>} - The response object containing the saved task.
  */
 export const createTask = async (completeTask) => {
+    completeTask.dueDate = new Date();
     const task = new Task(completeTask);
     const response = await task.save();
     const board = await boardService.findById(task.board);
