@@ -17,8 +17,9 @@ async function FetchData(userEmail: string): Promise<any> {
         }
 
         const data = await response.json();
-
+        console.log('Data:', data);
         return data;
+
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -80,6 +81,10 @@ const ShareBoardModal: React.FC = () => {
         try {
             // Fetch initial user details based on email
             const userData = await FetchData(email);
+
+            if (!userData) {
+                throw new Error('User not found');
+            }
     
             // Modify the boards in the response by adding the current board id to it
             if (userData && userData.boards) {
@@ -98,7 +103,7 @@ const ShareBoardModal: React.FC = () => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!',
-                        text: 'Data updated successfully!',
+                        text: 'User added successfully!',
                     });
                 }
             }
@@ -109,7 +114,7 @@ const ShareBoardModal: React.FC = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: `Something went wrong!\n${error}`,
             });
         }
         setLoading(false);

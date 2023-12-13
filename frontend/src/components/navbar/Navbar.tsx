@@ -19,6 +19,7 @@ import AccountMenu from '../Auth/AccountMenu';
 import EditBoard from '../Boards/EditBoard';
 import { useLocation } from 'react-router-dom';
 import Edit from '../../icons/Edit';
+import Swal from 'sweetalert2';
 
 
 
@@ -80,7 +81,12 @@ const NavBar: React.FC = () => {
 
   const handleTaskCreationSuccess = () => {
     closeModal();
-    dispatch(setNotificationMessage('Task successfully created!'));
+    // dispatch(setNotificationMessage('Task successfully created!'));
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Data updated successfully!',
+  });
   };
 
   const location = useLocation();
