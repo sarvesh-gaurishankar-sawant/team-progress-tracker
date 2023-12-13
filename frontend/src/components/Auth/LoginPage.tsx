@@ -9,7 +9,7 @@ import { auth } from '../../firebase-config';
 import Swal from 'sweetalert2';
 
 
-function LoginTemp() {
+export default function LoginPage() {
   const provider = new GoogleAuthProvider();
   
   const dispatch = useDispatch<AppDispatch>();
@@ -63,8 +63,6 @@ function LoginTemp() {
       const errorMessage = error.message;
     });
     }
-    
-    
   }
 
   const validateEmail = (email: string): boolean => {
@@ -206,4 +204,3 @@ function LoginTemp() {
   )
 }
 
-export default LoginTemp
