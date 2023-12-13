@@ -14,7 +14,7 @@ import PageNotFound from './components/pages/PageNotFound';
 import { useState } from "react";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
-import LoginTemp from "./components/Auth/LoginTemp";
+import LoginTemp from "./components/Auth/Login";
 import SignUpTemp from "./components/Auth/SignUpTemp";
 import AuthLayout from "./components/Auth/AuthLayout";
 
