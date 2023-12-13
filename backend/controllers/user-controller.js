@@ -2,6 +2,13 @@ import * as userService from '../services/user-service.js';
 import mongoose from 'mongoose';
 import { setResponse, setErrorResponse } from './response-handler.js';  
 
+/**
+ * Creates a new user.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the user is created.
+ */
 export const createUser = async (req, res) => {
     try {
         const reqBody = {...req.body};
@@ -12,6 +19,12 @@ export const createUser = async (req, res) => {
     }
 }
 
+/**
+ * Retrieves all users.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>}
+ */
 export const getUsers = async (req, res) => {
     try {
         const user = await userService.getUsers();
@@ -21,6 +34,13 @@ export const getUsers = async (req, res) => {
     }
 }
 
+/**
+ * Finds a user by their ID.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the user is found and the response is set.
+ */
 export const findUserById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -31,6 +51,12 @@ export const findUserById = async (req, res) => {
     }
 }
 
+/**
+ * Finds a user by email.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the user is found and the response is set.
+ */
 export const findUserByEmail = async (req, res) => {
     try {
         const email = req.params.email;
@@ -41,6 +67,12 @@ export const findUserByEmail = async (req, res) => {
     }
 }
 
+/**
+ * Updates a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the user is updated.
+ */
 export const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
@@ -52,6 +84,12 @@ export const updateUser = async (req, res) => {
     }
 }
 
+/**
+ * Deletes a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>}
+ */
 export const deleteUser = async (req, res) => {
     try {
         const id = req.params.id;
