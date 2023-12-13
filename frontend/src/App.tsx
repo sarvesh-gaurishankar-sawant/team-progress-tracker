@@ -15,6 +15,7 @@ import { useState } from "react";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
 import LoginTemp from "./components/Auth/LoginTemp";
+import SignUpTemp from "./components/Auth/SignUpTemp";
 
 // export default function App() {
 // import Login from "./components/Auth/Login";
@@ -35,7 +36,7 @@ export default function App() {
         <Routes>
           {/* <Route path="/" element={<Login />} /> */}
           <Route path="/" element={<LoginTemp />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<SignUpTemp />} />
           <Route path="/board" element={<HomeScreen />}>
           <Route path=":id" element={<Board />} />
           </Route>
