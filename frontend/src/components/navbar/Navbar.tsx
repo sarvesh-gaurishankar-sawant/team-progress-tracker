@@ -92,7 +92,6 @@ const NavBar: React.FC = () => {
 
   const location = useLocation();
   
-
   return (
     <div className={`fixed top-0 right-0 ${isMobile ? 'w-full' : 'w-4/5'} bg-gray-800 h-24 flex justify-between items-center border border-gray-900`}>
       {isMobile && (
