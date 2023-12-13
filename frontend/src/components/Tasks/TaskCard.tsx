@@ -13,15 +13,21 @@ interface Task {
   description: string;
   status: string;
   subtasks: string[];
+  _id: string;
 
 }
+
+// interface Subtask{
+//   title: string;
+//   isComplete: boolean;
+//   task: string;
+// }
 
 interface TaskCardProps {
   isOpen: boolean;
   onTaskCreate: () => void;
   onClose: () => void;
 }
-
 
 const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +49,10 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     description: '',
     status: '',
     subtasks: [],
+    _id: ''
   });
+
+  const [subtasks, setSubtasks] = useState<string[]>([]);
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -61,13 +70,16 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   };
 
   const handleSubtaskChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSubtasks = [...task.subtasks];
+    // setSubtasks([...subtasks, event.target.value]);
+
+    const newSubtasks = [...subtasks];
     newSubtasks[index] = event.target.value;
-    setTask({ ...task, subtasks: newSubtasks });
+    setSubtasks(newSubtasks);
   };
   
-  const handleAddSubtask = () => {
-    setTask({ ...task, subtasks: [...task.subtasks, ''] });
+  const handleAddSubtask = async () => {
+    setSubtasks([...subtasks, '']);
+    // setTask({ ...task, subtasks: [...task.subtasks, ''] });
   };
   
   const handleRemoveSubtask = (index: number) => {
@@ -86,20 +98,37 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
       status: task.status,
       subtasks: task.subtasks,
     };
-  
 
-    await dispatch(createNewTaskAsync(newTaskData));
+    const taskCreateResponse = await dispatch(createNewTaskAsync(newTaskData));
+
+    // create new subtasks
+    const newTask = taskCreateResponse.payload as Task;
+
+    let subtaskPromises = subtasks.map( async (subtask) => {
+      try {
+        const response = await fetch(`http://localhost:3001/subtasks`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({title: subtask, task: newTask._id, isComplete: false})
+        });
+        var result = await response.json();
+        console.log('creating subtask with title: '+subtask);
+        console.log(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+
+    await Promise.all(subtaskPromises);
+    console.log('All subtasks created successfully.');
+
     await dispatch(getBoardAsync(boardData._id || ""));
+
     dispatch(reloadTask(!reloadTaskSliceFlag));
     
-    setTask({
-      title: '',
-      description: '',
-      status: '',
-      subtasks: [],
-    });
     onTaskCreate();
-    
   };
   
 
@@ -146,7 +175,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
             </div>            
             <div className="space-y-2">
             <div className="text-sm font-bold mb-4 text-white">Subtasks</div>
-            {task.subtasks.map((subtask, index) => (
+            {subtasks.map((subtask, index) => (
               <div key={index} className="flex items-center gap-2">
                 <TextField
                   className="text-white border border-gray-700 rounded py-2 px-3 block w-full"
