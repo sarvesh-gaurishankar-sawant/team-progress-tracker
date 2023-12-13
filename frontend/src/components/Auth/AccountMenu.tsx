@@ -32,6 +32,7 @@ export default function AccountMenu() {
       await signOut(auth);
       dispatch(setLogin(false))
       window.localStorage.removeItem('userToken')
+      window.localStorage.removeItem('email')
       window.localStorage.setItem('isLoggedIn', 'false');
       navigate("/")
     } catch (err) {
