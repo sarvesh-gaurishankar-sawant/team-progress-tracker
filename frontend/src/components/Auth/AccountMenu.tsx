@@ -131,13 +131,13 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-            <div onClick={logout}>
-                <ListItemIcon>
-                <Logout fontSize="small" />
-                </ListItemIcon>
-                <button onClick={logout}>Logout</button>
-            </div>
+        <MenuItem onClick={handleClose} style={{ display: 'flex', alignItems: 'center' }}>
+          <div onClick={logout} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            <button onClick={logout} style={{ background: 'none', border: 'none', color: 'black', marginLeft: '10px' }}>Logout</button>
+          </div>
         </MenuItem>
       </Menu>
     </React.Fragment>
