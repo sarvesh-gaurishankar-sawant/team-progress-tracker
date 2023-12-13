@@ -4,13 +4,13 @@
 ## Description
 The Kanban Board application is designed to streamline task management and enhance team collaboration. By offering a visual representation of tasks categorized into columns like "To Do," "In Progress," "Review," and "Done," it provides a clear overview of the project's workflow. Each team member can effortlessly create, prioritize, and track tasks, fostering transparency and efficiency within the team.
 
-### Features
+### Key Features
 - **Task Management**: Create, assign, and categorize tasks into different columns for efficient tracking.
-- **Collaboration**: Facilitate team collaboration by allowing members to comment on tasks and communicate updates.
+- **Collaboration**: Facilitate team collaboration by allowing members to join you board.
 - **Drag-and-Drop Interface**: Easily move tasks across different stages using an intuitive interface.
-- **Notifications**: Real-time notifications for task assignments, updates, and mentions.
 - **User Permissions**: Role-based access control to manage user privileges within the application.
 - **Analytics and Insights**: Gain valuable insights into project progress, task completion rates, team performance metrics, and bottlenecks through comprehensive analytics.
+- **Internationalization**: Available in 130+ Languages.
 
 ### Analytics and Insights
 The Kanban Board goes beyond task management by providing robust analytics and insights, empowering teams with valuable information to optimize their workflow:
@@ -27,7 +27,7 @@ The Kanban Board goes beyond task management by providing robust analytics and i
 - **Overall Project Status**: Overview of tasks across columns, providing a snapshot of the project's progress.
 - **Identifying Delays**: Highlight tasks that have been stagnant in a particular stage for an extended period, helping teams identify potential roadblocks.
 
-### High-Level System Design
+### High-Level System Design  s
 The Kanban Board system follows a modular architecture to ensure scalability and maintainability. Here's a high-level overview:
 
 #### Components:
@@ -47,16 +47,19 @@ The Kanban Board system follows a modular architecture to ensure scalability and
 - Yesha Joshi - - joshi.ye@northeastern.edu
 
 ## Features
-- Create and manage tasks with titles, descriptions, and assignees.
+- Create and manage tasks with titles, descriptions, due dates and subtasks.
 - Drag-and-drop functionality for easy task movement across columns.
 - Task prioritization and status updates.
 - User authentication and access control.
-- Notifications and updates for task changes.
+- Internationalization: Available in 130+ Languages.
+- Collaboration: Share your board with another user.
+- Analytics: Interactive interface for viewing analytics on task's status.
 
 ## Technologies Used
-- Frontend: HTMl, CSS, React.js
-- Backend: Node.js
+- Frontend: React.js, Redux, Tailwind
+- Backend: Express, Node.js, Mongoose
 - Database: MongoDB
+- Authentication: Firebase
 <!-- - Authentication: [Specify Authentication Method]
 - Hosting: [Specify Hosting Platform] -->
 
@@ -66,8 +69,8 @@ The Kanban Board system follows a modular architecture to ensure scalability and
 3. Configure database settings.
 4. Start the application.
 
-## Usage
-- TBD
+<!-- ## Usage
+- TBD -->
 
 <!-- ## Contribution Guidelines
 - Fork the repository.
