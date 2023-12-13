@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
+import { setActiveBoard } from '../../store/active/activeBoardSlice';
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function AccountMenu() {
       window.localStorage.removeItem('userToken')
       window.localStorage.removeItem('email')
       window.localStorage.setItem('isLoggedIn', 'false');
+      dispatch(setActiveBoard(null))
       navigate("/")
       Swal.fire({
         icon: 'success',
