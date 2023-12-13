@@ -119,6 +119,7 @@ const TaskEdit: React.FC<TaskEditModalProps> = ({ initialTask, initialSubtasks, 
 return (
     <Modal open={open} className="flex items-center justify-center" style={{border: 'solid 1px rgb(9,9,11)'}}>
             <div className="container mx-auto w-[480px] overflow-y-auto max-h-[640px] bg-[#2b2c36] p-8">
+                
         <h1 className="text-4xl font-bold mb-4 text-white">Edit Task</h1>
         <form>
         <div className="mb-4">
