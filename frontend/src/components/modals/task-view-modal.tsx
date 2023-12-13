@@ -10,6 +10,7 @@ import { ISubtask } from "../../model interfaces/ISubtask";
 import {  useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import { reloadTask } from "../../store/flags/reloadTasksSlice";
+import Swal from "sweetalert2";
 
 
 interface TaskViewModalProps {
@@ -73,9 +74,21 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
       console.log(result);
     } catch (error) {
       console.error('Error fetching data:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Task could not be deleted.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } 
     dispatch(reloadTask(!reloadTaskSliceFlag));
     setOpen(false);
+    Swal.fire({
+      title: 'Task deleted!',
+      text: 'Task has been deleted.',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
   };
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
