@@ -15,6 +15,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Swal from 'sweetalert2';
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -35,6 +36,12 @@ export default function AccountMenu() {
       window.localStorage.removeItem('email')
       window.localStorage.setItem('isLoggedIn', 'false');
       navigate("/")
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out successfully!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     } catch (err) {
       console.error(err);
     }
