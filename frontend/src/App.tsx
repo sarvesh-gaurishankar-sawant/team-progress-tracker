@@ -16,6 +16,7 @@ import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
 import LoginTemp from "./components/Auth/LoginTemp";
 import SignUpTemp from "./components/Auth/SignUpTemp";
+import AuthLayout from "./components/Auth/AuthLayout";
 
 // export default function App() {
 // import Login from "./components/Auth/Login";
@@ -35,15 +36,18 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<Login />} /> */}
-          <Route path="/" element={<LoginTemp />} />
-          <Route path="/signup" element={<SignUpTemp />} />
+          <Route path="/" element={<AuthLayout />}>
+            <Route index element={<LoginTemp />} />
+            <Route path="signup" element={<SignUpTemp />} />
+          </Route>
+          {/* <Route path="/signup" element={<SignUpTemp />} /> */}
           <Route path="/board" element={<HomeScreen />}>
           <Route path=":id" element={<Board />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/login" element={<Login isOpen={false} onClose={() => {
+          {/* <Route path="/login" element={<Login isOpen={false} onClose={() => {
             closeLogin();
-          }} />} />
+          }} />} /> */}
           {/* <Route path="/signup" element={<SignUp />} /> */}
        
         </Routes>

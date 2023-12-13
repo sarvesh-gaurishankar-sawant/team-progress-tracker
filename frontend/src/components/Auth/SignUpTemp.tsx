@@ -56,11 +56,7 @@ function SignUpTemp() {
   const url2 = '/assests/loginpage2.png';
 
   return (
-    <div className='flex flex-col border-double h-screen w-screen justify-between'>
-    <div >
-        <LoginSignupNavbar />
-    </div>
-    <div className="w-full h-full flex flex-col lg:flex-row items-center" style={{background:"linear-gradient(90deg, #332255 0%, #332255 100%)"}}>
+    <>
         {/* Info Section  */}
         <div className="w-full lg:w-1/2 border-double hidden md:block">
             <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5 mx-auto'>
@@ -159,13 +155,12 @@ function SignUpTemp() {
             >
               Sign Up
             </button>
+            <div className="text-center mt-8 text-sm text-gray-200">
+                <p>Existing user?<a href="#" className="text-purple-300 hover:text-purple-500">Login</a></p>
+              </div>
           </form>
         </div>
-    </div>
-    <div>
-        <LoginSignupFooter />
-    </div>
-</div>
+    </>
   )
 }
 
