@@ -23,7 +23,9 @@ import Swal from 'sweetalert2';
 
 
 
-
+/**
+ * Represents the navigation bar component.
+ */
 
 const NavBar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);

@@ -8,6 +8,11 @@ import { Navigate, useParams } from "react-router-dom";
 import { BoardType } from "../type";
 import { reloadBoard } from "../../store/flags/reloadBoardSlice";
 
+/**
+ * Renders the Board component.
+ * @returns The rendered Board component.
+ */
+
 
 export default function Board() {
   const params = useParams()
@@ -20,6 +25,14 @@ export default function Board() {
   
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * Fetches the board and its tasks based on the provided ID.
+   * 
+   * @param {string} paramsId - The ID of the board.
+   * @param {function} dispatch - The dispatch function from the Redux store.
+   * @param {boolean} reloadBoardBool - A flag indicating whether the board should be reloaded.
+   * @param {boolean} reloadTaskSliceFlag - A flag indicating whether the task slice should be reloaded.
+   */
   let paramsId: string = params?.id || ""
   useEffect(() => {
     console.log("Inside Board")
@@ -39,17 +52,24 @@ export default function Board() {
 
   
   
-  if(boardData !== null){
-
-  return (
-    <div className="overflow-x-auto h-screen">   
-        <div className={!isSidebarOpen ? 'mt-28 ml-12 sm:ml-96' : 'mt-28 ml-72 sm:ml-96'}><DisplayColumn/></div>
-    </div>  
-  ) 
-  }
-  else {
+  /**
+   * Renders the Board component.
+   * 
+   * @returns The JSX element representing the Board component.
+   */
+  if (boardData !== null) {
     return (
-      <div className="flex h-screen"><CircularProgress className="mx-auto self-center"/></div>
+      <div className="overflow-x-auto h-screen">   
+        <div className={!isSidebarOpen ? 'mt-28 ml-12 sm:ml-96' : 'mt-28 ml-72 sm:ml-96'}>
+          <DisplayColumn/>
+        </div>
+      </div>  
+    ) 
+  } else {
+    return (
+      <div className="flex h-screen">
+        <CircularProgress className="mx-auto self-center"/>
+      </div>
     )
   }
 }

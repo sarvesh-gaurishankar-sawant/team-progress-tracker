@@ -1,5 +1,8 @@
 import { Document } from "mongoose";
 
+/**
+ * Represents a task in the application.
+ */
 export interface ITask extends Document {
     _id: string;
     title: string;

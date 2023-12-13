@@ -1,5 +1,10 @@
 import { NavLink } from "react-router-dom";
 
+/**
+ * Renders the PageNotFound component.
+ * 
+ * @returns The JSX element representing the PageNotFound component.
+ */
 function PageNotFound() {
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white px-4 py-8">

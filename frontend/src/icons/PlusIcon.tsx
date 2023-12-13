@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * Renders a plus icon.
+ * @returns JSX element representing the plus icon.
+ */
 function PlusIcon() {
   return (
     <div>

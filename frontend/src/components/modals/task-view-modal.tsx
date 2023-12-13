@@ -20,6 +20,17 @@ interface TaskViewModalProps {
     onEdit: () => void;
     onClose: () => void;
   }
+/**
+ * TaskViewModal component displays a modal for viewing a task.
+ * 
+ * @component
+ * @param {TaskViewModalProps} initialTask - The initial task object.
+ * @param {ISubtask[]} initialSubtasks - The initial array of subtasks.
+ * @param {string[]} initialColumns - The initial array of columns.
+ * @param {Function} onEdit - The function to handle the edit event.
+ * @param {Function} onClose - The function to handle the close event.
+ * @returns {JSX.Element} The TaskViewModal component.
+ */
 
 const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit, onClose }) => {
 

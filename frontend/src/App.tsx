@@ -11,6 +11,12 @@ import AuthLayout from "./components/Auth/AuthLayout";
 import LoginPage from "./components/Auth/LoginPage";
 import SignUpPage from "./components/Auth/SignUpPage";
 
+/**
+ * The main component of the application.
+ * Renders the application routes and layout components.
+ *
+ * @returns The rendered application component.
+ */
 export default function App() {
   return (
     <div>
@@ -21,12 +27,11 @@ export default function App() {
             <Route path="signup" element={<SignUpPage />} />
           </Route>
           <Route path="/board" element={<HomeScreen />}>
-          <Route path=":id" element={<Board />} />
+            <Route path=":id" element={<Board />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-      
     </div>
   )
 }

@@ -9,6 +9,10 @@ import PlusIcon from '../../icons/PlusIcon';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import Swal from 'sweetalert2';
 
+/**
+ * Component for creating a new board.
+ * @returns {JSX.Element} The JSX element representing the CreateNewBoard component.
+ */
 
 export default function CreateNewBoard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,15 +38,21 @@ export default function CreateNewBoard() {
     }
   };
 
+  const closeDialog = () => {
+    setOpen(false);
+  }
+
  // State to manage the inputs' values
  const [inputValues, setInputValues] = React.useState<string[]>([]);
  const [boardName, setBoardName] = React.useState("");
 
  
 
- //Update board
+  /**
+   * Updates the board column name and creates a new board.
+   * @returns {Promise<void>} A promise that resolves when the board is created successfully.
+   */
   const boardColumnNameUpdate = async () => {
-    
     const emptyBoard: BoardType= {
       user,
       columns: [],
@@ -95,7 +105,7 @@ export default function CreateNewBoard() {
       
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
         <div className="absolute top-0 right-0 m-2 mr-2 mt-4">
-          <button onClick={handleClose} className="text-white">
+          <button onClick={closeDialog} className="text-white">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
             </svg>

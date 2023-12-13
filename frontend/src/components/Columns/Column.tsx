@@ -12,6 +12,12 @@ interface Props {
   columnTitle: string;
   index: number;
 }
+/**
+ * Renders a column component.
+ * @param columnTitle - The title of the column.
+ * @param index - The index of the column.
+ * @returns The rendered column component.
+ */
 
 export default function Column({ columnTitle, index}: Props) {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,11 +35,15 @@ export default function Column({ columnTitle, index}: Props) {
   let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
 
+  /**
+   * Fetches tasks from the board asynchronously.
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchTasks = async () => {
       await dispatch(getTaskFromBoardAsync(boardData));
     };
-      fetchTasks();
+    fetchTasks();
   }, [boardData, dispatch, reloadBoard, reloadTaskSliceFlag]);
 
   //Hook for DND

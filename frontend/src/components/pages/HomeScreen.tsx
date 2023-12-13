@@ -9,6 +9,10 @@ import { setUserSlice } from '../../store/user/userSlice';
 import { UserType } from '../type';
 import { getUserByEmailAsync } from '../../store/user/singleUserAsyncSlice';
 
+/**
+ * Represents the HomeScreen component.
+ * @returns The rendered HomeScreen component.
+ */
 
 const HomeScreen = () => {
 

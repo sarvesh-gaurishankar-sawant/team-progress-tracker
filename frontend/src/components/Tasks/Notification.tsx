@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
 import {setNotificationMessage} from "../../store/notification/notificationSlice"
   
+/**
+ * Notification component displays a notification message and automatically hides it after a certain duration.
+ */
+
 const Notification: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();

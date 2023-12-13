@@ -8,13 +8,23 @@ import { TaskType } from '../type';
 import { ITask } from '../../model interfaces/ITask';
 import { ISubtask } from '../../model interfaces/ISubtask';
 
- interface TaskEditModalProps {
+interface TaskEditModalProps {
     initialTask: ITask;
     initialSubtasks: ISubtask[];
     initialColumns: string[];
     onSave: (task: ITask, subtasks: ISubtask[]) => void;
     onClose: () => void;
   }
+/**
+ * Renders a modal for editing a task.
+ * 
+ * @param initialTask - The initial task object.
+ * @param initialSubtasks - The initial subtasks array.
+ * @param initialColumns - The initial columns array.
+ * @param onSave - The function to save the changes made to the task.
+ * @param onClose - The function to close the modal.
+ */
+
 
 const TaskEdit: React.FC<TaskEditModalProps> = ({ initialTask, initialSubtasks, initialColumns, onSave, onClose }) => {
     const [task, setTask] = useState(initialTask);

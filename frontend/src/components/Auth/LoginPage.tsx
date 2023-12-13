@@ -23,7 +23,10 @@ export default function LoginPage() {
   const [passwordError, setPasswordError] = useState('');
 
   const message = location.state?.message;
-
+  /**
+   * Function to sign in the user.
+   * @returns {Promise<void>} A promise that resolves when the sign-in process is complete.
+   */
   const signIn = async () => {
     try {
       const result = await signInWithEmailAndPassword(auth, username, password);
@@ -35,46 +38,86 @@ export default function LoginPage() {
       window.localStorage.setItem('isLoggedIn', 'true');
       window.localStorage.setItem('email', emailId)
       await dispatch(getUserByEmailAsync(emailId))
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Logged in successfully"
+      });
     } 
     catch (err) {
       let errString: string = String(err);
       if(errString.includes("auth/user-not-found")){
-        navigate("/signup", { state: { message: "Email does not exist. Please login." }})
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Email does not exist. Please signup.',
+        })
+        navigate("/signup")
       }
     }
   };
 
-  function handleForgotPassword(){
-
+  /**
+   * Handles the forgot password functionality.
+   * If the email address is valid, it sends a password reset email.
+   * Otherwise, it displays an error message.
+   */
+  function handleForgotPassword() {
     if (!validateEmail(username)) {
       setEmailError('Enter email address');
     } else {
       setEmailError('');
       sendPasswordResetEmail(auth, username)
-    .then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Password reset email sent',
-      });
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Password reset email sent',
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
     }
   }
 
+  /**
+   * Validates an email address using a regular expression.
+   * @param email - The email address to validate.
+   * @returns True if the email address is valid, false otherwise.
+   */
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  /**
+   * Validates a password using a regular expression.
+   * 
+   * @param password - The password to validate.
+   * @returns True if the password is valid, false otherwise.
+   */
   const validatePassword = (password: string): boolean => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).{8,}$/;
     return passwordRegex.test(password);
   };
 
+
+  /**
+   * Handles the blur event of the email input field.
+   * Validates the email address and sets the email error state accordingly.
+   */
   const handleEmailBlur = () => {
     if (!validateEmail(username)) {
       setEmailError('Invalid email address');
@@ -83,6 +126,11 @@ export default function LoginPage() {
     }
   };
 
+  /**
+   * Handles the blur event of the password input field.
+   * If the password is not valid, sets the password error message.
+   * Otherwise, clears the password error message.
+   */
   const handlePasswordBlur = () => {
     if (!validatePassword(password)) {
       setPasswordError('Password must have at least 8 characters, one uppercase, one number, and one special character.');
@@ -91,6 +139,11 @@ export default function LoginPage() {
     }
   };
 
+  /**
+   * Handles the login functionality.
+   * Validates the email and password inputs.
+   * If both inputs are valid, calls the signIn function and logs a success message.
+   */
   const handleLogin = () => {
     let isValid = true;
     

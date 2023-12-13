@@ -12,6 +12,19 @@ interface LanguageData {
   
   
   
+  /**
+   * Represents an array of language data extracted from the provided JSON data.
+   * @typedef {Object} LanguageData
+   * @property {string} language_code - The language code.
+   * @property {string} display_name - The display name of the language.
+   * @property {string} native_name - The native name of the language.
+   * @property {string} direction - The direction of the language (ltr or rtl).
+   */
+
+  /**
+   * Extracts language data from the provided JSON data.
+   * @returns {LanguageData[]} An array of language data.
+   */
   const languageData = Object.keys(jsonData.translation).map(language_code => ({
     language_code,
     display_name: jsonData.translation[language_code].name,

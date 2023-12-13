@@ -12,6 +12,11 @@ import { setActiveBoard } from '../../store/active/activeBoardSlice';
 import { useState } from 'react';
 import Edit from '../../icons/Edit';
 import Swal from 'sweetalert2';
+/**
+ * Component for editing a board.
+ * 
+ * @returns The EditBoard component.
+ */
 
 export default function EditBoard() {
 
@@ -85,6 +90,14 @@ export default function EditBoard() {
     handleClose();
   };
 
+  /**
+   * Handles the deletion of a board.
+   * Deletes the board using the deleteBoardAsync action,
+   * retrieves the updated board list using the getBoardFromUserAsync action,
+   * navigates to the '/board' route,
+   * closes the modal,
+   * and displays a success message using Swal.fire.
+   */
   const handleDeleteBoard = async () => {
     await dispatch(deleteBoardAsync(boardData._id || ''))
     await dispatch(getBoardFromUserAsync(boardData?.user || ''))

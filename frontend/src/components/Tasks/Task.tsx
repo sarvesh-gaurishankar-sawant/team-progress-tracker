@@ -14,6 +14,12 @@ import { reloadTask } from "../../store/flags/reloadTasksSlice";
 interface Props {
   task: TaskType;
 }
+/**
+ * Renders a task component.
+ * @param {Props} props - The component props.
+ * @param {Task} props.task - The task object.
+ * @returns {JSX.Element} - The task component.
+ */
 
 export default function Task({ task }: Props) {
   //Hook for DND

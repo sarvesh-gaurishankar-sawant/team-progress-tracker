@@ -13,6 +13,11 @@ import {setActiveTask} from "../../store/active/activeTaskSlice";
 import Loading from "../Loading/Loading";
 import CreateNewColumn from "./CreateNewColumn";
 import { useParams } from "react-router-dom";
+/**
+ * Renders the display column component.
+ * 
+ * @returns The JSX element representing the display column component.
+ */
 
 export default function DisplayColumn() {
   const params = useParams()

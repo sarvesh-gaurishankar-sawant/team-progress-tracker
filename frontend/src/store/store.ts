@@ -14,6 +14,9 @@ import loginReducer from './user/loginSlice'
 import singleUserReducer from './user/singleUserAsyncSlice'
 import getBoardFromUserReducer from './board/getBoardFromUserSlice'
 
+/**
+ * The Redux store configuration.
+ */
 export const store = configureStore({
   reducer: {
     tasksObjectArray: taskReducer,

@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+/**
+ * Translates the text content of the document body to the specified language using the Microsoft Translator API.
+ * @param languageCode The language code to translate the text to.
+ * @returns A Promise that resolves when the translation is complete.
+ */
 export const translate = async (languageCode: string) => {
 
     try {

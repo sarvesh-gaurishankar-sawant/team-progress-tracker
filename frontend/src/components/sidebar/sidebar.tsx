@@ -14,6 +14,9 @@ import { UserType } from "../type";
 import { getBoardFromUserAsync } from "../../store/board/getBoardFromUserSlice";
 
 
+/**
+ * Represents a board in the application.
+ */
 interface Board {
     _id: string;
     name: string;
@@ -22,6 +25,10 @@ interface Board {
 }
 
 
+/**
+ * Sidebar component.
+ * Renders the sidebar with board navigation, user information, and actions.
+ */
 
 const Sidebar: React.FC = () => {
     

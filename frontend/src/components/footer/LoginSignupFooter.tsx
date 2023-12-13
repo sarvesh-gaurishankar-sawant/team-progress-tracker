@@ -1,5 +1,8 @@
 import React from 'react';
-
+/**
+ * Represents the footer component for the login/signup page.
+ * Displays the copyright information and credits for the developers.
+ */
 const LoginSignupFooter: React.FC = () => {
   return (
     <footer className="bg-gray-800 text-white pt-5">

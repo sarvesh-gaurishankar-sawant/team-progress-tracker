@@ -6,6 +6,13 @@ import { Modal } from "@mui/material";
 import { ITask } from "../../model interfaces/ITask";
 import { ISubtask } from "../../model interfaces/ISubtask";
 
+/**
+ * Represents a component for creating, reading, updating, and deleting tasks.
+ * @param {string} taskId - The ID of the task.
+ * @param {boolean} viewModal - A boolean indicating whether to show the view modal.
+ * @param {() => void} closeModal - A function to close the modal.
+ * @returns {JSX.Element} The TaskCRUD component.
+ */
 
 interface TaskCRUDProps {
     taskId?: string;

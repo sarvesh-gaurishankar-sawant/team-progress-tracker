@@ -14,6 +14,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import Swal from "sweetalert2";
 
+/**
+ * Renders the sign-up page component.
+ */
 function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +35,14 @@ function SignUpPage() {
   const [passwordError, setPasswordError] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
 
+  /**
+   * Function to handle user sign up.
+   * It creates a new user with the provided email and password,
+   * sets the user token in local storage, dispatches a login action,
+   * displays a success toast notification, updates the user profile,
+   * and retrieves the user by email.
+   * If the user already exists, it navigates to the home page with an error message.
+   */
   const signUp = async () => {
     try {
       const result = await createUserWithEmailAndPassword(
@@ -84,17 +95,32 @@ function SignUpPage() {
     }
   };
 
+  /**
+   * Validates an email address using a regular expression.
+   * @param email - The email address to validate.
+   * @returns True if the email address is valid, false otherwise.
+   */
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  /**
+   * Validates a password using a regular expression.
+   * 
+   * @param password - The password to be validated.
+   * @returns True if the password is valid, false otherwise.
+   */
   const validatePassword = (password: string): boolean => {
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).{8,}$/;
     return passwordRegex.test(password);
   };
 
+  /**
+   * Handles the blur event of the email input field.
+   * Validates the email address and sets the email error if it is invalid.
+   */
   const handleEmailBlur = () => {
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
@@ -103,6 +129,11 @@ function SignUpPage() {
     }
   };
 
+  /**
+   * Handles the blur event of the password input field.
+   * If the password is not valid, sets the password error message.
+   * Otherwise, clears the password error message.
+   */
   const handlePasswordBlur = () => {
     if (!validatePassword(password)) {
       setPasswordError(
@@ -113,6 +144,11 @@ function SignUpPage() {
     }
   };
 
+  /**
+   * Handles the sign-up form submission.
+   * 
+   * @param event - The form submission event.
+   */
   const handleSignUp = (event: React.FormEvent) => {
     event.preventDefault();
     if (!validateEmail(email)) {
@@ -134,8 +170,6 @@ function SignUpPage() {
       phoneNo,
       password,
     });
-
-
   };
 
   const url1 = "/assests/loginpage1.png";

@@ -7,7 +7,11 @@ import { BoardType } from "../../components/type";
 import Swal from 'sweetalert2';
 
 
-
+/**
+ * Fetches data from the server based on the provided user email.
+ * @param userEmail - The email of the user to fetch data for.
+ * @returns A Promise that resolves to the fetched data.
+ */
 async function FetchData(userEmail: string): Promise<any> {
     try {
         const response = await fetch(`http://localhost:3001/users/email/${userEmail}`);
@@ -23,10 +27,13 @@ async function FetchData(userEmail: string): Promise<any> {
     } catch (error) {
         console.error('Error fetching data:', error);
     }
-
 }
-
-
+/**
+ * Updates the user data for a given user ID.
+ * @param userData - The data to be updated for the user.
+ * @param userID - The ID of the user.
+ * @returns A promise that resolves to the updated user data.
+ */
 async function UpdateUserData(userData: any, userID: string): Promise<any> {
     try {
         const response = await fetch(`http://localhost:3001/users/${userID}`, {
@@ -48,8 +55,10 @@ async function UpdateUserData(userData: any, userID: string): Promise<any> {
     } catch (error) {
         console.error('Error fetching data:', error);
     }
-
 }
+/**
+ * Component for sharing a board with another user.
+ */
 
 const ShareBoardModal: React.FC = () => {
     const [open, setOpen] = useState(false);

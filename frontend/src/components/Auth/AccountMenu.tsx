@@ -28,6 +28,11 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  /**
+   * Logs out the user.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the user is logged out successfully.
+   */
   const logout = async () => {
     try {
       await signOut(auth);
@@ -45,12 +50,17 @@ export default function AccountMenu() {
     } catch (err) {
       console.error(err);
     }
-    };
+  };
 
     let isLoggedIn: boolean = useSelector((state: RootState) => state.reloadTask.value);
 
     let userId: string = useSelector((state: RootState) => state.singleUser.value);
 
+    /**
+     * Fetches data for a given user ID.
+     * @param userId - The ID of the user.
+     * @returns A promise that resolves to the first name of the user.
+     */
     async function FetchData(userId: string): Promise<any> {
       try {
         const response = await fetch(`http://localhost:3001/users/${userId}`);
@@ -58,9 +68,9 @@ export default function AccountMenu() {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
-    
+
         const data = await response.json();
-  
+
         const firstName: string[] = data.firstName;
         return firstName;
       } catch (error) {
@@ -70,16 +80,25 @@ export default function AccountMenu() {
 
     const [firstName, setFirstName] = React.useState<string[]>([]);
   
+    /**
+     * Fetches data for the user and sets the first name in the component state.
+     * @param {string} userId - The ID of the user.
+     */
     React.useEffect(() => {
       const fetchAndSetData = async () => {
         const data = await FetchData(userId);
         setFirstName(data);
       };
-  
+
       fetchAndSetData();
     }, [userId]);
 
   
+  /**
+   * Renders the account menu component.
+   * 
+   * @returns The JSX element representing the account menu.
+   */
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>

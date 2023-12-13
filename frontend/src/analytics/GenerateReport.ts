@@ -1,5 +1,9 @@
 import jsPDF from 'jspdf';
 
+/**
+ * Generates a PDF report based on the content of the 'AnalyticsReport' element.
+ * The generated PDF is saved as 'sample.pdf'.
+ */
 const generatePDF = () => {
     const doc = new jsPDF();
 

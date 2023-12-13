@@ -6,6 +6,15 @@ import { AppDispatch, RootState } from '../../store/store';
 import { getBoardAsync } from '../../store/active/activeBoardSlice';
 import { createNewTaskAsync } from '../../store/task/singleTaskSlice';
 import { reloadTask } from '../../store/flags/reloadTasksSlice';
+/**
+ * Represents a TaskCard component.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.isOpen - Flag indicating whether the TaskCard is open or not.
+ * @param {Function} props.onTaskCreate - Callback function to be called when a task is created.
+ * @param {Function} props.onClose - Callback function to be called when the TaskCard is closed.
+ * @returns {JSX.Element} The TaskCard component.
+ */
 
 
 interface Task {

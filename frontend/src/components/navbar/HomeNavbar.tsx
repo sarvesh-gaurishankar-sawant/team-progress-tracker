@@ -11,6 +11,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Products', 'Pricing', 'Blog'];
+/**
+ * Renders a responsive app bar with a navigation menu.
+ * The app bar adjusts its layout based on the screen size.
+ * On mobile view, a menu icon is displayed to open the navigation menu.
+ * On larger screens, a list of pages is displayed in the app bar.
+ */
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

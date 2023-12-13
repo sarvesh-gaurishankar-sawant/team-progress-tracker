@@ -1,3 +1,11 @@
+/**
+ * Component that displays charts for board analytics.
+ * @component
+ * @example
+ * return (
+ *   <DisplayCharts boardId="657766dcd6306c0036a67e44" />
+ * )
+ */
 import { FetchData, FetchTasksinColumn } from "../analytics/FetchDataAnalytics";
 import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
@@ -12,7 +20,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store"
 import generatePDF from '../analytics/GenerateReport';
 
-
+// Register the plugins
 Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, LinearScale, BarElement, BarController, PointElement,
     LineElement, LineController);
 
@@ -23,6 +31,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         boardId: string;
     }
 
+    // DisplayCharts component
     const DisplayCharts: React.FC = ( ) => {
 
         const emptyBoard: BoardType= {
@@ -38,7 +47,6 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         
     // const boardId = '657766dcd6306c0036a67e44';
 
-
     const [columnData, setColumnData] = useState<{ [key: string]: number }>({});
     const [showModal, setShowModal] = useState(false);
     const [taskDueDates, setTaskDueDates] = useState<{ [key: string]: { [key: string]: string } }>({});
@@ -52,8 +60,13 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         setShowModal(true);
     };
 
-
-
+    /**
+     * Fetches data and tasks from the server based on the provided board ID.
+     * Updates the column data, task due dates, and tasks state variables.
+     * Logs the tasks due dates to the console.
+     * 
+     * @returns {JSX.Element} A JSX element indicating that no board ID was provided if the boardId is empty.
+     */
     useEffect(() => {
         const fetchDataAndTasks = async () => {
             try {
@@ -102,7 +115,11 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         fetchDataAndTasks();
     }, [board]);
 
-
+    /**
+     * Generates a random color palette.
+     * @param count The number of colors to generate.
+     * @returns An array of randomly generated colors in RGBA format.
+     */
     const generateRandomColorPalette = (count: number): string[] => {
         const palette: string[] = [];
         for (let i = 0; i < count; i++) {
@@ -114,7 +131,11 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         return palette;
     };
 
-
+    /**
+     * Generates pie chart data based on the provided column data.
+     * @param {Object} columnData - The column data used to generate the pie chart.
+     * @returns {Object} - The pie chart data object.
+     */
     const pieChartData = {
         labels: Object.keys(columnData),
         datasets: [
@@ -127,6 +148,9 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         ],
     };
 
+    /**
+     * Represents the data for the bar chart and line chart.
+     */
     const barChartData = {
         labels: Object.keys(columnData),
         datasets: [
@@ -139,7 +163,9 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         ],
     };
 
-
+    /**
+     * Represents the data for the line chart.
+     */
     const [lineChartData, setLineChartData] = useState<{
         labels: string[];
         datasets: { label: string; data: number[] }[];
@@ -148,9 +174,13 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
         datasets: [],
     });
 
+    /**
+     * Calculates task counts for each date and each column and updates the line chart data.
+     * @param taskDueDates - An object containing task due dates grouped by column name.
+     */
     useEffect(() => {
         const datesCountMap: { [date: string]: { [column: string]: number } } = {};
-    
+
         // Calculate task counts for each date and each column
         Object.entries(taskDueDates).forEach(([columnName, columnTasks]) => {
             Object.values(columnTasks).forEach(date => {
@@ -163,16 +193,16 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
                 datesCountMap[date][columnName]++;
             });
         });
-    
+
         const columns = Object.keys(taskDueDates);
-    
+
         const sortedDates = Object.keys(datesCountMap).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-    
+
         const datasets = columns.map(column => ({
             label: column,
             data: sortedDates.map(date => datesCountMap[date][column] || 0),
         }));
-    
+
         setLineChartData({
             ...lineChartData,
             labels: sortedDates,
@@ -181,9 +211,8 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
     }, [taskDueDates]);
 
     console.log("taskDueDates", taskDueDates);
-    
 
-
+    // Return the component
     return (
         <div id="AnalyticsReport">
             <button onClick={handleShowModal} className="text-white">

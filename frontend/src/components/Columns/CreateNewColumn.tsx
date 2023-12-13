@@ -10,6 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
 import Swal from 'sweetalert2';
 
+/**
+ * Component for creating a new column.
+ * 
+ * @returns JSX.Element
+ */
 
 export default function CreateNewColumn() {
   
