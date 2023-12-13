@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { createNewBoardAsync } from '../../store/board/singleBoardSlice';
 import PlusIcon from '../../icons/PlusIcon';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
+import Swal from 'sweetalert2';
 
 
 export default function CreateNewBoard() {
@@ -53,6 +54,12 @@ export default function CreateNewBoard() {
 
     await dispatch(createNewBoardAsync(emptyBoard))
     dispatch(reloadBoard(!reloadBoardFlag))
+    setOpen(false);
+    Swal.fire({
+      icon: 'success',
+      title: 'Board Created Successfully',
+      showConfirmButton: true,
+    })
   };
   
 
