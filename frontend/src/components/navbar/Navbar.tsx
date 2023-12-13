@@ -12,7 +12,7 @@ import Notification from '../Tasks/Notification';
 import { BoardType } from '../type';
 import {setNotificationMessage} from "../../store/notification/notificationSlice"
 import '../../styles/styles.css';
-import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import { cols } from '../../components/LoadJson/LoadJson';
 import { translate } from '../Translations/translate';
 import AccountMenu from '../Auth/AccountMenu';
@@ -20,6 +20,8 @@ import EditBoard from '../Boards/EditBoard';
 import { useLocation } from 'react-router-dom';
 import Edit from '../../icons/Edit';
 import Swal from 'sweetalert2';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 
 
@@ -134,8 +136,12 @@ const NavBar: React.FC = () => {
             {/* Language Selection Modal */}
 
 
-            <Dialog open={languageModalOpen} onClose={closeLanguageModal}>
-              <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+
+            <Dialog open={languageModalOpen} onClose={closeLanguageModal}>  
+                <div className="flex items-center justify-between">
+                  <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+                  <button type="button" className="mr-4 text-gray-400 hover:text-red-500" onClick={closeLanguageModal}>&#x2715;</button>
+                </div>
               <DialogContent style={{ backgroundColor: '#303030' }}>
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (
@@ -181,7 +187,10 @@ const NavBar: React.FC = () => {
 
             {/* Language Selection Modal */}
             <Dialog open={languageModalOpen} onClose={closeLanguageModal}>
-              <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+            <div className="flex items-center justify-between">
+                  <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+                  <button type="button" className="mr-4 text-gray-400 hover:text-red-500" onClick={closeLanguageModal}>&#x2715;</button>
+                </div>
               <DialogContent style={{ backgroundColor: '#303030' }}>
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (
