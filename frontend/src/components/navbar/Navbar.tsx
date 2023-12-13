@@ -12,9 +12,16 @@ import Notification from '../Tasks/Notification';
 import { BoardType } from '../type';
 import {setNotificationMessage} from "../../store/notification/notificationSlice"
 import '../../styles/styles.css';
-import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import { cols } from '../../components/LoadJson/LoadJson';
 import { translate } from '../Translations/translate';
+import AccountMenu from '../Auth/AccountMenu';
+import EditBoard from '../Boards/EditBoard';
+import { useLocation } from 'react-router-dom';
+import Edit from '../../icons/Edit';
+import Swal from 'sweetalert2';
+
+
 
 
 
@@ -67,15 +74,24 @@ const NavBar: React.FC = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  // const openEditModal = () => setEditModalOpen(true)
+  // const closeEditModal = () => setEditModalOpen(false)
   
 
   const handleTaskCreationSuccess = () => {
     closeModal();
-    dispatch(setNotificationMessage('Task successfully created!'));
+    // dispatch(setNotificationMessage('Task successfully created!'));
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Task Created successfully!',
+  });
   };
 
+  const location = useLocation();
   
-
   return (
     <div className={`fixed top-0 right-0 ${isMobile ? 'w-full' : 'w-4/5'} bg-gray-800 h-24 flex justify-between items-center border border-gray-900`}>
       {isMobile && (
@@ -98,25 +114,32 @@ const NavBar: React.FC = () => {
         {!isMobile && (
           <div className='mr-5 flex items-center gap-6'>
             {/* Add Button - Desktop View */}
-            <button className={`border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400`} onClick={openModal}>
+            {boardData.name !== "" && location.pathname !== "/board" && <button className={`border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400`} onClick={openModal}>
               <AddIcon sx={{ marginRight: 1 }} />
               Add new task
-            </button>
+            </button>}
+            {boardData.name !== "" && location.pathname !== "/board" && <div className={`border border-gray-600 flex items-center justify-center h-12 w-[12rem] bg-[#625FC7] text-white rounded-full py-2 px-4 hover:bg-purple-400`}>
+              {/* <AddIcon sx={{ marginRight: 1 }} /> */}
+              <EditBoard />
+            </div>}
             {/* Kebab Menu - Desktop View */}
             <button onClick={openLanguageModal}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
               </svg>
             </button>
-            <button>
-              <MoreVertIcon className='h-8' />
-            </button>
+            {/* {boardData.name!=="" && location.pathname !== "/board" && <EditBoard />} */}
+            <AccountMenu />
 
             {/* Language Selection Modal */}
 
 
-            <Dialog open={languageModalOpen} onClose={closeLanguageModal}>
-              <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+
+            <Dialog open={languageModalOpen} onClose={closeLanguageModal}>  
+                <div className="flex items-center justify-between">
+                  <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+                  <button type="button" className="mr-4 text-gray-400 hover:text-red-500" onClick={closeLanguageModal}>&#x2715;</button>
+                </div>
               <DialogContent style={{ backgroundColor: '#303030' }}>
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (
@@ -146,19 +169,26 @@ const NavBar: React.FC = () => {
             <button className={`border border-gray-600 flex items-center justify-center h-8 w-8 bg-[#625FC7] text-white rounded-full py-1 px-2 hover:bg-purple-400`} onClick={openModal}>
               <AddIcon />
             </button>
+            {boardData.name !== "" && location.pathname !== "/board" && <div className={`border border-gray-600 flex items-center justify-center h-8 w-8 bg-[#625FC7] text-white rounded-full py-1 px-2 hover:bg-purple-400`}>
+              {/* <AddIcon sx={{ marginRight: 1 }} /> */}
+              <Edit />
+              <EditBoard />
+            </div>}
             <button onClick={openLanguageModal}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
               </svg>
 
             </button>
-            <button>
-              <MoreVertIcon className='h-8' />
-            </button>
+            {/* {boardData.name !== "" && location.pathname !== "/board" && <EditBoard />} */}
+            <AccountMenu />
 
             {/* Language Selection Modal */}
             <Dialog open={languageModalOpen} onClose={closeLanguageModal}>
-              <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+            <div className="flex items-center justify-between">
+                  <DialogTitle style={{ textAlign: 'center' }}>Select Language</DialogTitle>
+                  <button type="button" className="mr-4 text-gray-400 hover:text-red-500" onClick={closeLanguageModal}>&#x2715;</button>
+                </div>
               <DialogContent style={{ backgroundColor: '#303030' }}>
                 <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
                   {cols.map((column, index) => (

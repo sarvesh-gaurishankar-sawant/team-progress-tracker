@@ -2,10 +2,11 @@ import { useEffect } from "react"
 import DisplayColumn from "../Columns/DisplayColumn";
 import { CircularProgress } from "@mui/material";
 import { getBoardAsync } from "../../store/active/activeBoardSlice"
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store"
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { BoardType } from "../type";
+import { reloadBoard } from "../../store/flags/reloadBoardSlice";
 
 
 export default function Board() {
@@ -13,7 +14,7 @@ export default function Board() {
   
   let boardData: BoardType | null = useSelector((state: RootState) => state.activeBoard.value);
   let isSidebarOpen: boolean = useSelector((state: RootState) => state.sideBarFlag.value);
-  let reloadBoard: boolean = useSelector((state: RootState) => state.reloadBoard.value);
+  let reloadBoardBool: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
  
   
@@ -26,7 +27,15 @@ export default function Board() {
       await dispatch(getBoardAsync(paramsId));
     };
     fetchTasks(); 
-  }, [paramsId, dispatch, reloadBoard, reloadTaskSliceFlag]);
+  }, [paramsId, dispatch, reloadBoardBool, reloadTaskSliceFlag]);
+
+  let isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
+
+  if(!isLoggedIn){
+    return (
+      <Navigate to="/" />
+    )
+  }
 
   
   

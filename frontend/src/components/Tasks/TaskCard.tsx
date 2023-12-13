@@ -13,15 +13,21 @@ interface Task {
   description: string;
   status: string;
   subtasks: string[];
+  _id: string;
 
 }
+
+// interface Subtask{
+//   title: string;
+//   isComplete: boolean;
+//   task: string;
+// }
 
 interface TaskCardProps {
   isOpen: boolean;
   onTaskCreate: () => void;
   onClose: () => void;
 }
-
 
 const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,7 +40,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
   
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
-  let boardId = boardData._id;
+  let boardId = boardData._id || "";
   let index = boardData.tasks.length + 1
   let columns = boardData.columns;
 
@@ -43,7 +49,10 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     description: '',
     status: '',
     subtasks: [],
+    _id: ''
   });
+
+  const [subtasks, setSubtasks] = useState<string[]>([]);
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -61,13 +70,16 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
   };
 
   const handleSubtaskChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSubtasks = [...task.subtasks];
+    // setSubtasks([...subtasks, event.target.value]);
+
+    const newSubtasks = [...subtasks];
     newSubtasks[index] = event.target.value;
-    setTask({ ...task, subtasks: newSubtasks });
+    setSubtasks(newSubtasks);
   };
   
-  const handleAddSubtask = () => {
-    setTask({ ...task, subtasks: [...task.subtasks, ''] });
+  const handleAddSubtask = async () => {
+    setSubtasks([...subtasks, '']);
+    // setTask({ ...task, subtasks: [...task.subtasks, ''] });
   };
   
   const handleRemoveSubtask = (index: number) => {
@@ -76,6 +88,9 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
     setTask({ ...task, subtasks: newSubtasks });
   }; 
 
+  function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   
   const handleSubmit = async () => {
     const newTaskData: TaskType= {
@@ -86,20 +101,35 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
       status: task.status,
       subtasks: task.subtasks,
     };
-  
 
-    await dispatch(createNewTaskAsync(newTaskData));
-    await dispatch(getBoardAsync(boardData._id));
+    const taskCreateResponse = await dispatch(createNewTaskAsync(newTaskData));
+
+    // create new subtasks
+    const newTask = taskCreateResponse.payload as Task;
+
+    for(const index in subtasks){
+      try {
+        const response = await fetch(`http://localhost:3001/subtasks`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({title: subtasks[index], task: newTask._id, isComplete: false})
+        });
+        var result = await response.json();
+        console.log('creating subtask with title: '+subtasks[index]);
+        console.log(result);
+        await delay(100);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    await dispatch(getBoardAsync(boardData._id || ""));
+
     dispatch(reloadTask(!reloadTaskSliceFlag));
     
-    setTask({
-      title: '',
-      description: '',
-      status: '',
-      subtasks: [],
-    });
     onTaskCreate();
-    
   };
   
 
@@ -146,7 +176,7 @@ const TaskCard: React.FC<TaskCardProps> = ({isOpen, onTaskCreate, onClose }) => 
             </div>            
             <div className="space-y-2">
             <div className="text-sm font-bold mb-4 text-white">Subtasks</div>
-            {task.subtasks.map((subtask, index) => (
+            {subtasks.map((subtask, index) => (
               <div key={index} className="flex items-center gap-2">
                 <TextField
                   className="text-white border border-gray-700 rounded py-2 px-3 block w-full"

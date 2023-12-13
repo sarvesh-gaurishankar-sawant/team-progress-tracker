@@ -4,20 +4,23 @@ import Delete from '../../icons/Delete';
 import { BoardType } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { getBoardAsync } from '../../store/active/activeBoardSlice';
-import { createNewBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
+import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoardSlice';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
+import { useNavigate } from 'react-router-dom';
+import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
+
 
 export default function CreateNewColumn() {
   
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate()
   const emptyBoard: BoardType= {
     columns: [],
     name: "",
     tasks: [],
     _id: ""
   }
+
   let boardData: BoardType = useSelector((state: RootState) => state.activeBoard.value) || emptyBoard;
   let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   const [open, setOpen] = React.useState(false);
@@ -27,6 +30,7 @@ export default function CreateNewColumn() {
   };
 
   const handleClose = () => {
+    dispatch(reloadBoard(!reloadBoardFlag))
     if(boardName !== "" && !(inputValues.filter(val => val === "").length > 0)){
       setOpen(false);
     }
@@ -52,11 +56,17 @@ export default function CreateNewColumn() {
       columns: inputValues,
       name: boardName
     }))
-    dispatch(reloadBoard(!reloadBoardFlag))
-    
+    await dispatch(getBoardFromUserAsync(boardData?.user || ''))
     handleClose();
   };
   
+  const handleDeleteBoard = async () => {
+    await dispatch(deleteBoardAsync(boardData._id || ''))
+    await dispatch(getBoardFromUserAsync(boardData?.user || ''))
+    
+    navigate('/board')
+    handleClose();
+  }
 
  // Function to handle changes in input values
  const handleInputChange = (index: number, value: string) => {
@@ -81,16 +91,19 @@ export default function CreateNewColumn() {
     setBoardName(event.target.value)
   }
 
-
   return (
-    <React.Fragment>
+    <div>
       <button onClick={handleClickOpen} className="w-72 h-screen bg-[#22232E]" >
           <span className='text-zinc-400 text-2xl font-bold'>+ New Column</span>
-      </button>
+      </button> 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
-                <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
-                <h3 className='mb-2 text-white font-bold'>Board Name</h3>
+          <div className='flex items-center justify-between'>
+                <h2 className='mb-4 text-white font-bold text-xl'>Add New Column</h2>
+                <button type="button" className="mb-6 text-gray-400 hover:text-red-500" onClick={() => setOpen(false)}>&#x2715;</button>
+          </div>
+                <div className='flex justify-between'><h3 className='mb-5 text-white font-bold'>Board Name</h3><button className="mb-5 text-white font-bold text-lg bg-red-500 hover:bg-red-700 rounded-md px-2 py-0.5" type='button' onClick={handleDeleteBoard}>Delete Board</button>
+</div>
                 <input
                     type="text"
                     name="boardname"
@@ -100,7 +113,7 @@ export default function CreateNewColumn() {
                     required
                 />
                 <h3 className='mb-2 text-white font-bold'>Board Columns</h3>
-                {inputValues.map((value, index) => (
+                {inputValues && inputValues.map((value, index) => (
                   <div key={index} className='mx-auto flex flex-row w-10/12 justify-between mb-3'>
                     <input
                       type="text"
@@ -116,6 +129,6 @@ export default function CreateNewColumn() {
                 <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='button'>Save Changes</button>
             </form>
       </Dialog>
-    </React.Fragment>
+    </div>
   );
 }

@@ -14,11 +14,6 @@ interface TaskCRUDProps {
   }
 
 export default function TaskCRUD({taskId, viewModal, closeModal}: TaskCRUDProps) {
-  // need to get rid of hard coded values
-//   const taskId = "6576c547d70e2cb3ae4b0296"; // Replace with the actual value for your parameter
-//   const boardId = "65763c694da65471d9586d16"; // Replace with the actual value for your parameter
-
-
 
   const [task, setTask] = useState<ITask>();
   const [subtasks, setSubtasks] = useState<ISubtask[]>([]);
@@ -29,9 +24,8 @@ export default function TaskCRUD({taskId, viewModal, closeModal}: TaskCRUDProps)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const taskResonse = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
-        var taskJson = await taskResonse.json();
-        console.log(taskId);
+        const taskResponse = await fetch(`http://localhost:3001/tasks/${taskId}`); // Replace with your API endpoint
+        var taskJson = await taskResponse.json();
         setTask(taskJson);
 
         const subtasksResponse = await fetch(`http://localhost:3001/subtasks/getSubtasksByTask/${taskId}`);
@@ -48,7 +42,7 @@ export default function TaskCRUD({taskId, viewModal, closeModal}: TaskCRUDProps)
     };
 
     fetchData();
-  }, []);
+  }, [taskId]);
 
   const openEditModal = () => {
     setShowEditModal(true);

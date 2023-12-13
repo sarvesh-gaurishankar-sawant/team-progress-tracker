@@ -119,7 +119,10 @@ const TaskEdit: React.FC<TaskEditModalProps> = ({ initialTask, initialSubtasks, 
 return (
     <Modal open={open} className="flex items-center justify-center" style={{border: 'solid 1px rgb(9,9,11)'}}>
             <div className="container mx-auto w-[480px] overflow-y-auto max-h-[640px] bg-[#2b2c36] p-8">
+            <div className='flex items-center justify-between'>
         <h1 className="text-4xl font-bold mb-4 text-white">Edit Task</h1>
+        <button type="button" className="mb-6 text-gray-400 hover:text-red-500" onClick={() => setOpen(false)}>&#x2715;</button>
+          </div>
         <form>
         <div className="mb-4">
             <label htmlFor="taskName" className="block mb-2 text-white">
@@ -130,7 +133,7 @@ return (
             id="taskName"
             name="taskName"
             value={task?.title}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded text-black"
             onChange={handleTitleChange}/>
         </div>
         <div className="mb-4">
@@ -141,7 +144,7 @@ return (
             id="taskDescription"
             name="taskDescription"
             value={task?.description}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded text-black"
             onChange={handleDescChange}/>
         </div>
         <h2 className="mb-4 text-white">Subtasks</h2>
@@ -173,7 +176,7 @@ return (
             <select
             id="taskStatus"
             name="taskStatus"
-            className="w-full border border-gray-300 p-2 rounded mb-8 h-10"
+            className="w-full border border-gray-300 p-2 rounded mb-8 h-10 text-black"
             onChange={handleStatusChange}>
             {
                 columns.map((column) => (

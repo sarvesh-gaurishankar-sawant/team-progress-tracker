@@ -7,6 +7,9 @@ import TaskEdit from "./task-edit";
 import { TaskType } from "../type";
 import { ITask } from "../../model interfaces/ITask";
 import { ISubtask } from "../../model interfaces/ISubtask";
+import {  useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store"
+import { reloadTask } from "../../store/flags/reloadTasksSlice";
 
 
 interface TaskViewModalProps {
@@ -18,8 +21,10 @@ interface TaskViewModalProps {
   }
 
 const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubtasks, initialColumns, onEdit, onClose }) => {
-  console.log("inside task view modal");
-  console.log(initialColumns);
+
+  let reloadTaskSliceFlag: boolean = useSelector((state: RootState) => state.reloadTask.value);
+  const dispatch = useDispatch<AppDispatch>();
+
   const [task, setTask] = useState<ITask>(initialTask);
   const [subtasks, setSubtasks] = useState<ISubtask[]>(initialSubtasks);
   const [columns, setColumns] = useState<string[]>(initialColumns);
@@ -39,10 +44,12 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
   const [showTaskEdit, setShowTaskEdit] = useState(false);
 
   useEffect(() => {
+        setTask(initialTask);
+        setSubtasks(initialSubtasks);
         setColumns(initialColumns);
         setSelectedOption(task.status);
-        setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);
-  }, [initialColumns]);
+        setCheckedCount(subtasks.filter((subtask: { isComplete: boolean; }) => subtask.isComplete).length);       
+  }, [initialColumns, initialTask, initialSubtasks]);
 
 
   const [open, setOpen] = useState(true);
@@ -67,6 +74,7 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
     } catch (error) {
       console.error('Error fetching data:', error);
     } 
+    dispatch(reloadTask(!reloadTaskSliceFlag));
     setOpen(false);
   };
 
@@ -131,12 +139,15 @@ const TaskViewModal: React.FC<TaskViewModalProps> = ({ initialTask, initialSubta
           <Typography className="text-white text-lg">
             {task?.title}
           </Typography>
+          <div className='flex items-center justify-between'>
           <IconButton className="align-top" aria-controls={openMenu ? 'task-action-menu' : undefined} aria-haspopup="true"
             aria-expanded={openMenu ? 'true' : undefined} onClick={handleMenuClick}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" className="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
           </IconButton>
+          <button type="button" className="ml-4 text-gray-400 hover:text-red-500" onClick={() => setOpen(false)}>&#x2715;</button>
+          </div>
           <Menu
             id="task-action-menu"
             anchorEl={anchorEl}
