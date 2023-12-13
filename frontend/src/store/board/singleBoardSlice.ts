@@ -27,7 +27,10 @@ const singleBoardSlice = createSlice({
       (state, action: PayloadAction<BoardType>) => {
           state.value = action.payload;
       }
-  )
+  ).addCase(
+    deleteBoardAsync.fulfilled,
+    (state) => {}
+)
   }
 });
 
@@ -45,6 +48,16 @@ export const createNewBoardAsync = createAsyncThunk<BoardType, BoardType>(
           .then(response => response.json())
         return data;
     }
+);
+
+//create new board in database
+export const deleteBoardAsync = createAsyncThunk<void, string>(
+  "singleBoard/deleteBoardAsync",
+  async (boardId: string) => { 
+      const data = fetch(`http://localhost:3001/boards/${boardId}`, {
+        method: 'DELETE',
+        })
+  }
 );
 
 //update board in database 

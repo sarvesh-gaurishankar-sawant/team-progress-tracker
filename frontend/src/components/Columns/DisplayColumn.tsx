@@ -144,8 +144,7 @@ export default function DisplayColumn() {
   }
   else {
     return (
-      // Loading component
-      <Loading />
+      <></>
     )
   }
 }

@@ -25,7 +25,19 @@ const singleUserSlice = createSlice({
       .addCase(
         getUserAsync.fulfilled,
         (state) => {}
-      );
+      )
+      .addCase(
+        createUserAsync.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+            state.value = action.payload;
+        }
+      )
+      .addCase(
+        getUserByEmailAsync.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+            state.value = action.payload;
+        }
+      )
   }
 });
 
@@ -47,11 +59,40 @@ export const updateUserAsync = createAsyncThunk<UserType, UserType>(
   }
 );
 
+//update user in database 
+export const createUserAsync = createAsyncThunk<UserType, UserType>(
+  "user/createUserAsync",
+  async (user: UserType) => { 
+      const response = await fetch(`http://localhost:3001/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+      const data: UserType= await response.json()
+      return {
+        ...data
+      };
+  }
+);
+
 //get user in database 
 export const getUserAsync = createAsyncThunk<UserType, string>(
   "user/getUserAsync",
   async (userId: string) => { 
       const response = await fetch(`http://localhost:3001/users/${userId}`)
+      const data: UserType= await response.json()
+      return data;
+  }
+);
+
+
+//get user in database 
+export const getUserByEmailAsync = createAsyncThunk<UserType, string>(
+  "user/getUserByEmailAsync",
+  async (email: string) => { 
+      const response = await fetch(`http://localhost:3001/users/email/${email}`)
       const data: UserType= await response.json()
       return data;
   }

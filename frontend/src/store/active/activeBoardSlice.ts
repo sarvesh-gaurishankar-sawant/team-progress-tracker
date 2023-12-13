@@ -16,7 +16,11 @@ const initialState: BoardState = {
 const activeBoardSlice = createSlice({
   name: "activeboard",
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveBoard: (state, action: PayloadAction<BoardType | null>) => {
+      state.value = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -27,6 +31,9 @@ const activeBoardSlice = createSlice({
       )
   }
 });
+
+
+export const { setActiveBoard } = activeBoardSlice.actions;
 
 //Get Board based on board id
 export const getBoardAsync = createAsyncThunk<BoardType, string>(
