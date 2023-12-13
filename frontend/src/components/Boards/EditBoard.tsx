@@ -11,6 +11,7 @@ import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
 import { setActiveBoard } from '../../store/active/activeBoardSlice';
 import { useState } from 'react';
 import Edit from '../../icons/Edit';
+import Swal from 'sweetalert2';
 
 export default function EditBoard() {
 
@@ -90,6 +91,12 @@ export default function EditBoard() {
 
     navigate('/board')
     handleClose();
+    Swal.fire({
+      title: 'Board Deleted!',
+      text: 'Board has been deleted.',
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    })
   }
 
   // Function to handle changes in input values

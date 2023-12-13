@@ -8,6 +8,7 @@ import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoar
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import { useNavigate } from 'react-router-dom';
 import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
+import Swal from 'sweetalert2';
 
 
 export default function CreateNewColumn() {
@@ -66,6 +67,12 @@ export default function CreateNewColumn() {
     
     navigate('/board')
     handleClose();
+    Swal.fire({
+      title: 'Board Deleted!',
+      text: 'Board has been deleted.',
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    })
   }
 
  // Function to handle changes in input values
