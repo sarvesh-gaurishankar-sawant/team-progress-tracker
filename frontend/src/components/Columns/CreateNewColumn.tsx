@@ -99,7 +99,7 @@ export default function CreateNewColumn() {
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
           <div className='flex items-center justify-between'>
-                <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
+                <h2 className='mb-4 text-white font-bold text-xl'>Add New Column</h2>
                 <button type="button" className="mb-6 text-gray-400 hover:text-red-500" onClick={() => setOpen(false)}>&#x2715;</button>
           </div>
                 <div className='flex justify-between'><h3 className='mb-5 text-white font-bold'>Board Name</h3><button className="mb-5 text-white font-bold text-lg bg-red-500 hover:bg-red-700 rounded-md px-2 py-0.5" type='button' onClick={handleDeleteBoard}>Delete Board</button>

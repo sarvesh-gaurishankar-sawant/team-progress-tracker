@@ -128,7 +128,7 @@ export default function EditBoard() {
       <span >
         <Edit />
       </span>
-      <span className={isMobileView ? 'hidden' : 'inline-block mr-2'}>Edit the task</span>
+      <span className={isMobileView ? 'hidden' : 'inline-block mr-2'}>Edit board</span>
     </button>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent' } }} >
         <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
