@@ -20,7 +20,6 @@ import EditBoard from '../Boards/EditBoard';
 import { useLocation } from 'react-router-dom';
 import Edit from '../../icons/Edit';
 import Swal from 'sweetalert2';
-import CloseIcon from '@material-ui/icons/Close';
 
 
 
