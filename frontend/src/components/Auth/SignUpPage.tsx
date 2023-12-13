@@ -10,7 +10,7 @@ import { setLogin } from '../../store/user/loginSlice';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase-config';
 
-function SignUpTemp() {
+function SignUpPage() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();  
@@ -221,4 +221,4 @@ function SignUpTemp() {
   )
 }
 
-export default SignUpTemp
+export default SignUpPage;
