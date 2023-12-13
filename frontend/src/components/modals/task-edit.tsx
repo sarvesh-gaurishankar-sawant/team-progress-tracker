@@ -130,7 +130,7 @@ return (
             id="taskName"
             name="taskName"
             value={task?.title}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded text-black"
             onChange={handleTitleChange}/>
         </div>
         <div className="mb-4">
@@ -141,7 +141,7 @@ return (
             id="taskDescription"
             name="taskDescription"
             value={task?.description}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded text-black"
             onChange={handleDescChange}/>
         </div>
         <h2 className="mb-4 text-white">Subtasks</h2>
@@ -173,7 +173,7 @@ return (
             <select
             id="taskStatus"
             name="taskStatus"
-            className="w-full border border-gray-300 p-2 rounded mb-8 h-10"
+            className="w-full border border-gray-300 p-2 rounded mb-8 h-10 text-black"
             onChange={handleStatusChange}>
             {
                 columns.map((column) => (

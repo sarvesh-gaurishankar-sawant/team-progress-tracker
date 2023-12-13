@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { createNewBoardAsync } from '../../store/board/singleBoardSlice';
 import PlusIcon from '../../icons/PlusIcon';
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
-import { useNavigate } from 'react-router-dom';
+
 
 export default function CreateNewBoard() {
   

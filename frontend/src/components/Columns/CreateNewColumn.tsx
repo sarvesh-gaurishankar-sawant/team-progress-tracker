@@ -8,7 +8,7 @@ import { deleteBoardAsync, updateBoardAsync } from '../../store/board/singleBoar
 import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 import { useNavigate } from 'react-router-dom';
 import { getBoardFromUserAsync } from '../../store/board/getBoardFromUserSlice';
-import { setActiveBoard } from '../../store/active/activeBoardSlice';
+
 
 export default function CreateNewColumn() {
   
@@ -91,14 +91,11 @@ export default function CreateNewColumn() {
     setBoardName(event.target.value)
   }
 
-
-
-
   return (
-    <React.Fragment>
+    <div>
       <button onClick={handleClickOpen} className="w-72 h-screen bg-[#22232E]" >
           <span className='text-zinc-400 text-2xl font-bold'>+ New Column</span>
-      </button>
+      </button> 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
                 <h2 className='mb-4 text-white font-bold text-xl'>Edit Board</h2>
@@ -129,6 +126,6 @@ export default function CreateNewColumn() {
                 <button className="bg-[#635FC7] mx-auto w-10/12 text-white font-bold px-3.5 py-2 rounded-xl" onClick={boardColumnNameUpdate} type='button'>Save Changes</button>
             </form>
       </Dialog>
-    </React.Fragment>
+    </div>
   );
 }
