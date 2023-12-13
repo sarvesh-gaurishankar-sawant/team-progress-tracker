@@ -86,7 +86,7 @@ const NavBar: React.FC = () => {
     Swal.fire({
       icon: 'success',
       title: 'Success!',
-      text: 'Data updated successfully!',
+      text: 'Task Created successfully!',
   });
   };
 
