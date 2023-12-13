@@ -24,7 +24,7 @@ function PlusIcon() {
                                                 id="_--Rectangle"
                                                 rx="2"
                                                 ry="2"
-                                                stroke="#000000"
+                                                stroke="white"
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 strokeWidth="2"
@@ -34,7 +34,7 @@ function PlusIcon() {
                                             ></rect>
                                             <line
                                                 fill="none"
-                                                stroke="#000000"
+                                                stroke="white"
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 strokeWidth="2"
@@ -45,7 +45,7 @@ function PlusIcon() {
                                             ></line>
                                             <line
                                                 fill="none"
-                                                stroke="#000000"
+                                                stroke="white"
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 strokeWidth="2"

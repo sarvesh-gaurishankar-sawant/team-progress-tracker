@@ -11,4 +11,5 @@ export interface ITask extends Document {
     subtasks: string[];
     priority: string;
     board: string;
+    index: number;
 }

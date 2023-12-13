@@ -85,7 +85,15 @@ export default function CreateNewBoard() {
             <PlusIcon />
             <div className="text-hm capitalize">Create New Board</div>
       </button>
+      
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{ style: { backgroundColor: 'transparent'}}} >
+        <div className="absolute top-0 right-0 m-2 mr-2 mt-4">
+          <button onClick={handleClose} className="text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
           <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
                 <h2 className='mb-4 text-white font-bold text-xl'>Add new board</h2>
                 <h3 className='mb-2 text-white font-bold'>Board Name</h3>

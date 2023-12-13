@@ -17,8 +17,9 @@ async function FetchData(userEmail: string): Promise<any> {
         }
 
         const data = await response.json();
-
+        console.log('Data:', data);
         return data;
+
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -80,6 +81,10 @@ const ShareBoardModal: React.FC = () => {
         try {
             // Fetch initial user details based on email
             const userData = await FetchData(email);
+
+            if (!userData) {
+                throw new Error('User not found');
+            }
     
             // Modify the boards in the response by adding the current board id to it
             if (userData && userData.boards) {
@@ -98,7 +103,7 @@ const ShareBoardModal: React.FC = () => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!',
-                        text: 'Data updated successfully!',
+                        text: 'User added successfully!',
                     });
                 }
             }
@@ -109,7 +114,7 @@ const ShareBoardModal: React.FC = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: `Something went wrong!\n${error}`,
             });
         }
         setLoading(false);
@@ -129,6 +134,13 @@ const ShareBoardModal: React.FC = () => {
                 maxWidth="sm"
                 PaperProps={{ style: { backgroundColor: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' } }}
             >
+                <div className="absolute top-0 right-0 m-2">
+                    <button onClick={handleClose} className="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
                 <form className='bg-[#2B2C37] flex flex-col w-full rounded-lg px-4 py-8'>
                     <h2 className='mb-4 text-white font-bold text-xl text-center'>Share the board with another user</h2>
                     <h3 className='mb-2 text-white font-bold text-center'>User's Email Address</h3>
