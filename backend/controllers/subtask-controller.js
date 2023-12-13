@@ -2,6 +2,13 @@ import * as subtaskService from '../services/subtask-service.js';
 import mongoose from 'mongoose';
 import { setResponse, setErrorResponse } from './response-handler.js';  
 
+/**
+ * Creates a new subtask.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the subtask is created.
+ */
 export const createSubtask = async (req, res) => {
     try {
         const reqBody = {...req.body};
@@ -12,6 +19,12 @@ export const createSubtask = async (req, res) => {
     }
 }
 
+/**
+ * Retrieves subtasks by task ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>}
+ */
 export const getSubtasksByTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
@@ -22,6 +35,13 @@ export const getSubtasksByTask = async (req, res) => {
     }
 }
 
+/**
+ * Finds a subtask by its ID.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the subtask is found and the response is set.
+ */
 export const findSubtaskById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -32,6 +52,13 @@ export const findSubtaskById = async (req, res) => {
     }
 }
 
+/**
+ * Updates a subtask.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the subtask is updated.
+ */
 export const updateSubtask = async (req, res) => {
     try {
         const id = req.params.id;
@@ -43,6 +70,14 @@ export const updateSubtask = async (req, res) => {
     }
 }
 
+/**
+ * Deletes a subtask.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the subtask is deleted successfully.
+ * @throws {Error} - If an error occurs while deleting the subtask.
+ */
 export const deleteSubtask = async (req, res) => {
     try {
         const id = req.params.id;

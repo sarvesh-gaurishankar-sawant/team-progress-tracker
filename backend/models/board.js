@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+/**
+ * @typedef {Object} BoardSchema
+ * @property {string} name - The name of the board.
+ * @property {string[]} columns - An array of column names.
+ * @property {string[]} tasks - An array of task ids.
+ * @property {string} user - The user associated with the board.
+ */
 const BoardSchema = new Schema({
     name: {
         type: String,

@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+/**
+ * @typedef {Object} SubtaskSchema
+ * @property {string} title - The title of the subtask.
+ * @property {string} task - The task associated with the subtask.
+ * @property {boolean} isComplete - Indicates whether the subtask is complete or not.
+ */
 const SubtaskSchema = new Schema({
     title: {
         type: String,

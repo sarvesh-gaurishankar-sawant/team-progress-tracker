@@ -2,6 +2,13 @@ import * as boardService from '../services/board-service.js';
 import { setResponse, setErrorResponse } from './response-handler.js'
 
 //Controller to create the board
+/**
+ * Creates a new board.
+ * 
+ * @param {Object} request - The request object.
+ * @param {Object} response - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the board is created.
+ */
 export const createBoard = async (request, response) => {
     try {
         //Creaate shallow copy of the body
@@ -18,6 +25,13 @@ export const createBoard = async (request, response) => {
 }
 
 //Controller to find all boards or based on query params 
+/**
+ * Find boards based on the provided user ID.
+ * 
+ * @param {Object} request - The request object.
+ * @param {Object} response - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the boards are found.
+ */
 export const findBoards = async (request, response) => {
     try {
         //Save the query params
@@ -33,6 +47,13 @@ export const findBoards = async (request, response) => {
 }
 
 //Controller to delete the board
+/**
+ * Deletes a board.
+ * 
+ * @param {Object} request - The request object.
+ * @param {Object} response - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the board is deleted successfully.
+ */
 export const deleteBoard = async (request, response) => {
     
     try {
@@ -52,6 +73,14 @@ export const deleteBoard = async (request, response) => {
 }
 
 //Find the board by id and update it
+/**
+ * Update a board.
+ * 
+ * @param {Object} request - The request object.
+ * @param {Object} response - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the board is updated.
+ * @throws {Error} - If there is an error updating the board.
+ */
 export const updateBoard = async (request, response) => {
     try {
         //Get the board id
@@ -73,6 +102,13 @@ export const updateBoard = async (request, response) => {
 }
 
 //Find the board by id
+/**
+ * Find a board by its ID.
+ * 
+ * @param {Object} request - The request object.
+ * @param {Object} response - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the board is found and the response is set.
+ */
 export const findBoardById = async(request, response) => {
     try {
         //Get the board id
