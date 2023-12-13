@@ -12,6 +12,7 @@ import {
 import { setLogin } from "../../store/user/loginSlice";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
+import Swal from "sweetalert2";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -43,6 +44,21 @@ function SignUpPage() {
       const idToken = await user.getIdToken();
       window.localStorage.setItem("userToken", idToken);
       dispatch(setLogin(true));
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Signed up successfully"
+      });
       window.localStorage.setItem("isLoggedIn", "true");
       let emptyUserToBeUpdated: UserType = {
         firstName: "",
@@ -118,6 +134,8 @@ function SignUpPage() {
       phoneNo,
       password,
     });
+
+
   };
 
   const url1 = "/assests/loginpage1.png";
