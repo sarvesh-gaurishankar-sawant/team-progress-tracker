@@ -2,8 +2,8 @@ import React from 'react';
 
 const LoginSignupFooter: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4 px-4 ">
-      <div className="max-w-6xl mx-auto flex flex-col gap-4 justify-between items-center">
+    <footer className=" bg-gray-800 text-white py-4 px-4 h-full">
+      <div className="max-w-6xl mx-auto flex flex-col justify-between items-center">
         <div className="text-sm md:text-md mb-2">
           &copy; {new Date().getFullYear()} TaskSphere. All rights reserved.
         </div>

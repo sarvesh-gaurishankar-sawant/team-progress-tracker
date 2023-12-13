@@ -6,7 +6,7 @@ const LoginSignupNavbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-gray-800 bg-opacity-50 text-white py-2 px-4 flex justify-between items-center">
+    <nav className="sticky top-0 z-50 bg-gray-800 h-full text-white py-2 px-4 flex justify-between items-center">
       <div className="text-lg md:text-xl font-bold mt-2">TaskSphere</div>
       <div
         className="mt-2 text-sm md:text-md  text-white font-bold py-2 px-4 rounded"

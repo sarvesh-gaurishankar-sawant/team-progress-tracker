@@ -64,26 +64,28 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
   const url1 = '/assests/loginpage1.png';
   const url2 = '/assests/loginpage2.png';
   return (
-    <>
-    <LoginSignupNavbar />
-        <div className="flex flex-col lg:flex-row items-center md:justify-center md:h-screen pb-26" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
-          {/* Info Section  */}
-          <div className="w-full lg:w-1/2 p-4 md:pt-32">
-            <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
-            <h1 className="hidden md:block text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
-            <p className="hidden md:block text-white text-lg md:text-xl">Keep everything in the same place, even if your team isn’t.</p>
-            <div className='flex flex-wrap justify-center gap-4'>
-              <img src={url1} alt="" style={{ width: '300px', height: '245px' }} className='hidden md:block'/>
-              <img src={url2} alt=""  style={{ width: '300px', height: '245px' }} className='hidden md:block'/>
-            </div>
-            </div>
+    <div className='flex flex-col justify-between min-h-screen w-screen' style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
+    <div className='h-[10%]'>
+      <LoginSignupNavbar />
+    </div>
+    <div className="h-[80%] flex flex-col lg:flex-row items-center md:justify-center pb-26 md:pb-0 overflow-scroll" style={{ background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)' }}>
+      {/* Info Section  */}
+      <div className="w-full lg:w-1/2 px-4 py-2 md:pt-32">
+        <div className='w-full lg:w-3/4 flex flex-col items-center text-center gap-5'>
+          <h1 className="hidden md:block text-white text-2xl md:text-3xl lg:text-5xl font-bold">TaskSphere brings all your tasks, teammates, and tools together</h1>
+          <p className="hidden md:block text-white text-lg md:text-xl">Keep everything in the same place, even if your team isn’t.</p>
+          <div className='flex flex-wrap justify-center gap-4'>
+            <img src={url1} alt="" style={{ width: '300px', height: '245px' }} className='hidden md:block'/>
+            <img src={url2} alt=""  style={{ width: '300px', height: '245px' }} className='hidden md:block'/>
           </div>
+        </div>
+      </div>
 
           {/* Form Section  */}
           <div className="w-full lg:w-1/2 flex items-center justify-center">
-              <form className="w-full max-w-lg p-4 bg-transparent md:bg-black md:bg-opacity-50 shadow-md rounded-md">
-                  <h1 className="text-white text-2xl mb-4">Login</h1>
-                  <h4 className="text-white mb-2">Glad you are back!</h4>
+        <form className="w-full max-w-lg p-4 bg-transparent md:bg-black md:bg-opacity-50 shadow-md rounded-md">
+          <h1 className="text-white text-2xl mb-4">Login</h1>
+          <h4 className="text-white mb-2">Glad you are back!</h4>
 
                   {/* user name */}
                   <div className="mb-4">
@@ -166,8 +168,10 @@ const Login: React.FC<LoginProps> = ({isOpen, onClose}) => {
               </form>
           </div>
         </div>
+      <div className='h-[15%]'>
         <LoginSignupFooter />
-    </>
+      </div>
+    </div>
   );
 };
 
