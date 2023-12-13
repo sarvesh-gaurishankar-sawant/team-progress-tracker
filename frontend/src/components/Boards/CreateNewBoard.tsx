@@ -10,12 +10,9 @@ import { reloadBoard } from '../../store/flags/reloadBoardSlice';
 
 
 export default function CreateNewBoard() {
-  
   const dispatch = useDispatch<AppDispatch>();
   let reloadBoardFlag: boolean = useSelector((state: RootState) => state.reloadBoard.value);
   const user: string = useSelector((state: RootState) => state.singleUser.value);
-
-  
 
   const emptyBoard: BoardType= {
     columns: [],

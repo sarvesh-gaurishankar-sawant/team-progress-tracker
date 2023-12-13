@@ -46,6 +46,7 @@ function SignUp() {
           await dispatch(getUserByEmailAsync(emailId))
           
           
+          
    
         } catch (err) {  
 

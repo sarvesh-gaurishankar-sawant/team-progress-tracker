@@ -8,16 +8,17 @@ import {
   EmailAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
+  sendPasswordResetEmail
 } from "firebase/auth";
 import { NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { setLogin } from "../../store/user/loginSlice";
-import { getUserByEmailAsync } from "../../store/user/singleUserAsyncSlice";
+import { createUserAsync, getUserByEmailAsync } from "../../store/user/singleUserAsyncSlice";
 import { UserType } from "../type";
 import { getUserAsync, setUserSlice } from "../../store/user/userSlice";
 import Swal from 'sweetalert2';
+import { GoogleAuthProvider } from "firebase/auth";
 
 
 
@@ -25,7 +26,7 @@ function Login() {
 
     const isLoggedIn: boolean = useSelector((state: RootState) => state.login.value);
     
-    
+    const provider = new GoogleAuthProvider();
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
