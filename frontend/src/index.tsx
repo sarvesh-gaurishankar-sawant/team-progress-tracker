@@ -10,12 +10,15 @@ import '@fontsource/roboto/700.css';
 import { Provider } from "react-redux";
 import { store } from "./store/store"
 import './firebase-config';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <App />
   </Provider>
 );
+
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
