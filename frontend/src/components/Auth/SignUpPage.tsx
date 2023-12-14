@@ -186,7 +186,7 @@ function SignUpPage() {
         <div
           className="w-full h-full flex flex-col lg:flex-row items-center"
           style={{
-            background: "linear-gradient(90deg, #332255 0%, #332255 100%)",
+            background: 'linear-gradient(90deg, rgba(77,47,138,1) 0%, rgba(131,26,152,1) 55%, rgba(176,92,194,1) 100%)',
           }}
         >
           <div className="w-full lg:w-1/2 border-double hidden md:block">
