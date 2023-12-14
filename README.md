@@ -69,6 +69,19 @@ The Kanban Board system follows a modular architecture to ensure scalability and
 3. Configure database settings.
 4. Start the application.
 
+## Screenshots of the web app
+![Class Diagram](docs/image.png)
+![Class Diagram](docs/image1.png)
+![Class Diagram](docs/image2.png)
+![Class Diagram](docs/image3.png)
+![Class Diagram](docs/image4.png)
+![Class Diagram](docs/image5.png)
+![Class Diagram](docs/image6.png)
+![Class Diagram](docs/image7.png)
+![Class Diagram](docs/image8.png)
+![Class Diagram](docs/image9.png)
+![Class Diagram](docs/image10.png)
+
 <!-- ## Usage
 - TBD -->
 
