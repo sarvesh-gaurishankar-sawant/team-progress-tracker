@@ -186,6 +186,7 @@ return (
             <select
             id="taskStatus"
             name="taskStatus"
+            value={task?.status}
             className="w-full border border-gray-300 p-2 rounded mb-8 h-10 text-black"
             onChange={handleStatusChange}>
             {
