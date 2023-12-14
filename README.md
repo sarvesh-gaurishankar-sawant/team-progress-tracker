@@ -69,6 +69,25 @@ The Kanban Board system follows a modular architecture to ensure scalability and
 3. Configure database settings.
 4. Start the application.
 
+    *In frontend folder:*
+    Run npm i.
+    Run npm start.
+    The App should be accessible at http://localhost:3000.
+
+    *In Backend folder:*
+    Run npm i.
+    Run npm start.
+    The backend should be accessible at http://localhost:3001.
+
+
+    *Run with PWA*
+    For PWA to work follow below instructions.
+
+    Run npm i.
+    Run npm run build.
+    Run npm server -s build.
+    The Course App should be accessible at http://localhost:3000.
+
 ## Screenshots of the web app
 ![Class Diagram](docs/image.png)
 ![Class Diagram](docs/image1.png)
