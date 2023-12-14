@@ -168,7 +168,7 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
      */
     const [lineChartData, setLineChartData] = useState<{
         labels: string[];
-        datasets: { label: string; data: number[] }[];
+        datasets: { label: string; data: number[]; backgroundColor: string; borderColor: string }[];
     }>({
         labels: [],
         datasets: [],
@@ -198,10 +198,16 @@ Chart.register(ArcElement, PieController, Tooltip, Legend, CategoryScale, Linear
 
         const sortedDates = Object.keys(datesCountMap).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
-        const datasets = columns.map(column => ({
+        const colors = generateRandomColorPalette(columns.length);
+
+        const datasets = columns.map((column, index) => ({
             label: column,
             data: sortedDates.map(date => datesCountMap[date][column] || 0),
+            backgroundColor: colors[index],
+            borderColor: colors[index],
         }));
+
+
 
         setLineChartData({
             ...lineChartData,
